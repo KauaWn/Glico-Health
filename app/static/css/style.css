@@ -12,13 +12,7 @@
 body{
     min-height: 100vh;
     min-height: 100vh;
-
-    display: flex;
-    flex-direction: column;
-
-    justify-content: center;
-    align-items: center;
-
+    overflow: hidden;
 }
 
 
@@ -35,6 +29,7 @@ body{
 #inicioLogo h1{
     font-family: 'Cal Sans';
     color: #655A7C;
+    font-size: 300;
 }
 
 #inicioLogo img{
@@ -43,11 +38,12 @@ body{
 
 #inicioLogo span{
     font-weight: 600;
+    font-size: 14px;
 }
 
 #btnAvancar{
     position: absolute;
-    bottom: 60px;
+    bottom: 80px;
     left: 50%;
     transform: translateX(-50%);
 }
@@ -60,6 +56,7 @@ body{
     border-radius: 50%;
 
     background-color: #AB92BF;
+    text-decoration: none;
 
     display: flex;
     justify-content: center;
@@ -76,5 +73,116 @@ body{
 }
 
 #avance:hover{
+    transform: scale(1.05);
+}
+
+
+#cadastro {
+     position: fixed;
+    inset: 0;
+    z-index: 10;
+
+    min-height: 100dvh;
+
+    display: flex;
+    flex-direction: column;
+
+    background:
+        linear-gradient(
+            90deg,
+            #FFC5E3 0%,
+            #AB92BF 100%
+        ),
+        #f8f8fb;
+
+    transform: translateY(100%);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition:
+        transform 0.7s ease,
+        opacity 0.45s ease,
+        visibility 0.7s;
+}
+
+#cadastro.ativo {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.topoCadastro {
+    height: 100px;
+    width: 100%;
+
+    padding: 38px 18px 0;
+    box-sizing: border-box;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    color: white;
+}
+
+.topoCadastro a {
+    color: white;
+    text-decoration: none;
+}
+
+.cardCadastro {
+    flex: 1;
+
+    width: 100%;
+    margin: 0;
+
+    padding: 38px 28px 24px;
+    box-sizing: border-box;
+
+    background: #F9FAFE;
+    border-radius: 34px 34px 0 0;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.cardCadastro h2 {
+    color: #655A7C;
+    font-size: 34px;
+    margin-bottom: 5px;
+    font-family: 'cal sans';
+    font-weight: 500;
+}
+
+.cardCadastro p {
+    color: #655A7C;
+    margin-top: 0;
+    font-size: 15px;
+}
+
+#voltarInicio {
+    width: 28px;
+    height: 28px;
+
+    border: 2px solid white;
+    border-radius: 50%;
+    background: transparent;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#voltarInicio i {
+    font-size: 15px;
+    color: white;
+}
+
+#voltarInicio:hover {
     transform: scale(1.05);
 }

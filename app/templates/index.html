@@ -15,8 +15,25 @@
             <span>Sua plataforma de saúde e bem-estar digital</span>
         </div>
         <div id="btnAvancar">
-            <button id="avance"><i class="fa-solid fa-arrow-down"></i></button>
+            <button id="avance" type="button" aria-label="Ir para cadastro">
+                <i class="fa-solid fa-arrow-down"></i>
+            </button>
         </div>
     </div>
+
+    <section id="cadastro">
+        <div class="topoCadastro">
+                <button id="voltarInicio" type="button" aria-label="Voltar para tela inicial"> 
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+        </div>
+
+        <div class="cardCadastro">
+            <h2>Seja bem-vindo(a)</h2>
+            <p>Crie sua conta para começar!</p>
+        </div>
+    </section>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>
