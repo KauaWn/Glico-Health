@@ -3,7 +3,8 @@ from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, EqualTo, ValidationError
 
 class CadastroForm(FlaskForm):
-    username = StringField('Usuario', validators=[DataRequired()])
+    name = StringField('Como você deseja ser chamado?', validators=[DataRequired()])
+    username = StringField('Nome de Usuario', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired()])
     password = PasswordField('Senha', validators=[DataRequired()])
     confirm_password = PasswordField('Confirmar senha:', validators=[DataRequired(), EqualTo('password')])

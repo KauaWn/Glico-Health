@@ -32,6 +32,50 @@
             <h2>Seja bem-vindo(a)</h2>
             <p>Crie sua conta para começar!</p>
         </div>
+
+        <div id="cadastroQuest">
+            <form action="" method="POST" novalidate>
+                {{ form.hidden_tag() }}
+            
+                <p>
+                    <i class="fa-solid fa-signature"></i>{{ form.name(placeholder="Como deseja ser chamado?") }}
+                    {% for error in form.name.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </p>
+            
+                <p>
+                    <i class="fa-solid fa-envelope"></i>{{ form.email(placeholder="Digite seu e-mail") }}
+                    {% for error in form.email.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </p>
+            
+                <p>
+                    <i class="fa-solid fa-user"></i>{{ form.username(placeholder="Digite seu usuário") }}
+                    {% for error in form.username.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </p>
+            
+                <p>
+                    <i class="fa-solid fa-lock"></i>{{ form.password(placeholder="Digite sua senha") }}
+                    {% for error in form.password.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </p>
+            
+                <p>
+                    <i class="fa-solid fa-shield-halved"></i>{{ form.confirm_password(placeholder="Confirme sua senha") }}
+                    {% for error in form.confirm_password.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </p>
+            
+                <p>{{ form.submit() }}</p>
+            </form>
+            
+        </div>
     </section>
 
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>

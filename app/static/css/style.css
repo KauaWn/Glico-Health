@@ -11,7 +11,6 @@
 
 body{
     min-height: 100vh;
-    min-height: 100vh;
     overflow: hidden;
 }
 
@@ -29,7 +28,7 @@ body{
 #inicioLogo h1{
     font-family: 'Cal Sans';
     color: #655A7C;
-    font-size: 300;
+    font-size: 30px;
 }
 
 #inicioLogo img{
@@ -78,7 +77,7 @@ body{
 
 
 #cadastro {
-     position: fixed;
+    position: fixed;
     inset: 0;
     z-index: 10;
 
@@ -89,7 +88,7 @@ body{
 
     background:
         linear-gradient(
-            90deg,
+            135deg,
             #FFC5E3 0%,
             #AB92BF 100%
         ),
@@ -146,6 +145,7 @@ body{
 
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
 }
 
 .cardCadastro h2 {
@@ -185,4 +185,87 @@ body{
 
 #voltarInicio:hover {
     transform: scale(1.05);
+}
+
+#cadastroQuest{
+    width: 100%;
+    height: 530px;
+    /* border: 2px solid red; */
+    background-color: #F9FAFE;
+}
+
+#cadastro form {
+    width: 100%;
+    max-width: 340px; 
+    margin-left: 28px;
+    display: flex;
+    flex-direction: column;
+}
+
+#cadastro form p {
+    margin-bottom: 8px !important;
+    width: 100% !important;
+    position: relative; 
+}
+
+
+#cadastro form input[type="text"],
+#cadastro form input[type="email"],
+#cadastro form input[type="password"] {
+    width: 100% !important;
+    height: 48px !important;
+    background-color: #D9D9D9 !important; 
+    border: none !important;
+    border-radius: 15px !important; 
+    padding: 0 18px 0 48px !important;  
+    font-size: 14px !important;
+    color: #655A7C !important;
+    outline: none !important;
+    box-sizing: border-box !important;
+}
+
+
+#cadastro form input::placeholder {
+    color: #655A7C !important;
+}
+
+
+#cadastro form p i {
+    position: absolute !important;
+    left: 18px !important;
+    top: 24px !important;
+    transform: translateY(-50%) !important;
+    color: #9C8DA5 !important;
+    font-size: 15px !important;
+    pointer-events: none !important;
+    z-index: 5 !important;
+}
+
+
+#cadastro form input[type="submit"] {
+    width: 100% !important;
+    height: 48px !important;
+    background-color: #AB92BF !important; 
+    color: #FFFFFF !important;
+    border: none !important;
+    border-radius: 18px !important;
+    font-size: 15px !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
+    text-transform: uppercase !important; /* Caixa alta "CADASTRAR" */
+    box-shadow: 0px 4px 12px rgba(171, 146, 191, 0.25) !important;
+    margin-top: 15px !important;
+    padding: 0 !important;
+}
+
+#cadastro form input[type="submit"]:hover {
+    background-color: #967aaB !important;
+}
+
+#cadastro form p span {
+    color: #FF3B30 !important;
+    font-size: 11px !important;
+    display: block !important;
+    margin-top: 4px !important;
+    padding-left: 12px !important;
 }
