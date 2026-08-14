@@ -4,40 +4,79 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style2.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 <body>
-    <h1>Cadastro</h1>
+    <div class="app-container">
+        <h1>Cadastro</h1>
 
-    <form action="cadastro" method="POST" novalidate>
-        {{ form.hidden_tag() }}
+        <form action="" method="POST" novalidate>
+            {{ form.hidden_tag() }}
 
+            <p>
+                <div class="input">
+                    <i class="fa-solid fa-signature"></i>
+                    {{ form.name(placeholder="Como deseja ser chamado?") }}
+                </div>
+                {% for error in form.name.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </p>
+        
+            <p>
+                <div class="input">
+                    <i class="fa-regular fa-envelope"></i>
+                    {{ form.email(placeholder="Digite seu e-mail") }}
+                </div>
+                {% for error in form.email.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </p>
+        
+            <p>
+                <div class="input">
+                    <i class="fa-regular fa-user"></i>
+                    {{ form.username(placeholder="Digite seu usuário") }}
+                </div>
+                {% for error in form.username.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </p>
+        
+            <p>
+                <div class="input">
+                    <i class="fa-solid fa-lock"></i>
+                    {{ form.password(placeholder="Digite sua senha") }}
+                </div>
+                {% for error in form.password.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </p>
+        
+            <p>
+                <div class="input">
+                    <i class="fa-solid fa-lock"></i>
+                    {{ form.confirm_password(placeholder="Confirme sua senha") }}
+                </div>
+                {% for error in form.confirm_password.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </p>
+        
+            <!-- <p>
+                <label>
+                    <input type="checkbox" checked> Lembrar da próxima vez
+                </label>
+            </p> -->
+        
+        
+            <p id="btnCadastrar">{{ form.submit() }}</p>
+        </form>
+        
         <p>
-            {{ form.username.label }}<br>
-            {{ form.username(size=32) }}<br>
-            {% for error in form.username.errors %}
-                <span>{{ error }}</span><br>
-            {% endfor %}
+            Já tem uma conta? <a href="#">Faça login</a>
         </p>
-
-        <p>
-            {{ form.email.label }}<br>
-            {{ form.email }}
-        </p>
-
-        <p>
-            {{ form.password.label }}<br>
-            {{ form.password(size=32) }}
-            {% for error in form.password.errors %}
-                <br><span>{{ error }}</span><br>
-            {% endfor %}
-        </p>
-
-        <p>
-            {{ form.confirm_password.label }} <br>
-            {{ form.confirm_password(size=32) }}
-        </p>
-
-        <p>{{ form.submit() }}</p>
-    </form>
+    </div>
 </body>
 </html>
