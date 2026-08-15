@@ -1,21 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Cal+Sans&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Cal+Sans&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Poppins';
+    font-family: 'Poppins', sans-serif;
     color: #655A7C;
 }
 
-body{
+body {
     min-height: 100vh;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
+/* ================= TELA INICIAL ================= */
 
-#inicioLogo{
+#inicioLogo {
     min-height: 100vh;
     width: 100%;
     display: flex;
@@ -24,68 +25,59 @@ body{
     flex-direction: column;
 }
 
-
-#inicioLogo h1{
-    font-family: 'Cal Sans';
+#inicioLogo h1 {
+    font-family: 'Cal Sans', sans-serif;
     color: #655A7C;
     font-size: 30px;
 }
 
-#inicioLogo img{
+#inicioLogo img {
     width: 220px;
 }
 
-#inicioLogo span{
+#inicioLogo span {
     font-weight: 600;
     font-size: 14px;
 }
 
-#btnAvancar{
+#btnAvancar {
     position: absolute;
     bottom: 80px;
     left: 50%;
     transform: translateX(-50%);
 }
 
-#avance{
+#avance {
     width: 70px;
     height: 70px;
-
     border: none;
     border-radius: 50%;
-
     background-color: #AB92BF;
     text-decoration: none;
-
     display: flex;
     justify-content: center;
     align-items: center;
-
     cursor: pointer;
-
     transition: 0.3s;
 }
 
-#avance i{
+#avance i {
     font-size: 30px;
     color: white;
 }
 
-#avance:hover{
+#avance:hover {
     transform: scale(1.05);
 }
 
+/* ================= TELA DE CADASTRO ================= */
 
 #cadastro {
-    position: fixed;
-    inset: 0;
-    z-index: 10;
-
+    position: relative;
+    width: 100%;
     min-height: 100dvh;
-
     display: flex;
     flex-direction: column;
-
     background:
         linear-gradient(
             135deg,
@@ -93,36 +85,16 @@ body{
             #AB92BF 100%
         ),
         #f8f8fb;
-
-    transform: translateY(100%);
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-
-    transition:
-        transform 0.7s ease,
-        opacity 0.45s ease,
-        visibility 0.7s;
-}
-
-#cadastro.ativo {
-    transform: translateY(0);
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
 }
 
 .topoCadastro {
     height: 100px;
     width: 100%;
-
     padding: 38px 18px 0;
     box-sizing: border-box;
-
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-
     color: white;
 }
 
@@ -136,14 +108,11 @@ body{
     width: 100%;
     margin: 0;
     padding: 38px 28px 24px;
-
     background: #F9FAFE;
     border-radius: 34px 34px 0 0;
-
     display: flex;
     justify-content: center;
     align-items: center;
-
     overflow-y: auto;
 }
 
@@ -151,7 +120,7 @@ body{
     color: #655A7C;
     font-size: 34px;
     margin-bottom: 5px;
-    font-family: 'cal sans';
+    font-family: 'Cal Sans', sans-serif;
     font-weight: 500;
 }
 
@@ -170,17 +139,15 @@ body{
 #voltarInicio {
     width: 28px;
     height: 28px;
-
     border: 2px solid white;
     border-radius: 50%;
     background: transparent;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     cursor: pointer;
     transition: 0.3s;
+    text-decoration: none;
 }
 
 #voltarInicio i {
@@ -212,7 +179,6 @@ body{
     position: relative; 
 }
 
-
 #cadastro form input[type="text"],
 #cadastro form input[type="email"],
 #cadastro form input[type="password"] {
@@ -228,11 +194,9 @@ body{
     box-sizing: border-box !important;
 }
 
-
 #cadastro form input::placeholder {
     color: #655A7C !important;
 }
-
 
 #cadastro form p i {
     position: absolute !important;
@@ -245,7 +209,6 @@ body{
     z-index: 5 !important;
 }
 
-
 #cadastro form input[type="submit"] {
     width: 100% !important;
     height: 48px !important;
@@ -256,7 +219,7 @@ body{
     font-size: 15px !important;
     font-weight: bold !important;
     cursor: pointer !important;
-    text-transform: uppercase !important; /* Caixa alta "CADASTRAR" */
+    text-transform: uppercase !important;
     box-shadow: 0px 4px 12px rgba(171, 146, 191, 0.25) !important;
     margin-top: 15px !important;
     padding: 0 !important;
@@ -274,6 +237,275 @@ body{
     padding-left: 12px !important;
 }
 
-#btnCadastrar{
+#btnCadastrar {
     margin-top: 10px;
+}
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+    will-change: opacity, transform;
+}
+
+.fade-out {
+    animation: fadeOut 0.3s ease-in forwards;
+}
+
+
+/* login */
+
+#login {
+    position: relative;
+    width: 100%;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    background:
+        linear-gradient(
+            135deg,
+            #FFC5E3 0%,
+            #AB92BF 100%
+        ),
+        #f8f8fb;
+}
+
+.topoLogin {
+    height: 100px;
+    width: 100%;
+    padding: 38px 28px 0;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+#esqueceuSenha {
+    color: white;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 400;
+    transition: opacity 0.3s;
+}
+
+#esqueceuSenha:hover {
+    opacity: 0.8;
+}
+
+.cardLogin {
+    flex: 1;
+    width: 100%;
+    margin: 0;
+    padding: 38px 28px 24px;
+    background: #F9FAFE;
+    border-radius: 34px 34px 0 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+}
+
+.conteudoLogin {
+    width: 340px;
+    max-width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.conteudoLogin h1 {
+    color: #655A7C;
+    font-size: 34px;
+    margin-bottom: 2px;
+    font-family: 'Cal Sans', sans-serif;
+    font-weight: 500;
+}
+
+.conteudoLogin .subtitulo {
+    color: #655A7C;
+    margin-top: 0;
+    font-size: 15px;
+    margin-bottom: 20px;
+}
+
+
+#login form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.campoLogin {
+    margin-bottom: 15px !important;
+    width: 100% !important;
+    position: relative !important; 
+}
+
+.campoLogin input[type="text"],
+.campoLogin input[type="password"] {
+    width: 100% !important;
+    height: 48px !important;
+    background-color: #D8D2DF !important; 
+    border: none !important;
+    border-radius: 15px !important; 
+    padding: 0 48px 0 48px !important;  
+    font-size: 14px !important;
+    color: #655A7C !important;
+    outline: none !important;
+    box-sizing: border-box !important;
+}
+
+.campoLogin input::placeholder {
+    color: #655A7C !important;
+}
+
+.campoLogin > i.fa-solid {
+    position: absolute !important;
+    left: 18px !important;
+    top: 24px !important;
+    transform: translateY(-50%) !important;
+    color: #9C8DA5 !important;
+    font-size: 15px !important;
+    pointer-events: none !important;
+    z-index: 5 !important;
+}
+
+.mostrarSenha {
+    position: absolute;
+    right: 15px;
+    top: 24px;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 5;
+    padding: 0;
+}
+
+.mostrarSenha i {
+    color: #9C8DA5;
+    font-size: 16px;
+}
+
+.campoLogin span {
+    color: #FF3B30 !important;
+    font-size: 11px !important;
+    display: block !important;
+    margin-top: 4px !important;
+    padding-left: 12px !important;
+    text-align: left;
+}
+
+
+.lembrarLogin {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px 0 20px;
+    width: 100%;
+}
+
+.lembrarLogin span {
+    font-size: 13px;
+    color: #655A7C;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background-color: #D8D2DF;
+    transition: .3s;
+    border-radius: 24px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .3s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #AB92BF;
+}
+
+input:checked + .slider:before {
+    transform: translateX(20px);
+}
+
+
+#btnEntrar {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+#btnEntrar input[type="submit"] {
+    width: 100% !important;
+    height: 48px !important;
+    background-color: #AB92BF !important; 
+    color: #FFFFFF !important;
+    border: none !important;
+    border-radius: 18px !important;
+    font-size: 15px !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
+    text-transform: uppercase !important;
+    box-shadow: 0px 4px 12px rgba(171, 146, 191, 0.25) !important;
+    padding: 0 !important;
+    transition: background-color 0.3s;
+}
+
+#btnEntrar input[type="submit"]:hover {
+    background-color: #967aaB !important;
+}
+
+
+.link-cadastro, .link-login {
+    font-size: 14px;
+    color: #655A7C;
+    margin-bottom: 12px;
+}
+
+.link-cadastro a, .link-login a {
+    color: #AB92BF;
+    text-decoration: none;
+    margin-left: 5px;
 }

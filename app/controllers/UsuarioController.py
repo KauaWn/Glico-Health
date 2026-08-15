@@ -1,7 +1,6 @@
 class UserController:
-    
-    def cadastro(formulario2):
+    def cadastro(formCadastro):
         print("O usuario {} fez o cadastro".format(
-            formulario2.username.data
+            formCadastro.username.data
         ))
         return True

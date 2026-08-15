@@ -21,66 +21,6 @@
         </div>
     </div>
 
-    <section id="cadastro" class="{% if mostrar_cadastro %}ativo{% endif %}">
-        <div class="topoCadastro">
-                <button id="voltarInicio" type="button" aria-label="Voltar para tela inicial"> 
-                    <i class="fa-solid fa-arrow-left"></i>
-                </button>
-        </div>
-
-        <div class="cardCadastro">
-            <div class="conteudoCard">
-                <h2>Seja bem-vindo(a)</h2>
-                <p>Crie sua conta para começar!</p>
-
-                <div id="cadastroQuest">
-                    <form action="" method="POST" novalidate>
-                        {{ form.hidden_tag() }}
-                    
-                        <p>
-                            <i class="fa-solid fa-signature"></i>{{ form.name(placeholder="Como deseja ser chamado?") }}
-                            {% for error in form.name.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </p>
-                    
-                        <p>
-                            <i class="fa-solid fa-envelope"></i>{{ form.email(placeholder="Digite seu e-mail") }}
-                            {% for error in form.email.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </p>
-                    
-                        <p>
-                            <i class="fa-solid fa-user"></i>{{ form.username(placeholder="Escolha um nome de usuário") }}
-                            {% for error in form.username.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </p>
-                    
-                        <p>
-                            <i class="fa-solid fa-lock"></i>{{ form.password(placeholder="Digite sua senha") }}
-                            {% for error in form.password.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </p>
-                    
-                        <p>
-                            <i class="fa-solid fa-shield-halved"></i>{{ form.confirm_password(placeholder="Confirme sua senha") }}
-                            {% for error in form.confirm_password.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </p>
-                    
-                        <p id="btnCadastrar">{{ form.submit() }}</p>
-                        <p class="link-login">Já tem uma conta? <a href="{{ url_for('login') }}">Faça login</a></p>
-                    </form>
-                    
-                </div>
-            </div>
-        </div>
-    </section>
-
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>

@@ -1,12 +1,9 @@
-```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Login | Glico Health</title>
-
+    <title>Login</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
@@ -18,19 +15,13 @@
             <a href="{{ url_for('inicio') }}" id="voltarInicio" aria-label="Voltar para tela inicial">
                 <i class="fa-solid fa-arrow-left"></i>
             </a>
-            <a href="#" id="esqueceuSenha">Esqueceu sua senha?</a>
+            <a href="#" id="esqueceuSenha">Esqueceu sua senha?</a> <!-- nao sei oq fazer aqui -->
 
         </div>
         <div class="cardLogin">
             <div class="conteudoLogin">
                 <h1>Vamos lá!</h1>
                 <p class="subtitulo">Que bom que você voltou!</p>
-
-                <div class="loginSocial">
-                    <a href="#" class="btnSocial" aria-label="Entrar com Google"><i class="fa-brands fa-google"></i></a>
-                    <a href="#" class="btnSocial" aria-label="Entrar com Microsoft"><i class="fa-brands fa-microsoft"></i></a>
-                </div>
-
 
                 <form action="{{ url_for('login') }}" method="POST" novalidate>
 
@@ -44,7 +35,6 @@
                         {% endfor %}
 
                     </p>
-
 
                     <p class="campoLogin">
                         <i class="fa-solid fa-lock"></i>
@@ -60,7 +50,7 @@
                     <div class="lembrarLogin">
                         <span>Lembrar da próxima vez</span>
                         <label class="switch">
-                            <input type="checkbox" name="lembrar">
+                            {{ form.rm() }}
                             <span class="slider"></span>
                         </label>
                     </div>
@@ -70,9 +60,7 @@
                     </p>
                 </form>
 
-                <p class="linkCadastro">Não tem uma conta?<a href="{{ url_for('cadastro') }}">Cadastre-se</a></p>
-
-                <a href="#" class="linkAjuda">Precisa de ajuda?</a>
+                <p class="link-cadastro">Não tem uma conta?<a href="{{ url_for('cadastro') }}">Cadastre-se</a></p>
             </div>
         </div>
     </section>
