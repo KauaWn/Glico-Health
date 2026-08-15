@@ -52,7 +52,7 @@
                         </p>
                     
                         <p>
-                            <i class="fa-solid fa-user"></i>{{ form.username(placeholder="Digite seu usuário") }}
+                            <i class="fa-solid fa-user"></i>{{ form.username(placeholder="Escolha um nome de usuário") }}
                             {% for error in form.username.errors %}
                                 <span>{{ error }}</span>
                             {% endfor %}
@@ -73,6 +73,7 @@
                         </p>
                     
                         <p id="btnCadastrar">{{ form.submit() }}</p>
+                        <p class="link-login">Já tem uma conta? <a href="{{ url_for('login') }}">Faça login</a></p>
                     </form>
                     
                 </div>
