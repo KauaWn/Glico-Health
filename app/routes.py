@@ -2,6 +2,7 @@ from app import app
 from flask import render_template, redirect, flash, url_for
 
 from app.forms.cadastro_form import CadastroForm
+from app.forms.login_form import LoginForm
 from app.controllers.UsuarioController import UserController
 
 
