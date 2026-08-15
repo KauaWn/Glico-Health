@@ -2,7 +2,7 @@ from app import app
 from flask import render_template, redirect, flash, url_for
 from app.forms.cadastro_form import CadastroForm
 from app.forms.login_form import LoginForm
-from app.controllers.UsuarioController import UserController
+from app.controllers.PacienteController import PacienteController
 from app.controllers.AuthenticationController import AuthenticationController
 
 
@@ -15,7 +15,7 @@ def inicio():
 def cadastro():
     formCadastro = CadastroForm()
     if formCadastro.validate_on_submit():
-        if UserController.cadastro(formCadastro):
+        if PacienteController.cadastro(formCadastro):
             flash("Cadastro efetuado com sucesso!")
             return redirect(url_for("login"))
 
