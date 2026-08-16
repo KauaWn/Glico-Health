@@ -26,14 +26,16 @@ def cadastro():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     formLogin = LoginForm()
+
     if formLogin.validate_on_submit():
         if AuthenticationController.login(formLogin):
-             flash("Login efetuado com sucesso!")
-             return redirect('/')
+            flash("Login efetuado com sucesso!", "success")
+            return redirect(url_for("inicio"))
         else:
-            flash("Erro nas credenciais.")
-            return redirect('/login')
-    return render_template('login.html', title='Login', form=formLogin)
+            flash("Usuário ou senha incorretos.", "error")
+
+    return render_template("login.html", title="Login", form=formLogin)
+
 
 @app.route("/questionario")
 def questionario():

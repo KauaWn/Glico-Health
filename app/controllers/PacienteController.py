@@ -1,10 +1,10 @@
 from app import db
-from app.models.paciente import Paciente
+from app.models.usuario import Usuario
 
 class PacienteController:
     @staticmethod
     def cadastro(formCadastro):
-        paciente = Paciente(
+        usuario = Usuario(
             name=formCadastro.name.data,
             username=formCadastro.username.data,
             email=formCadastro.email.data,
@@ -12,7 +12,7 @@ class PacienteController:
             rm=False
         )
 
-        db.session.add(paciente)
+        db.session.add(usuario)
         db.session.commit()
 
         print("O usuario {} ({}) - {} fez o cadastro".format(

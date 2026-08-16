@@ -25,34 +25,39 @@
                 <p class="pergunta">
                     Qual o seu papel na plataforma?
                 </p>
-
+                <!-- <p class="complemento">
+                    Você pode selecionar um ou mais papéis de uso!
+                </p> -->
                 <div class="papeis">
 
                     <button type="button" class="role-button" data-role="paciente">
                         <span>Paciente</span>
-                        <span class="check">✓</span>
+                        <span class="check"><i class="fa-solid fa-check"></i></span>
                     </button>
 
                     <button type="button" class="role-button" data-role="cuidador">
                         <span>Cuidador</span>
-                        <span class="check">✓</span>
+                        <span class="check"><i class="fa-solid fa-check"></i></span>
                     </button>
 
                     <button type="button" class="role-button" data-role="responsavel">
                         <span>Responsável legal</span>
-                        <span class="check">✓</span>
+                        <span class="check"><i class="fa-solid fa-check"></i></span>
                     </button>
 
                 </div>
-                <p class="complemento">
-                    Você pode selecionar um ou mais papéis de uso!
-                </p>
+            </div>
+
+            <div class="areaContinuar">
+                <p>Você pode selecionar uma ou mais opções</p>
+                <button type="button" id="btnContinuar">CONTINUAR</button>
             </div>
 
         </section>
 
         <footer class="footer">
             <div class="logo">
+                 <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo">
                 <strong>GlicoHealth</strong>
                 <small>2026</small>
             </div>

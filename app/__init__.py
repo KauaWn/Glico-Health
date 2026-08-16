@@ -10,7 +10,7 @@ csrf = CSRFProtect(app) #protege os forms contra ataques CSRF
 db = SQLAlchemy(app)
 
 from app import routes, models #sem ela, o Flask cria a aplicação mas nunca registra a rota /
-from app.models.paciente import Paciente
+from app.models.usuario import Usuario
 
 with app.app_context():
    db.create_all()

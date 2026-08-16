@@ -14,7 +14,6 @@ body {
     overflow-x: hidden;
 }
 
-/* ================= TELA INICIAL ================= */
 
 #inicioLogo {
     min-height: 100vh;
@@ -70,7 +69,6 @@ body {
     transform: scale(1.05);
 }
 
-/* ================= TELA DE CADASTRO ================= */
 
 #cadastro {
     position: relative;
@@ -229,7 +227,7 @@ body {
     background-color: #967aaB !important;
 }
 
-#cadastro form p span {
+#cadastro form p span{
     color: #FF3B30 !important;
     font-size: 11px !important;
     display: block !important;
@@ -513,10 +511,9 @@ input:checked + .slider:before {
 /* telas de questionário abaixo */
 
 #questionario {
-    width: 100vw;
-    height: 100vh;
-
-    min-height: 600px;
+    width: 100%;
+    min-height: 100dvh;
+    height: auto;
 
     background-color: #f8f9fc;
 
@@ -566,7 +563,7 @@ input:checked + .slider:before {
     position: absolute;
     right: 0;
     top: -1px;
-    width: 4px;
+    width: 20px;
     height: 4px;
     background-color: #7455ad;
     border-radius: 50%;
@@ -595,7 +592,7 @@ input:checked + .slider:before {
     min-width: 110px;
     height: 38px;
     padding: 0 20px;
-    border: 1.5px solid #716087;
+    border: 3px solid #716087;
     border-radius: 22px;
     background-color: transparent;
     color: #665783;
@@ -616,23 +613,36 @@ input:checked + .slider:before {
 
 /* Quando selecionado */
 .role-button.selecao {
-    background-color: #79638d;
-    border-color: #79638d;
-    color: white;
+    background:
+        linear-gradient(
+            to right,
+            rgba(255, 188, 220, 0.4),
+            rgba(101, 90, 124, 0.4)
+        ),
+        #655A7C;
+    border-color: transparent;
+    color: #fff !important;
+}
+
+.role-button.selecao span {
+    color: #fff !important;
 }
 
 .check {
     display: none;
-    font-size: 11px;
+    font-size: 8px;
     font-weight: 600;
+}
+
+.check i{
+    margin-top: 3px;
+    font-size: 14px;
+    color: #fff;
 }
 
 .role-button.selecao .check {
     display: inline;
-}
-
-.role-button:hover {
-    transform: translateY(-2px);
+    color: #fff !important;
 }
 
 .complemento {
@@ -666,4 +676,169 @@ input:checked + .slider:before {
 .logo small {
     font-size: 7px;
     margin-top: 2px;
+}
+
+.logo img{
+    width: 40px;
+    margin-bottom: 8px;
+}
+
+.areaContinuar {
+    width: 100%;
+    max-width: 900px;
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.areaContinuar p {
+    color: #8a8195;
+    font-size: 13px;
+    margin-bottom: 18px;
+}
+
+#btnContinuar {
+    width: 180px;
+    height: 48px;
+    border: none;
+    border-radius: 18px;
+    background-color: #AB92BF !important; 
+    color: white;
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+
+/* responsividade do quest */
+
+@media (max-width: 600px) {
+
+    #questionario {
+        width: 100%;
+        min-height: 100dvh;
+        height: auto;
+        padding: 90px 32px 30px;
+        border: 2px solid pink;
+    }
+
+    .conteudoQuest {
+        width: 100%;
+        max-width: none;
+        /* border: 2px solid green; */
+        margin-top: 60px;
+    }
+
+    .tituloQuest {
+        width: 100%;
+        margin-bottom: 85px;
+    }
+
+    .tituloQuest h1 {
+        font-size: 32px;
+        line-height: 1.15;
+        font-weight: 600;
+        margin-bottom: 14px;
+    }
+
+    .barraProgresso {
+        width: 100%;
+        max-width: none;
+        height: 4px;
+    }
+
+    .barraProgresso span {
+        width: 65px;
+        height: 4px;
+    }
+
+    .barraProgresso::after {
+        width: 5px;
+        height: 5px;
+        top: -0.5px;
+    }
+
+
+    .areaPergunta {
+        width: 100%;
+        max-width: none;
+    }
+
+    .pergunta {
+        font-size: 21px;
+        line-height: 1.4;
+        margin-bottom: 32px;
+        font-weight: 500;
+    }
+
+    .papeis {
+        width: 100%;
+        gap: 24px;
+        align-items: flex-start;
+    }
+
+    .role-button {
+        min-width: 150px;
+        height: 50px;
+        padding: 0 30px;
+
+        border: 3px solid #716087;
+        border-radius: 26px;
+
+        background-color: transparent;
+        color: #665783;
+
+        font-family: "Poppins", sans-serif;
+        font-size: 18px;
+        font-weight: 400;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .check i{
+        font-size: 18px;
+        color: #fff;
+    }
+
+    .footer {
+        margin-top: 70px;
+        padding-top: 50px;
+    }
+
+    .logo strong {
+        font-size: 11px;
+    }
+
+    .logo small {
+        font-size: 8px;
+        margin-top: 3px;
+    }
+
+    .areaContinuar {
+        margin-top: 60px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .areaContinuar p {
+        font-size: 15px;
+        font-weight: 500;
+        margin-bottom: 10px;
+    }
+
+    #btnContinuar {
+        width: 100%;
+        height: 52px;
+        border-radius: 18px;
+        font-size: 16px;
+    }
+
 }

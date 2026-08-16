@@ -1,6 +1,6 @@
 from app import db
 
-class Paciente(db.Model):
+class Usuario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), index=True, unique=False, nullable=False)
     username = db.Column(db.String(64), index=True, unique=True, nullable=False)
