@@ -17,7 +17,7 @@ def cadastro():
     if formCadastro.validate_on_submit():
         if PacienteController.cadastro(formCadastro):
             flash("Cadastro efetuado com sucesso!")
-            return redirect(url_for("login"))
+            return redirect(url_for("questionario"))
 
         flash("Erro nas credenciais.")
     return render_template("cadastro.html", form=formCadastro)
@@ -34,3 +34,7 @@ def login():
             flash("Erro nas credenciais.")
             return redirect('/login')
     return render_template('login.html', title='Login', form=formLogin)
+
+@app.route("/questionario")
+def questionario():
+    return render_template("questionario.html")

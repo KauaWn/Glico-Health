@@ -509,3 +509,161 @@ input:checked + .slider:before {
     text-decoration: none;
     margin-left: 5px;
 }
+
+/* telas de questionário abaixo */
+
+#questionario {
+    width: 100vw;
+    height: 100vh;
+
+    min-height: 600px;
+
+    background-color: #f8f9fc;
+
+    display: flex;
+    flex-direction: column;
+
+    position: relative;
+
+    padding: 8vh 8vw 4vh;
+}
+
+.conteudoQuest {
+    width: 100%;
+    max-width: 900px;
+}
+
+.tituloQuest {
+    margin-bottom: 7vh;
+}
+.tituloQuest h1 {
+    color: #655A7C;
+    font-size: clamp(20px, 1.6vw, 28px);
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.barraProgresso {
+    width: 100%;
+    max-width: 900px;
+    height: 3px;
+    background-color: #d9d0e8;
+    position: relative;
+}
+
+.barraProgresso span {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 70px;
+    height: 3px;
+    background-color: #7455ad;
+    border-radius: 5px;
+}
+
+.barraProgresso::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: -1px;
+    width: 4px;
+    height: 4px;
+    background-color: #7455ad;
+    border-radius: 50%;
+}
+
+.areaPergunta {
+    width: 100%;
+    max-width: 900px;
+}
+
+.pergunta {
+    color: #5e5570;
+    font-size: clamp(13px, 1vw, 16px);
+    font-weight: 400;
+    margin-bottom: 28px;
+}
+
+.papeis {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.role-button {
+    min-width: 110px;
+    height: 38px;
+    padding: 0 20px;
+    border: 1.5px solid #716087;
+    border-radius: 22px;
+    background-color: transparent;
+    color: #665783;
+    font-family: "Poppins", sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.15s ease;
+}
+
+/* Quando selecionado */
+.role-button.selecao {
+    background-color: #79638d;
+    border-color: #79638d;
+    color: white;
+}
+
+.check {
+    display: none;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.role-button.selecao .check {
+    display: inline;
+}
+
+.role-button:hover {
+    transform: translateY(-2px);
+}
+
+.complemento {
+    margin-top: 300px;
+    color: #8a8195;
+    font-size: 13px;
+    font-weight: 400;
+    text-align: left;
+}
+
+.footer {
+    margin-top: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #8f82a3;
+}
+
+.logo strong {
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.logo small {
+    font-size: 7px;
+    margin-top: 2px;
+}

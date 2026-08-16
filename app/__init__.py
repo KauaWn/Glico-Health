@@ -13,4 +13,4 @@ from app import routes, models #sem ela, o Flask cria a aplicação mas nunca re
 from app.models.paciente import Paciente
 
 with app.app_context():
-    db.create_all()
+   db.create_all()

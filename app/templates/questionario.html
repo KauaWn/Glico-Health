@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Papéis de usuário</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+    <main id="questionario">
+
+        <section class="conteudoQuest">
+
+            <div class="tituloQuest">
+                <h1>Antes de tudo...</h1>
+
+                <div class="barraProgresso">
+                    <span></span>
+                </div>
+            </div>
+
+            <div class="areaPergunta">
+
+                <p class="pergunta">
+                    Qual o seu papel na plataforma?
+                </p>
+
+                <div class="papeis">
+
+                    <button type="button" class="role-button" data-role="paciente">
+                        <span>Paciente</span>
+                        <span class="check">✓</span>
+                    </button>
+
+                    <button type="button" class="role-button" data-role="cuidador">
+                        <span>Cuidador</span>
+                        <span class="check">✓</span>
+                    </button>
+
+                    <button type="button" class="role-button" data-role="responsavel">
+                        <span>Responsável legal</span>
+                        <span class="check">✓</span>
+                    </button>
+
+                </div>
+                <p class="complemento">
+                    Você pode selecionar um ou mais papéis de uso!
+                </p>
+            </div>
+
+        </section>
+
+        <footer class="footer">
+            <div class="logo">
+                <strong>GlicoHealth</strong>
+                <small>2026</small>
+            </div>
+        </footer>
+
+    </main>
+    <script src="{{ url_for('static', filename='js/questionario.js') }}"></script>
+</body>
+</html>
