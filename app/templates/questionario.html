@@ -8,62 +8,70 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 <body>
-    <main id="questionario">
+    <form method="POST" action="{{ url_for('questionario') }}" id="formQuestionario" style="width: 100%; min-height: 100vh; display: block;">
+        {{ form.csrf_token }}
 
-        <section class="conteudoQuest">
-
-            <div class="tituloQuest">
-                <h1>Antes de tudo...</h1>
-
-                <div class="barraProgresso">
-                    <span></span>
+        <main id="questionario">
+            <section class="conteudoQuest">
+                <div class="tituloQuest">
+                    <h1>Antes de tudo...</h1>
+                    <div class="barraProgresso">
+                        <span></span>
+                    </div>
                 </div>
-            </div>
 
-            <div class="areaPergunta">
+                <div class="areaPergunta">
+                    <p class="pergunta">Qual o seu papel na plataforma?</p>
+                    
+                    <div class="papeis">
+                        <!-- Botões idênticos ao seu design CSS original -->
+                        <button type="button" class="role-button" data-role="paciente">
+                            <span>Paciente</span>
+                            <span class="check"><i class="fa-solid fa-check"></i></span>
+                        </button>
 
-                <p class="pergunta">
-                    Qual o seu papel na plataforma?
-                </p>
-                <!-- <p class="complemento">
-                    Você pode selecionar um ou mais papéis de uso!
-                </p> -->
-                <div class="papeis">
+                        <button type="button" class="role-button" data-role="cuidador">
+                            <span>Cuidador</span>
+                            <span class="check"><i class="fa-solid fa-check"></i></span>
+                        </button>
 
-                    <button type="button" class="role-button" data-role="paciente">
-                        <span>Paciente</span>
-                        <span class="check"><i class="fa-solid fa-check"></i></span>
-                    </button>
+                        <button type="button" class="role-button" data-role="responsavel">
+                            <span>Responsável legal</span>
+                            <span class="check"><i class="fa-solid fa-check"></i></span>
+                        </button>
+                    </div>
 
-                    <button type="button" class="role-button" data-role="cuidador">
-                        <span>Cuidador</span>
-                        <span class="check"><i class="fa-solid fa-check"></i></span>
-                    </button>
-
-                    <button type="button" class="role-button" data-role="responsavel">
-                        <span>Responsável legal</span>
-                        <span class="check"><i class="fa-solid fa-check"></i></span>
-                    </button>
-
+                    <div style="display: none;">
+                        <input type="checkbox" name="papeis" value="paciente" id="check-paciente">
+                        <input type="checkbox" name="papeis" value="cuidador" id="check-cuidador">
+                        <input type="checkbox" name="papeis" value="responsavel" id="check-responsavel">
+                    </div>
+                    
+                    {% if form.papeis.errors %}
+                        <div style="color: #FF3B30; font-size: 13px; text-align: center; margin-top: 15px; font-weight: 500;">
+                            {% for error in form.papeis.errors %}
+                                <p><i class="fa-solid fa-circle-exclamation"></i> {{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
-            </div>
 
-            <div class="areaContinuar">
-                <p>Você pode selecionar uma ou mais opções</p>
-                <button type="button" id="btnContinuar">CONTINUAR</button>
-            </div>
+                <div class="areaContinuar">
+                    <p>Você pode selecionar uma ou mais opções</p>
+                    <button type="submit" id="btnContinuar">CONTINUAR</button>
+                </div>
+            </section>
 
-        </section>
+            <footer class="footer">
+                <div class="logo">
+                     <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo">
+                    <strong>GlicoHealth</strong>
+                    <small>2026</small>
+                </div>
+            </footer>
+        </main>
+    </form>
 
-        <footer class="footer">
-            <div class="logo">
-                 <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo">
-                <strong>GlicoHealth</strong>
-                <small>2026</small>
-            </div>
-        </footer>
-
-    </main>
     <script src="{{ url_for('static', filename='js/questionario.js') }}"></script>
 </body>
 </html>

@@ -1,9 +1,11 @@
 from app import app
-from flask import render_template, redirect, flash, url_for
+from flask import render_template, redirect, flash, url_for, request
 from app.forms.cadastro_form import CadastroForm
 from app.forms.login_form import LoginForm
-from app.controllers.PacienteController import PacienteController
+from app.forms.dados_paciente import DadosPacienteForm
+from app.controllers.UsuarioController import UsuarioController
 from app.controllers.AuthenticationController import AuthenticationController
+from app.forms.papel_form import PapelForm
 
 
 @app.route("/")
@@ -15,7 +17,7 @@ def inicio():
 def cadastro():
     formCadastro = CadastroForm()
     if formCadastro.validate_on_submit():
-        if PacienteController.cadastro(formCadastro):
+        if UsuarioController.cadastro(formCadastro):
             flash("Cadastro efetuado com sucesso!")
             return redirect(url_for("questionario"))
 
@@ -36,7 +38,28 @@ def login():
 
     return render_template("login.html", title="Login", form=formLogin)
 
-
-@app.route("/questionario")
+@app.route("/questionario", methods=["GET", "POST"])
 def questionario():
-    return render_template("questionario.html")
+    form_papel = PapelForm(request.form)
+    if request.method == "POST":
+        if form_papel.validate_on_submit():
+            if UsuarioController.salvar_papeis(form_papel.papeis.data):
+                if 'paciente' in form_papel.papeis.data:
+                    return redirect(url_for("questionario_paciente"))
+                return redirect(url_for("inicio"))
+            else:
+                flash("Erro ao salvar os papéis no banco.", "error")
+        else:
+            flash("Por favor, selecione ao menos uma opção antes de continuar.", "warning")
+
+    return render_template("questionario.html", form=form_papel)
+
+
+@app.route("/questionario/paciente", methods=["GET", "POST"])
+def questionario_paciente():
+    form_paciente = DadosPacienteForm()
+    if form_paciente.validate_on_submit():
+        flash("Questionário respondido com sucesso!", "success")
+        return redirect(url_for("login")) #coloquei em login por enquanto - Anna 17/08
+
+    return render_template("quest_paciente.html", form=form_paciente)

@@ -3,9 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Dados do Paciente</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cloudflare.com">
 </head>
 <body>
-    
+    <form method="POST" action="{{ url_for('questionario_paciente') }}" style="width: 100%; min-height: 100vh;">
+        {{ form.csrf_token }}
+
+        <main id="questionario">
+
+            <section class="conteudoQuest">
+
+                <div class="tituloQuest">
+                    <h1>Antes de tudo...</h1>
+
+                    <div class="barraProgresso">
+                        <span class="progressoCompleto"></span>
+                    </div>
+                </div>
+
+                <div class="areaPergunta">
+
+                    <p class="pergunta">
+                        Sobre você...
+                    </p>
+
+                    <div class="containerFormDados">
+                        <div class="blocoPergunta">
+                            <label>Seu aniversário</label>
+                            <div class="grupoDataAniversario">
+                                {{ form.dia() }}
+                                {{ form.mes() }}
+                                {{ form.ano() }}
+                            </div>
+                        </div>
+
+                        <div class="blocoPergunta">
+                            <label>Sexo</label>
+                            {{ form.sexo() }}
+                        </div>
+
+                        <div class="blocoPergunta">
+                            <label>Tipo de diabetes</label>
+                            {{ form.tipo_diabetes() }}
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="areaContinuar">
+                    <button type="submit" id="btnContinuar">CONTINUAR</button>
+                </div>
+
+            </section>
+
+            <footer class="footer">
+                <div class="logo">
+                     <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo">
+                    <strong>GlicoHealth</strong>
+                    <small>2026</small>
+                </div>
+            </footer>
+
+        </main>
+    </form>
 </body>
 </html>

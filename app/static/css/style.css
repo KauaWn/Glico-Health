@@ -644,14 +644,14 @@ input:checked + .slider:before {
     display: inline;
     color: #fff !important;
 }
-
+/* 
 .complemento {
     margin-top: 300px;
     color: #8a8195;
     font-size: 13px;
     font-weight: 400;
     text-align: left;
-}
+} */
 
 .footer {
     margin-top: auto;
@@ -841,4 +841,71 @@ input:checked + .slider:before {
         font-size: 16px;
     }
 
+}
+
+/* parte do questionario - paciente */
+.conteudoQuest .barraProgresso span.progressoCompleto {
+    width: 100% !important;
+}
+
+.containerFormDados {
+    width: 100%;
+    max-width: 340px;
+    margin: 25px auto 0;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+}
+
+.blocoPergunta {
+    margin-bottom: 22px;
+    width: 100%;
+}
+
+.blocoPergunta label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #655A7C;
+}
+
+.grupoDataAniversario {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.containerFormDados select {
+    height: 48px;
+    background-color: #fff;
+    border: 1px solid grey;
+    border-radius: 12px;
+    padding: 0 35px 0 18px;
+    font-size: 14px;
+    color: #655A7C;
+    outline: none;
+    box-sizing: border-box;
+    cursor: pointer;
+    width: 100%;
+    
+    
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://w3.org' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23655A7C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 14px;
+}
+
+/* Proporções harmônicas para que a linha da data ocupe o espaço correto */
+.grupoDataAniversario select:nth-child(1) { flex: 1.2; } /* Caixa do Dia */
+.grupoDataAniversario select:nth-child(2) { flex: 2; }   /* Caixa do Mês */
+.grupoDataAniversario select:nth-child(3) { flex: 1.5; } /* Caixa do Ano */
+
+/* Feedback visual simples ao passar o mouse por cima dos seletores */
+.containerFormClinico select:hover {
+    background-color: #cfc9d6;
 }
