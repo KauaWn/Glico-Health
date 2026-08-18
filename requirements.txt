@@ -9,4 +9,4 @@ MarkupSafe==3.0.3
 Werkzeug==3.1.8
 WTForms==3.2.2
 mysql-connector-python==8.0.33
-sqlalchemy==2.0.20
+Flask-SQLAlchemy==3.1.1
