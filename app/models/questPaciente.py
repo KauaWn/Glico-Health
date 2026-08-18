@@ -1,7 +1,7 @@
 from app import db
 from datetime import datetime
 
-class Questionario(db.Model):
+class Paciente(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
     papeis = db.Column(db.String(200), nullable=False)

@@ -1,6 +1,6 @@
 from app import db
 from app.models.usuario import Usuario
-from app.models.questionario import Questionario
+from app.models.questPaciente import Paciente
 from flask import session
 
 class UsuarioController:
@@ -47,11 +47,11 @@ class UsuarioController:
             usuario_atual.papel = papeis_string
             
             # Salva também no questionário
-            questionario = Questionario(
+            questPaciente = Paciente(
                 usuario_id=usuario_id,
                 papeis=papeis_string
             )
-            db.session.add(questionario)
+            db.session.add(questPaciente)
             db.session.commit()
             
             return True
@@ -70,7 +70,7 @@ class UsuarioController:
                 return False
 
             # Busca o questionário existente para atualizar
-            questionario = Questionario.query.filter_by(usuario_id=usuario_id).first()
+            questionario = Paciente.query.filter_by(usuario_id=usuario_id).first()
             
             if not questionario:
                 print("Erro: Questionário não encontrado para o usuário.")

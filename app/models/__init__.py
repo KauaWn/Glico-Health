@@ -1,2 +1,2 @@
 from .usuario import Usuario
-from .questionario import Questionario
+from .questPaciente import Paciente

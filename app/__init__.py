@@ -22,7 +22,7 @@ db = SQLAlchemy(app)
 
 from app import routes, models #sem ela, o Flask cria a aplicação mas nunca registra a rota /
 from app.models.usuario import Usuario
-from app.models.questionario import Questionario
+from app.models.questPaciente import Paciente
 
 with app.app_context():
    db.create_all()
