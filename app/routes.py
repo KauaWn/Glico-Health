@@ -59,7 +59,10 @@ def questionario():
 def questionario_paciente():
     form_paciente = DadosPacienteForm()
     if form_paciente.validate_on_submit():
-        flash("Questionário respondido com sucesso!", "success")
-        return redirect(url_for("login")) #coloquei em login por enquanto - Anna 17/08
+        if UsuarioController.salvar_questionario_paciente(form_paciente):
+            flash("Questionário respondido com sucesso!", "success")
+            return redirect(url_for("login"))
+        else:
+            flash("Erro ao salvar o questionário.", "error")
 
     return render_template("quest_paciente.html", form=form_paciente)
