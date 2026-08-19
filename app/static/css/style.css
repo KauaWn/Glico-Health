@@ -129,9 +129,22 @@ body {
 }
 
 .conteudoCard {
-    width: 500px;
-    max-width: 100%;
+    width: 100%;             /* Deixamos o Bootstrap gerenciar a largura via col-*** */
+    max-width: 380px;        /* Evita que fique largo demais em telas grandes */
     text-align: center;
+    margin: 0 auto;
+}
+
+/* --- SUBSTITUA O SEU #cadastro form p i POR ESTE --- */
+#cadastro form p i {
+    position: absolute !important;
+    left: 18px !important;
+    top: 24px !important;    /* Centraliza perfeitamente nos 48px de altura do seu input */
+    transform: translateY(-50%) !important;
+    color: #9C8DA5 !important;
+    font-size: 15px !important;
+    pointer-events: none !important;
+    z-index: 5 !important;
 }
 
 #voltarInicio {
@@ -195,7 +208,7 @@ body {
 #cadastro form input::placeholder {
     color: #655A7C !important;
 }
-
+/* 
 #cadastro form p i {
     position: absolute !important;
     left: 18px !important;
@@ -205,7 +218,7 @@ body {
     font-size: 15px !important;
     pointer-events: none !important;
     z-index: 5 !important;
-}
+} */
 
 #cadastro form input[type="submit"] {
     width: 100% !important;
@@ -322,12 +335,13 @@ body {
 }
 
 .conteudoLogin {
-    width: 340px;
-    max-width: 100%;
+    width: 100%;
+    max-width: 340px;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: 0 auto;
 }
 
 .conteudoLogin h1 {
@@ -527,7 +541,10 @@ input:checked + .slider:before {
 
 .conteudoQuest {
     width: 100%;
-    max-width: 900px;
+    max-width: 480px; /* Largura ideal para cartões de perguntas */
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
 }
 
 .tituloQuest {

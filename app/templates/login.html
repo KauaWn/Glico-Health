@@ -4,67 +4,98 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- Bootstrap 5 Grid/Base -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- Seu CSS Próprio (Abaixo do Bootstrap) -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
-<body>
+<body class="p-0 m-0">
 
-    <section id="login">
+    <section id="login" class="fade-in">
+
+        <!-- Topo com Botão Voltar e Esqueceu a Senha -->
         <div class="topoLogin">
             <a href="{{ url_for('inicio') }}" id="voltarInicio" aria-label="Voltar para tela inicial">
                 <i class="fa-solid fa-arrow-left"></i>
             </a>
-            <a href="#" id="esqueceuSenha">Esqueceu sua senha?</a> <!-- nao sei oq fazer aqui -->
-
+            <!-- Se ainda não tiver rota para esqueceu a senha, mantemos href="#" -->
+            <a href="{{ url_for('esqueceu_senha') if 'esqueceu_senha' in endpoints else '#' }}" id="esqueceuSenha">Esqueceu sua senha?</a>
         </div>
+
+        <!-- Card de Login -->
         <div class="cardLogin">
-            <div class="conteudoLogin">
-                <h1>Vamos lá!</h1>
-                <p class="subtitulo">Que bom que você voltou!</p>
 
-                <form action="{{ url_for('login') }}" method="POST" novalidate>
+            <!-- Grid System Bootstrap -->
+            <div class="container-fluid">
+                <div class="row justify-content-center w-100 m-0">
+                    <div class="col-12 col-sm-10 col-md-8 col-lg-5 col-xl-4 p-0">
 
-                    {{ form.hidden_tag() }}
-                    <p class="campoLogin">
-                        <i class="fa-solid fa-user"></i>
-                        {{ form.username(placeholder="Digite seu usuário") }}
+                        <div class="conteudoLogin mx-auto">
+                            <h1>Vamos lá!</h1>
+                            <p class="subtitulo">Que bom que você voltou!</p>
 
-                        {% for error in form.username.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}
+                            <form action="{{ url_for('login') }}" method="POST" novalidate>
+                                {{ form.hidden_tag() }}
 
-                    </p>
+                                <!-- Campo Usuário -->
+                                <p class="campoLogin">
+                                    <i class="fa-solid fa-user"></i>
+                                    {{ form.username(placeholder="Digite seu usuário") }}
 
-                    <p class="campoLogin">
-                        <i class="fa-solid fa-lock"></i>
-                        {{ form.password(placeholder="Digite sua senha") }}
-                        <button type="button" class="mostrarSenha" aria-label="Mostrar senha">
-                            <i class="fa-regular fa-eye-slash"></i>
-                        </button>
-                        {% for error in form.password.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}
-                    </p>
+                                    {% for error in form.username.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </p>
 
-                    <div class="lembrarLogin">
-                        <span>Lembrar da próxima vez</span>
-                        <label class="switch">
-                            {{ form.rm() }}
-                            <span class="slider"></span>
-                        </label>
+                                <!-- Campo Senha com Botão Mostrar/Ocultar -->
+                                <p class="campoLogin">
+                                    <i class="fa-solid fa-lock"></i>
+                                    {{ form.password(placeholder="Digite sua senha") }}
+                                   
+                                    <button type="button" class="mostrarSenha" aria-label="Mostrar senha">
+                                        <i class="fa-regular fa-eye-slash"></i>
+                                    </button>
+
+                                    {% for error in form.password.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </p>
+
+                                <!-- Switch Lembrar de mim -->
+                                <div class="lembrarLogin">
+                                    <span>Lembrar da próxima vez</span>
+                                    <label class="switch">
+                                        {{ form.rm() }}
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+
+                                <!-- Botão Entrar -->
+                                <p id="btnEntrar">
+                                    {{ form.submit(value="ENTRAR") }}
+                                </p>
+                            </form>
+
+                            <p class="link-cadastro mt-2">
+                                Não tem uma conta? <a href="{{ url_for('cadastro') }}">Cadastre-se</a>
+                            </p>
+                        </div>
+
                     </div>
-
-                    <p id="btnEntrar">
-                        {{ form.submit(value="ENTRAR") }}
-                    </p>
-                </form>
-                
-                <p class="link-cadastro">Não tem uma conta?<a href="{{ url_for('cadastro') }}">Cadastre-se</a></p>
+                </div>
             </div>
+
         </div>
     </section>
-    <script src="{{ url_for('static', filename='js/login.js') }}"></script>
 
+    <!-- JS Próprio + JS Bootstrap -->
+    <script src="{{ url_for('static', filename='js/login.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
