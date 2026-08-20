@@ -5,33 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
 
-    <!-- Bootstrap 5 Grid/Base -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-    <!-- Seu CSS Próprio (Abaixo do Bootstrap) -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body class="p-0 m-0">
 
     <section id="login" class="fade-in">
-
-        <!-- Topo com Botão Voltar e Esqueceu a Senha -->
         <div class="topoLogin">
             <a href="{{ url_for('inicio') }}" id="voltarInicio" aria-label="Voltar para tela inicial">
                 <i class="fa-solid fa-arrow-left"></i>
             </a>
-            <!-- Se ainda não tiver rota para esqueceu a senha, mantemos href="#" -->
             <a href="{{ url_for('esqueceu_senha') if 'esqueceu_senha' in endpoints else '#' }}" id="esqueceuSenha">Esqueceu sua senha?</a>
         </div>
 
-        <!-- Card de Login -->
         <div class="cardLogin">
-
-            <!-- Grid System Bootstrap -->
             <div class="container-fluid">
                 <div class="row justify-content-center w-100 m-0">
                     <div class="col-12 col-sm-10 col-md-8 col-lg-5 col-xl-4 p-0">

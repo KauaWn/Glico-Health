@@ -16,7 +16,7 @@ body {
 
 
 #inicioLogo {
-    min-height: 100vh;
+    /* min-height: 100vh; */
     width: 100%;
     display: flex;
     align-items: center;
@@ -40,7 +40,7 @@ body {
 }
 
 #btnAvancar {
-    position: absolute;
+    /* position: absolute; */
     bottom: 80px;
     left: 50%;
     transform: translateX(-50%);
@@ -58,6 +58,7 @@ body {
     align-items: center;
     cursor: pointer;
     transition: 0.3s;
+    margin: 0 auto;
 }
 
 #avance i {
@@ -528,20 +529,16 @@ input:checked + .slider:before {
     width: 100%;
     min-height: 100dvh;
     height: auto;
-
     background-color: #f8f9fc;
-
     display: flex;
     flex-direction: column;
-
     position: relative;
-
-    padding: 8vh 8vw 4vh;
+/* 
+    padding: 8vh 8vw 4vh; */
 }
 
 .conteudoQuest {
     width: 100%;
-    max-width: 480px; /* Largura ideal para cartões de perguntas */
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -601,12 +598,12 @@ input:checked + .slider:before {
 .papeis {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
     gap: 20px;
 }
 
 .role-button {
-    min-width: 110px;
+    width: 100%;
     height: 38px;
     padding: 0 20px;
     border: 3px solid #716087;
@@ -737,8 +734,8 @@ input:checked + .slider:before {
         width: 100%;
         min-height: 100dvh;
         height: auto;
-        padding: 90px 32px 30px;
-        border: 2px solid pink;
+        padding: 20px 16px !important;
+        border: none;
     }
 
     .conteudoQuest {
@@ -925,4 +922,20 @@ input:checked + .slider:before {
 /* Feedback visual simples ao passar o mouse por cima dos seletores */
 .containerFormClinico select:hover {
     background-color: #cfc9d6;
+}
+
+.containerFormDados {
+    width: 100%;
+    margin: 15px auto 0;
+}
+
+.grupoDataAniversario {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+}
+
+/* Garante que os selects ajustem a largura dentro das colunas */
+.containerFormDados select {
+    width: 100%;
 }
