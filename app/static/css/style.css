@@ -43,7 +43,6 @@ body {
     /* position: absolute; */
     bottom: 80px;
     left: 50%;
-    transform: translateX(-50%);
 }
 
 #avance {
@@ -598,7 +597,6 @@ input:checked + .slider:before {
 .papeis {
     display: flex;
     flex-direction: column;
-    align-items: stretch;
     gap: 20px;
 }
 
