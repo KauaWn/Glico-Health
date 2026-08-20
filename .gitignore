@@ -1,3 +1,16 @@
 AmbVir
 __pycache__
 *.pyc
+*.pyc
+*.pyc
+*.pyc
+app/__pycache__/routes.cpython-312.pyc
+app/controllers/__pycache__/AuthenticationController.cpython-312.pyc
+app/controllers/__pycache__/UsuarioController.cpython-312.pyc
+app/forms/__pycache__/cadastro_form.cpython-312.pyc
+app/forms/__pycache__/dados_paciente.cpython-312.pyc
+app/forms/__pycache__/login_form.cpython-312.pyc
+app/forms/__pycache__/papel_form.cpython-312.pyc
+app/models/__pycache__/__init__.cpython-312.pyc
+app/models/__pycache__/questPaciente.cpython-312.pyc
+app/models/__pycache__/usuario.cpython-312.pyc
