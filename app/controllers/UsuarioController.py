@@ -1,7 +1,7 @@
 from app import db
-from app.models.usuario import Usuario
-from app.models.questPaciente import Paciente
+# from app.models.usuario import Usuario
 from flask import session
+from app.modelos import Usuario, Paciente
 
 class UsuarioController:
     @staticmethod
@@ -10,9 +10,9 @@ class UsuarioController:
             name=formCadastro.name.data,
             username=formCadastro.username.data,
             email=formCadastro.email.data,
-            password_hash=formCadastro.password.data,
-            rm=False,
-            papel="Pendente"
+            passw_hash=formCadastro.password.data,
+            remember_me=False,
+            papel=""
         )
 
         db.session.add(usuario)

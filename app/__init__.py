@@ -21,8 +21,8 @@ db = SQLAlchemy(app)
 #     return usuario
 
 from app import routes, models #sem ela, o Flask cria a aplicação mas nunca registra a rota /
-from app.models.usuario import Usuario
-from app.models.questPaciente import Paciente
+from app.modelos import Usuario
+from app.modelos import Paciente
 
 with app.app_context():
    db.create_all()

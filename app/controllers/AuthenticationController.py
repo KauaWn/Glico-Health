@@ -1,10 +1,10 @@
 from app import db
-from app.models.usuario import Usuario
+from app.modelos import Usuario
 class AuthenticationController:
     def login(form):
         print("O usuario {} fez o login, lembrar={}".format(
             form.username.data,
-            form.rm.data
+            form.remember_me.data
         ))
 
         usuario = Usuario.query.filter_by(username=form.username.data).first()
@@ -12,10 +12,10 @@ class AuthenticationController:
         if not usuario:
             return "Usuário não encontrado"
 
-        if usuario.password_hash != form.password.data:
+        if usuario.passw_hash != form.password.data:
             return "Senha incorreta"
 
-        usuario.rm = form.rm.data
+        usuario.remember_me = form.remember_me.data
         db.session.commit()
 
         return True

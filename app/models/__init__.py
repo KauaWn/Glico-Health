@@ -1,2 +1,2 @@
-from .usuario import Usuario
-from .questPaciente import Paciente
+# from .usuario import Usuario
+# from .questPaciente import Paciente
