@@ -66,3 +66,7 @@ def questionario_paciente():
             flash("Erro ao salvar o questionário.", "error")
 
     return render_template("quest_paciente.html", form=form_paciente)
+
+@app.route("/questionario/tipo_cuidador", methods=["GET", "POST"])
+def quest_tipo_cuidador():
+    return render_template("tipo_cuidador.html")
