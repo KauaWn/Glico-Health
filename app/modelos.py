@@ -49,7 +49,7 @@ class Cuidador(Base):
         Index('fk_usuario_cuidador_idx', 'id_usuario')
     )
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     id_usuario: Mapped[int] = mapped_column(Integer, primary_key=True)
     tipo_cuidador: Mapped[Optional[CuidadorTipoCuidador]] = mapped_column(Enum(CuidadorTipoCuidador, values_callable=lambda cls: [member.value for member in cls]))
     conselho_profissional: Mapped[Optional[str]] = mapped_column(String(10))
@@ -66,8 +66,8 @@ class Paciente(Base):
         Index('fk_usuario_paciente_idx', 'id_usuario')
     )
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    id_usuario: Mapped[int] = mapped_column(Integer, primary_key=True)
+    id: Mapped[int] = mapped_column(Integer,primary_key=True,autoincrement=True)
+    id_usuario: Mapped[int] = mapped_column(Integer,nullable=False)
     nascimento: Mapped[Optional[datetime.date]] = mapped_column(Date)
     genero: Mapped[Optional[str]] = mapped_column(CHAR(1))
     tipo_diabete: Mapped[Optional[PacienteTipoDiabete]] = mapped_column(Enum(PacienteTipoDiabete, values_callable=lambda cls: [member.value for member in cls]))
@@ -84,7 +84,7 @@ class Responsavel(Base):
         Index('fk_usuario_responsavel_idx', 'id_usuario')
     )
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     id_usuario: Mapped[int] = mapped_column(Integer, primary_key=True)
     responsabilidade: Mapped[Optional[str]] = mapped_column(String(30))
 
