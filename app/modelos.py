@@ -30,7 +30,7 @@ class VinculoresponsavelPacienteStatus(str, enum.Enum):
 class Usuario(Base):
     __tablename__ = 'usuario'
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(100), nullable=False)
     username: Mapped[str] = mapped_column(String(64), nullable=False)
     remember_me: Mapped[int] = mapped_column(TINYINT, nullable=False)

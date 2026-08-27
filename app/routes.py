@@ -40,19 +40,19 @@ def login():
 
 @app.route("/questionario", methods=["GET", "POST"])
 def questionario():
+    print("rota /questionario")
     form_papel = PapelForm(request.form)
-    if request.method == "POST":
-        if form_papel.validate_on_submit():
-            if UsuarioController.salvar_papeis(form_papel.papeis.data):
-                if 'paciente' in form_papel.papeis.data:
-                    return redirect(url_for("questionario_paciente"))
-                if 'cuidador' in form_papel.papeis.data:
-                                    return redirect(url_for("quest_tipo_cuidador"))
-                return redirect(url_for("inicio"))
-            else:
-                flash("Erro ao salvar os papéis no banco.", "error")
+    if form_papel.validate_on_submit():
+        if UsuarioController.salvar_papeis(form_papel.papeis.data):
+            if 'paciente' in form_papel.papeis.data:
+                return redirect(url_for("questionario_paciente"))
+            if 'cuidador' in form_papel.papeis.data:
+                return redirect(url_for("quest_tipo_cuidador"))
+            return redirect(url_for("inicio"))
         else:
-            flash("Por favor, selecione ao menos uma opção antes de continuar.", "warning")
+            flash("Erro ao salvar os papéis no banco.", "error")
+    else:
+        flash("Por favor, selecione ao menos uma opção antes de continuar.", "warning")
 
     return render_template("questionario.html", form=form_papel)
 
@@ -71,6 +71,18 @@ def questionario_paciente():
 
 @app.route("/questionario/tipo_cuidador", methods=["GET", "POST"])
 def quest_tipo_cuidador():
+    if request.method == "POST":
+        tipo_cuidador = request.form.get("tipo_cuidador")
+        if tipo_cuidador == "profissional":
+            print('selecionou prof')
+            return redirect(
+                url_for("validar_conselho", tipo_cuidador=tipo_cuidador)
+            )
+
+        elif tipo_cuidador == "familiar":
+            return redirect(
+                url_for("quest_verificar_paciente", tipo_cuidador=tipo_cuidador)
+            )
     return render_template("tipo_cuidador.html")
 
 @app.route("/verificar_paciente", methods=["GET", "POST"])

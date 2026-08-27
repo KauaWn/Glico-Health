@@ -5,5 +5,5 @@ class Config:
     SECRET_KEY = secrets.token_hex(16) 
     #senha_com_arroba = "" quando a senha tem @, tem q guardar em variavel 
     # senha_seg = quote_plus(senha_com_arroba)
-    SQLALCHEMY_DATABASE_URI = f'mysql+pymysql://root:kaua2007@localhost/glicohealthbd'
+    SQLALCHEMY_DATABASE_URI = f'mysql+pymysql://root:labinfo@localhost/glicohealthbd'
 

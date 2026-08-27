@@ -18,10 +18,6 @@ buttons.forEach(button => {
         
         console.log("Papéis selecionados no clique:", selectedRoles);
 
-        // ========================================================
-        // SINCRONIZAÇÃO TOTAL COM OS INPUTS DO FLASK
-        // ========================================================
-        // 1. Primeiro desmarca todos os checkboxes ocultos
         document.querySelectorAll("input[name='papeis']").forEach(checkbox => {
             checkbox.checked = false;
         });
@@ -34,6 +30,25 @@ buttons.forEach(button => {
                 console.log(`Checkbox do Flask '${role}' marcado com sucesso!`);
             }
         });
-        // ========================================================
+    });
+});
+
+const btnContinuar = document.getElementById("btnContinuar");
+
+document.addEventListener("DOMContentLoaded", () => {
+    const roleButtons = document.querySelectorAll(".role-button");
+
+    roleButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            roleButtons.forEach(b => b.classList.remove("selected"));
+            
+            button.classList.add("selected");
+
+            const tipo = button.getAttribute("data-tipo");
+            const radio = document.getElementById(`radio-${tipo}`);
+            if (radio) {
+                radio.checked = true;
+            }
+        });
     });
 });

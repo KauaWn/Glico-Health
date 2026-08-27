@@ -1,5 +1,8 @@
 from app import db
 from app.modelos import Usuario
+import sqlalchemy as sa
+
+
 class AuthenticationController:
     def login(form):
         print("O usuario {} fez o login, lembrar={}".format(
@@ -7,7 +10,10 @@ class AuthenticationController:
             form.remember_me.data
         ))
 
-        usuario = Usuario.query.filter_by(username=form.username.data).first()
+        query = sa.select(Usuario).where(Usuario.username == form.username.data)
+        usuario = db.session.scalars(query).first()
+
+        # usuario = Usuario.query.filter_by(username=form.username.data).first()
 
         if not usuario:
             return "Usuário não encontrado"
