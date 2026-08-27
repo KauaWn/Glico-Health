@@ -46,6 +46,8 @@ def questionario():
             if UsuarioController.salvar_papeis(form_papel.papeis.data):
                 if 'paciente' in form_papel.papeis.data:
                     return redirect(url_for("questionario_paciente"))
+                if 'cuidador' in form_papel.papeis.data:
+                                    return redirect(url_for("quest_tipo_cuidador"))
                 return redirect(url_for("inicio"))
             else:
                 flash("Erro ao salvar os papéis no banco.", "error")
@@ -70,3 +72,7 @@ def questionario_paciente():
 @app.route("/questionario/tipo_cuidador", methods=["GET", "POST"])
 def quest_tipo_cuidador():
     return render_template("tipo_cuidador.html")
+
+@app.route("/verificar_paciente", methods=["GET", "POST"])
+def quest_verificar_paciente():
+    return render_template("verif_paciente.html")

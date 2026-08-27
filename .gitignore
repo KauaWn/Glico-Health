@@ -1,4 +1,5 @@
 AmbVir
+*.venv
 __pycache__
 *.pyc
 *.pyc
