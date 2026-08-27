@@ -40,8 +40,7 @@ def login():
 
 @app.route("/questionario", methods=["GET", "POST"])
 def questionario():
-    print("rota /questionario")
-    form_papel = PapelForm(request.form)
+    form_papel = PapelForm()
     if form_papel.validate_on_submit():
         if UsuarioController.salvar_papeis(form_papel.papeis.data):
             if 'paciente' in form_papel.papeis.data:
@@ -51,8 +50,6 @@ def questionario():
             return redirect(url_for("inicio"))
         else:
             flash("Erro ao salvar os papéis no banco.", "error")
-    else:
-        flash("Por favor, selecione ao menos uma opção antes de continuar.", "warning")
 
     return render_template("questionario.html", form=form_papel)
 
@@ -76,9 +73,8 @@ def quest_tipo_cuidador():
         if tipo_cuidador == "profissional":
             print('selecionou prof')
             return redirect(
-                url_for("validar_conselho", tipo_cuidador=tipo_cuidador)
+                url_for("validar_profissional", tipo_cuidador=tipo_cuidador)
             )
-
         elif tipo_cuidador == "familiar":
             return redirect(
                 url_for("quest_verificar_paciente", tipo_cuidador=tipo_cuidador)
@@ -88,3 +84,7 @@ def quest_tipo_cuidador():
 @app.route("/verificar_paciente", methods=["GET", "POST"])
 def quest_verificar_paciente():
     return render_template("verif_paciente.html")
+
+@app.route("/validar_profissional", methods=["GET", "POST"])
+def validar_profissional():
+    return render_template("validar_profissional.html")
