@@ -1,5 +1,8 @@
 AmbVir/
+<<<<<<< HEAD
 *.venv
+=======
+>>>>>>> d26b162550d48690397755a6d25a090e7fba87f1
 __pycache__/
 *.pyc
 *.pyc
