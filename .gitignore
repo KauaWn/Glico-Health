@@ -46,3 +46,4 @@ Thumbs.db
 .pytest_cache/
 .coverage
 
+/app/__pycache__

@@ -3,6 +3,7 @@ from flask import render_template, redirect, flash, url_for, request
 from app.forms.cadastro_form import CadastroForm
 from app.forms.login_form import LoginForm
 from app.forms.dados_paciente import DadosPacienteForm
+from app.forms.validarprofissional import ValidarProfissional
 from app.controllers.UsuarioController import UsuarioController
 from app.controllers.AuthenticationController import AuthenticationController
 from app.forms.papel_form import PapelForm
@@ -28,7 +29,6 @@ def cadastro():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     formLogin = LoginForm()
-
     if formLogin.validate_on_submit():
         if AuthenticationController.login(formLogin):
             flash("Login efetuado com sucesso!", "success")
@@ -87,4 +87,10 @@ def quest_verificar_paciente():
 
 @app.route("/validar_profissional", methods=["GET", "POST"])
 def validar_profissional():
-    return render_template("validar_profissional.html")
+    formValidarProf = ValidarProfissional()
+    if formValidarProf.validate_on_submit():
+        conselho = formValidarProf.conselhoprofissional.data
+        registro = formValidarProf.registroprofissional.data
+        return redirect(url_for("login")) 
+    
+    return render_template("validar_profissional.html", form=formValidarProf)

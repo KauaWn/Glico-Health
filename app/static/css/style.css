@@ -14,9 +14,7 @@ body {
     overflow-x: hidden;
 }
 
-
 #inicioLogo {
-    /* min-height: 100vh; */
     width: 100%;
     display: flex;
     align-items: center;
@@ -40,7 +38,6 @@ body {
 }
 
 #btnAvancar {
-    /* position: absolute; */
     bottom: 80px;
     left: 50%;
 }
@@ -69,20 +66,13 @@ body {
     transform: scale(1.05);
 }
 
-
 #cadastro {
     position: relative;
     width: 100%;
     min-height: 100dvh;
     display: flex;
     flex-direction: column;
-    background:
-        linear-gradient(
-            135deg,
-            #FFC5E3 0%,
-            #AB92BF 100%
-        ),
-        #f8f8fb;
+    background: linear-gradient(135deg, #FFC5E3 0%, #AB92BF 100%), #f8f8fb;
 }
 
 .topoCadastro {
@@ -129,22 +119,10 @@ body {
 }
 
 .conteudoCard {
-    width: 100%;             /* Deixamos o Bootstrap gerenciar a largura via col-*** */
-    max-width: 380px;        /* Evita que fique largo demais em telas grandes */
+    width: 100%;
+    max-width: 380px;
     text-align: center;
     margin: 0 auto;
-}
-
-/* --- SUBSTITUA O SEU #cadastro form p i POR ESTE --- */
-#cadastro form p i {
-    position: absolute !important;
-    left: 18px !important;
-    top: 24px !important;    /* Centraliza perfeitamente nos 48px de altura do seu input */
-    transform: translateY(-50%) !important;
-    color: #9C8DA5 !important;
-    font-size: 15px !important;
-    pointer-events: none !important;
-    z-index: 5 !important;
 }
 
 #voltarInicio {
@@ -176,40 +154,58 @@ body {
     justify-content: center;
 }
 
-#cadastro form {
+/* ========================================================
+   ESTILOS DE FORMULÁRIO (COMPATÍVEL COM CADASTRO E QUESTIONÁRIO)
+   ======================================================== */
+
+#cadastro form,
+#cadastroQuest form {
     width: 100%;
     max-width: 340px;
-    margin: 30px 0 0;
+    margin: 15px auto 0;
     display: flex;
     flex-direction: column;
 }
 
-#cadastro form p {
-    margin-bottom: 8px !important;
+#cadastro form p,
+#cadastroQuest form p,
+#cadastroQuest form .mb-3 {
+    margin-bottom: 12px !important;
     width: 100% !important;
-    position: relative; 
+    position: relative;
 }
 
+/* Estilo para Inputs de Texto gerados manualmente ou via WTForms */
 #cadastro form input[type="text"],
 #cadastro form input[type="email"],
-#cadastro form input[type="password"] {
+#cadastro form input[type="password"],
+#cadastroQuest form input[type="text"],
+#cadastroQuest form input[type="email"],
+#cadastroQuest form input[type="password"],
+#cadastroQuest form .form-control {
     width: 100% !important;
     height: 48px !important;
-    background-color: #D8D2DF !important; 
+    background-color: #D8D2DF !important;
     border: none !important;
-    border-radius: 15px !important; 
-    padding: 0 18px 0 48px !important;  
+    border-radius: 15px !important;
+    padding: 0 18px 0 48px !important;
     font-size: 14px !important;
     color: #655A7C !important;
     outline: none !important;
     box-sizing: border-box !important;
 }
 
-#cadastro form input::placeholder {
+#cadastro form input::placeholder,
+#cadastroQuest form input::placeholder,
+#cadastroQuest form .form-control::placeholder {
     color: #655A7C !important;
+    opacity: 0.8;
 }
-/* 
-#cadastro form p i {
+
+/* Ajuste dos ícones dentro dos parágrafos ou divs dos inputs */
+#cadastro form p i,
+#cadastroQuest form p i,
+#cadastroQuest form .mb-3 i {
     position: absolute !important;
     left: 18px !important;
     top: 24px !important;
@@ -218,12 +214,15 @@ body {
     font-size: 15px !important;
     pointer-events: none !important;
     z-index: 5 !important;
-} */
+}
 
-#cadastro form input[type="submit"] {
+/* Estilização dos Botões de Submit do WTForms */
+#cadastro form input[type="submit"],
+#cadastroQuest form input[type="submit"],
+#btnContinuar {
     width: 100% !important;
     height: 48px !important;
-    background-color: #AB92BF !important; 
+    background-color: #AB92BF !important;
     color: #FFFFFF !important;
     border: none !important;
     border-radius: 18px !important;
@@ -234,13 +233,17 @@ body {
     box-shadow: 0px 4px 12px rgba(171, 146, 191, 0.25) !important;
     margin-top: 15px !important;
     padding: 0 !important;
+    transition: background-color 0.3s;
 }
 
-#cadastro form input[type="submit"]:hover {
+#cadastro form input[type="submit"]:hover,
+#cadastroQuest form input[type="submit"]:hover,
+#btnContinuar:hover {
     background-color: #967aaB !important;
 }
 
-#cadastro form p span{
+#cadastro form p span,
+#cadastroQuest form span.text-danger {
     color: #FF3B30 !important;
     font-size: 11px !important;
     display: block !important;
@@ -250,25 +253,18 @@ body {
 
 #btnCadastrar {
     margin-top: 10px;
+    width: 100%;
 }
 
-
+/* Animações */
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 @keyframes fadeOut {
-    from {
-        opacity: 1;
-    }
-    to {
-        opacity: 0;
-    }
+    from { opacity: 1; }
+    to { opacity: 0; }
 }
 
 .fade-in {
@@ -280,22 +276,14 @@ body {
     animation: fadeOut 0.3s ease-in forwards;
 }
 
-
-/* login */
-
+/* Login */
 #login {
     position: relative;
     width: 100%;
     min-height: 100dvh;
     display: flex;
     flex-direction: column;
-    background:
-        linear-gradient(
-            135deg,
-            #FFC5E3 0%,
-            #AB92BF 100%
-        ),
-        #f8f8fb;
+    background: linear-gradient(135deg, #FFC5E3 0%, #AB92BF 100%), #f8f8fb;
 }
 
 .topoLogin {
@@ -359,7 +347,6 @@ body {
     margin-bottom: 20px;
 }
 
-
 #login form {
     width: 100%;
     display: flex;
@@ -369,17 +356,17 @@ body {
 .campoLogin {
     margin-bottom: 15px !important;
     width: 100% !important;
-    position: relative !important; 
+    position: relative !important;
 }
 
 .campoLogin input[type="text"],
 .campoLogin input[type="password"] {
     width: 100% !important;
     height: 48px !important;
-    background-color: #D8D2DF !important; 
+    background-color: #D8D2DF !important;
     border: none !important;
-    border-radius: 15px !important; 
-    padding: 0 48px 0 48px !important;  
+    border-radius: 15px !important;
+    padding: 0 48px 0 48px !important;
     font-size: 14px !important;
     color: #655A7C !important;
     outline: none !important;
@@ -426,7 +413,6 @@ body {
     padding-left: 12px !important;
     text-align: left;
 }
-
 
 .lembrarLogin {
     display: flex;
@@ -483,7 +469,6 @@ input:checked + .slider:before {
     transform: translateX(20px);
 }
 
-
 #btnEntrar {
     width: 100%;
     margin-bottom: 20px;
@@ -492,7 +477,7 @@ input:checked + .slider:before {
 #btnEntrar input[type="submit"] {
     width: 100% !important;
     height: 48px !important;
-    background-color: #AB92BF !important; 
+    background-color: #AB92BF !important;
     color: #FFFFFF !important;
     border: none !important;
     border-radius: 18px !important;
@@ -509,7 +494,6 @@ input:checked + .slider:before {
     background-color: #967aaB !important;
 }
 
-
 .link-cadastro, .link-login {
     font-size: 14px;
     color: #655A7C;
@@ -522,7 +506,7 @@ input:checked + .slider:before {
     margin-left: 5px;
 }
 
-/* telas de questionário abaixo */
+/* Telas de Questionário */
 
 #questionario {
     width: 100%;
@@ -532,8 +516,6 @@ input:checked + .slider:before {
     display: flex;
     flex-direction: column;
     position: relative;
-/* 
-    padding: 8vh 8vw 4vh; */
 }
 
 .conteudoQuest {
@@ -544,8 +526,9 @@ input:checked + .slider:before {
 }
 
 .tituloQuest {
-    margin-bottom: 7vh;
+    margin-bottom: 4vh;
 }
+
 .tituloQuest h1 {
     color: #655A7C;
     font-size: clamp(20px, 1.6vw, 28px);
@@ -576,10 +559,10 @@ input:checked + .slider:before {
     position: absolute;
     right: 0;
     top: -1px;
-    width: 20px;
+    width: 10px;
     height: 4px;
     background-color: #7455ad;
-    border-radius: 50%;
+    border-radius: 5px;
 }
 
 .areaPergunta {
@@ -609,50 +592,23 @@ input:checked + .slider:before {
     background-color: transparent;
     color: #665783;
     font-family: "Poppins", sans-serif;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 400;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    transition:
-        background-color 0.2s ease,
-        color 0.2s ease,
-        border-color 0.2s ease,
-        transform 0.15s ease;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
 }
 
-/* Quando selecionado */
-.role-button.selecao {
-    background:
-        linear-gradient(
-            to right,
-            rgba(255, 188, 220, 0.4),
-            rgba(101, 90, 124, 0.4)
-        ),
-        #655A7C;
+.role-button.selecao, .tipoCuidador-button.selecao {
+    background: linear-gradient(to right, rgba(255, 188, 220, 0.4), rgba(101, 90, 124, 0.4)), #655A7C;
     border-color: transparent;
     color: #fff !important;
 }
 
-.tipoCuidador-button.selecao{
-    background:
-        linear-gradient(
-            to right,
-            rgba(255, 188, 220, 0.4),
-            rgba(101, 90, 124, 0.4)
-        ),
-        #655A7C;
-    border-color: transparent;
-    color: #fff !important;
-}
-
-.role-button.selecao span {
-    color: #fff !important;
-}
-
-.tipoCuidador-button.selecao span {
+.role-button.selecao span, .tipoCuidador-button.selecao span {
     color: #fff !important;
 }
 
@@ -662,29 +618,16 @@ input:checked + .slider:before {
     font-weight: 600;
 }
 
-.check i{
+.check i {
     margin-top: 3px;
     font-size: 14px;
     color: #fff;
 }
 
-.role-button.selecao .check {
+.role-button.selecao .check, .tipoCuidador-button.selecao .check {
     display: inline;
     color: #fff !important;
 }
-
-.tipoCuidador-button.selecao .check {
-    display: inline;
-    color: #fff !important;
-}
-/* 
-.complemento {
-    margin-top: 300px;
-    color: #8a8195;
-    font-size: 13px;
-    font-weight: 400;
-    text-align: left;
-} */
 
 .footer {
     margin-top: auto;
@@ -711,7 +654,7 @@ input:checked + .slider:before {
     margin-top: 2px;
 }
 
-.logo img{
+.logo img {
     width: 40px;
     margin-bottom: 8px;
 }
@@ -719,263 +662,14 @@ input:checked + .slider:before {
 .areaContinuar {
     width: 100%;
     max-width: 900px;
-    margin-top: 60px;
+    margin-top: 20px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
 }
 
 .areaContinuar p {
     color: #8a8195;
     font-size: 13px;
     margin-bottom: 18px;
-}
-
-#btnContinuar {
-    width: 180px;
-    height: 48px;
-    border: none;
-    border-radius: 18px;
-    background-color: #AB92BF !important; 
-    color: white;
-    font-family: "Poppins", sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-
-/* responsividade do quest */
-
-@media (max-width: 600px) {
-
-    #questionario {
-        width: 100%;
-        min-height: 100dvh;
-        height: auto;
-        padding: 20px 16px !important;
-        border: none;
-    }
-
-    .conteudoQuest {
-        width: 100%;
-        max-width: none;
-        /* border: 2px solid green; */
-        margin-top: 60px;
-    }
-
-    .tituloQuest {
-        width: 100%;
-        margin-bottom: 85px;
-    }
-
-    .tituloQuest h1 {
-        font-size: 32px;
-        line-height: 1.15;
-        font-weight: 600;
-        margin-bottom: 14px;
-    }
-
-    .barraProgresso {
-        width: 100%;
-        max-width: none;
-        height: 4px;
-    }
-
-    .barraProgresso span {
-        width: 65px;
-        height: 4px;
-    }
-
-    .barraProgresso::after {
-        width: 5px;
-        height: 5px;
-        top: -0.5px;
-    }
-
-
-    .areaPergunta {
-        width: 100%;
-        max-width: none;
-    }
-
-    .pergunta {
-        font-size: 21px;
-        line-height: 1.4;
-        margin-bottom: 32px;
-        font-weight: 500;
-    }
-
-    .papeis {
-        width: 100%;
-        gap: 24px;
-        align-items: flex-start;
-    }
-
-    .role-button {
-        min-width: 150px;
-        height: 50px;
-        padding: 0 30px;
-
-        border: 3px solid #716087;
-        border-radius: 26px;
-
-        background-color: transparent;
-        color: #665783;
-
-        font-family: "Poppins", sans-serif;
-        font-size: 18px;
-        font-weight: 400;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-    }
-
-    .tipoCuidador-button {
-        min-width: 150px;
-        height: 50px;
-        padding: 0 30px;
-
-        border: 3px solid #716087;
-        border-radius: 26px;
-
-        background-color: transparent;
-        color: #665783;
-
-        font-family: "Poppins", sans-serif;
-        font-size: 18px;
-        font-weight: 400;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-    }
-
-    .check i{
-        font-size: 18px;
-        color: #fff;
-    }
-
-    .footer {
-        margin-top: 70px;
-        padding-top: 50px;
-    }
-
-    .logo strong {
-        font-size: 11px;
-    }
-
-    .logo small {
-        font-size: 8px;
-        margin-top: 3px;
-    }
-
-    .areaContinuar {
-        margin-top: 60px;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .areaContinuar p {
-        font-size: 15px;
-        font-weight: 500;
-        margin-bottom: 10px;
-    }
-
-    #btnContinuar {
-        width: 100%;
-        height: 52px;
-        border-radius: 18px;
-        font-size: 16px;
-    }
-
-}
-
-/* parte do questionario - paciente */
-.conteudoQuest .barraProgresso span.progressoCompleto {
-    width: 100% !important;
-}
-
-.containerFormDados {
-    width: 100%;
-    max-width: 340px;
-    margin: 25px auto 0;
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-}
-
-.blocoPergunta {
-    margin-bottom: 22px;
-    width: 100%;
-}
-
-.blocoPergunta label {
-    display: block;
-    font-size: 14px;
-    font-weight: 500;
-    margin-bottom: 8px;
-    color: #655A7C;
-}
-
-.grupoDataAniversario {
-    display: flex;
-    gap: 10px;
-    width: 100%;
-}
-
-.containerFormDados select {
-    height: 48px;
-    background-color: #fff;
-    border: 1px solid grey;
-    border-radius: 12px;
-    padding: 0 35px 0 18px;
-    font-size: 14px;
-    color: #655A7C;
-    outline: none;
-    box-sizing: border-box;
-    cursor: pointer;
-    width: 100%;
-    
-    
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://w3.org' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23655A7C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
-    background-repeat: no-repeat;
-    background-position: right 15px center;
-    background-size: 14px;
-}
-
-/* Proporções harmônicas para que a linha da data ocupe o espaço correto */
-.grupoDataAniversario select:nth-child(1) { flex: 1.2; } /* Caixa do Dia */
-.grupoDataAniversario select:nth-child(2) { flex: 2; }   /* Caixa do Mês */
-.grupoDataAniversario select:nth-child(3) { flex: 1.5; } /* Caixa do Ano */
-
-/* Feedback visual simples ao passar o mouse por cima dos seletores */
-.containerFormClinico select:hover {
-    background-color: #cfc9d6;
-}
-
-.containerFormDados {
-    width: 100%;
-    margin: 15px auto 0;
-}
-
-.grupoDataAniversario {
-    display: flex;
-    gap: 8px;
-    width: 100%;
-}
-
-/* Garante que os selects ajustem a largura dentro das colunas */
-.containerFormDados select {
-    width: 100%;
 }
