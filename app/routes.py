@@ -1,5 +1,6 @@
 from app import app
 from flask import render_template, redirect, flash, url_for, request
+from app.forms.associarpaciente import AssociarPaciente
 from app.forms.cadastro_form import CadastroForm
 from app.forms.login_form import LoginForm
 from app.forms.dados_paciente import DadosPacienteForm
@@ -83,7 +84,15 @@ def quest_tipo_cuidador():
 
 @app.route("/verificar_paciente", methods=["GET", "POST"])
 def quest_verificar_paciente():
-    return render_template("verif_paciente.html")
+    formAssociarPaciente = AssociarPaciente()
+    if formAssociarPaciente.validate_on_submit():
+        email = formAssociarPaciente.email.data
+        if UsuarioController.associar_paciente(email):
+            flash("Paciente associado com sucesso!", "success")
+            return redirect(url_for("inicio"))
+        else:
+            flash("Erro ao associar paciente. Verifique o email.", "error")
+    return render_template("verif_paciente.html", form=formAssociarPaciente)
 
 @app.route("/validar_profissional", methods=["GET", "POST"])
 def validar_profissional():

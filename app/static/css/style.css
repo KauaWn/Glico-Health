@@ -527,6 +527,7 @@ input:checked + .slider:before {
 
 .tituloQuest {
     margin-bottom: 4vh;
+    font-family: 'Cal Sans', sans-serif;
 }
 
 .tituloQuest h1 {
@@ -572,9 +573,11 @@ input:checked + .slider:before {
 
 .pergunta {
     color: #5e5570;
-    font-size: clamp(13px, 1vw, 16px);
+    font-size: clamp(13px, 1vw, 14px);
     font-weight: 400;
     margin-bottom: 28px;
+    margin: 20px auto;
+    text-align: center;
 }
 
 .papeis, .tiposCuidador {
@@ -584,7 +587,8 @@ input:checked + .slider:before {
 }
 
 .role-button, .tipoCuidador-button {
-    width: 100%;
+    width: 80%;
+    margin: 0 auto;
     height: 38px;
     padding: 0 20px;
     border: 3px solid #716087;

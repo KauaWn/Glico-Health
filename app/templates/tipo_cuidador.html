@@ -10,16 +10,16 @@
 </head>
 <body class="p-0 m-0 bg-light">
 
-    <form method="POST" action="" class="w-100 min-vh-100 d-flex flex-column">
+    <form method="POST" action="" id="formQuestionario" class="w-100 min-vh-100 d-flex flex-column">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
 
         <main id="questionario" class="flex-grow-1 d-flex flex-column justify-content-between py-4">
             
             <div class="container my-auto">
                 <div class="row justify-content-center">
-                    <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
+                    <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5" style="max-width: 400px;">
                         
-                        <section class="conteudoQuest">
+                        <section class="conteudoQuest px-2">
                             <div class="tituloQuest mb-4">
                                 <h1 class="h3 fw-bold mb-3">Antes de tudo...</h1>
                                 <div class="barraProgresso">
@@ -27,11 +27,10 @@
                                 </div>
                             </div>
 
-                            <!-- Área de Pergunta e Opções -->
-                            <div class="areaPergunta">
+                            <div class="areaPergunta mt-4">
                                 <p class="pergunta mb-4 fs-5">Qual tipo de cuidador?</p>
                                 
-                                <div class="tiposCuidador"> 
+                                <div class="tiposCuidador">
                                     <button type="button" class="tipoCuidador-button" data-role="familiar">
                                         <span>Familiar</span>
                                         <span class="check"><i class="fa-solid fa-check"></i></span>
@@ -42,15 +41,17 @@
                                         <span class="check"><i class="fa-solid fa-check"></i></span>
                                     </button>
                                 </div>
-<!-- 
+
                                 <div class="d-none">
                                     <input type="radio" name="tipo_cuidador" value="familiar" id="check-familiar">
                                     <input type="radio" name="tipo_cuidador" value="profissional" id="check-profissional">
-                                </div> -->
+                                </div>
                             </div>
 
-                            <div class="areaContinuar mt-4 pt-2">
-                                <button type="submit" id="btnContinuar" class="btn w-100 py-3">CONTINUAR</button>
+                            <div class="areaContinuar mt-5 text-center">
+                                <button type="submit" id="btnContinuar" class="btn py-2 px-5 rounded-pill shadow-sm" style="min-width: 180px;">
+                                    Continuar
+                                </button>
                             </div>
                         </section>
 

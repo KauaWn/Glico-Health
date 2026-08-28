@@ -17,10 +17,11 @@
             
             <div class="container my-auto">
                 <div class="row justify-content-center">
-                    <!-- Ajuste de colunas responsivas: 100% em mobile, max-width controlado em desktop -->
-                    <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
+                    
+                    <!-- Definida a largura máxima travada (max-width: 400px) para simular a tela do protótipo -->
+                    <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5" style="max-width: 400px;">
                         
-                        <section class="conteudoQuest">
+                        <section class="conteudoQuest px-2">
                             <!-- Título e Barra de Progresso -->
                             <div class="tituloQuest mb-4">
                                 <h1 class="h3 fw-bold mb-3">Antes de tudo...</h1>
@@ -33,7 +34,7 @@
                             <div class="areaPergunta">
                                 <p class="pergunta mb-4 fs-5">Qual o seu papel na plataforma?</p>
                                 
-                                <div class="papeis">
+                                <div class="papeis d-flex flex-column gap-3">
                                     <button type="button" class="role-button" data-role="paciente">
                                         <span>Paciente</span>
                                         <span class="check"><i class="fa-solid fa-check"></i></span>
@@ -68,9 +69,13 @@
                             </div>
 
                             <!-- Área de Ação/Avançar -->
-                            <div class="areaContinuar mt-4 pt-2">
+                            <div class="areaContinuar mt-5 text-center">
                                 <p class="text-muted small mb-3">Você pode selecionar uma ou mais opções</p>
-                                <button type="submit" id="btnContinuar" class="btn w-100 py-3">CONTINUAR</button>
+                                
+                                <!-- Botão Continuar mais estreito e centralizado como no Figma -->
+                                <button type="submit" id="btnContinuar" class="btn py-2 px-5 rounded-pill shadow-sm" style="min-width: 180px;">
+                                    Continuar
+                                </button>
                             </div>
                         </section>
 

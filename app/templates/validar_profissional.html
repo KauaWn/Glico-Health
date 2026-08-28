@@ -10,13 +10,13 @@
 </head>
 <body class="p-0 m-0 bg-light">
 
-    <main id="questionario" class="w-100 min-vh-100 d-flex flex-column justify-content-between py-4">
+    <main id="questionario" class="flex-grow-1 d-flex flex-column justify-content-between py-4">
         
         <div class="container my-auto">
             <div class="row justify-content-center">
-                <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
+                <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5" style="max-width: 400px;">
                     
-                    <section class="conteudoQuest">
+                    <section class="conteudoQuest px-2">
                         <div class="tituloQuest mb-4">
                             <h1 class="h3 fw-bold mb-3">Antes de tudo...</h1>
                             <div class="barraProgresso">
@@ -24,7 +24,6 @@
                             </div>
                         </div>
 
-                        <!-- Área de Pergunta e Formulário -->
                         <div class="areaPergunta">
                             <p class="pergunta mb-4 fs-5">Valide seus dados abaixo</p>
                             
@@ -34,7 +33,7 @@
 
                                     <div class="mb-3">
                                         <i class="fa-solid fa-hospital"></i>
-                                        {{ form.conselhoprofissional(placeholder="Conselho Regional", class="form-control d-inline-block w-auto") }}
+                                        {{ form.conselhoprofissional(placeholder="Conselho Regional", class="d-inline-block w-auto") }}
                                         {% for error in form.conselhoprofissional.errors %}
                                             <span class="text-danger d-block small">{{ error }}</span>
                                         {% endfor %}
@@ -42,16 +41,17 @@
 
                                     <div class="mb-3">
                                         <i class="fa-solid fa-address-card"></i>
-                                        {{ form.registroprofissional(placeholder="Número de Registro", class="form-control d-inline-block w-auto") }}
+                                        {{ form.registroprofissional(placeholder="Número de Registro", class="d-inline-block w-auto") }}
                                         {% for error in form.registroprofissional.errors %}
                                             <span class="text-danger d-block small">{{ error }}</span>
                                         {% endfor %}
                                     </div>
 
                                     <div class="areaContinuar mt-4 pt-2">
-                                        {{ form.submit(class="btn btn-primary w-100 py-3", value="CONTINUAR") }}
+                                        <button type="submit" id="btnContinuar" class="btn py-2 px-5 rounded-pill shadow-sm" style="min-width: 180px;">
+                                            Validar dados
+                                        </button>
                                     </div>
-
                                 </form>
                             </div>
                         </div>
@@ -72,8 +72,6 @@
 
     </main>
 
-    <script src="{{ url_for('static', filename='js/questionario.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/tipo_cuidador.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
