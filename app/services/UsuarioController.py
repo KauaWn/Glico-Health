@@ -158,3 +158,32 @@ class UsuarioController:
             print(f"Erro ao salvar tipo de cuidador: {e}")
             return False
 
+    @staticmethod
+    def salvar_dados_profissional(conselho_profissional, registro_profissional):
+        try:
+            usuario_id = session.get('usuario_id')
+            if not usuario_id:
+                print("Erro: Nenhum usuário encontrado na sessão.")
+                return False
+
+            # Busca o cuidador existente para atualizar
+            cuidador = db.session.scalars(select(Cuidador).where(Cuidador.id_usuario == usuario_id)).first()
+            
+            if not cuidador:
+                print("Erro: Cuidador não encontrado para o usuário.")
+                return False
+
+            # Atualiza os dados profissionais
+            cuidador.conselho_profissional = conselho_profissional
+            cuidador.registro_profissional = registro_profissional
+
+            db.session.commit()
+
+            print(f"Dados profissionais do cuidador {usuario_id} salvos com sucesso!")
+            return True
+
+        except Exception as e:
+            db.session.rollback()
+            print(f"Erro ao salvar dados profissionais: {e}")
+            return False
+

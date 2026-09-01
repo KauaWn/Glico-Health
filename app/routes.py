@@ -1,7 +1,5 @@
-from app import app, db
-from flask import render_template, redirect, flash, url_for, request, session
-from sqlalchemy import select
-from app.modelos import Cuidador
+from app import app
+from flask import render_template, redirect, flash, url_for, request
 from app.forms.associarpaciente import AssociarPaciente
 from app.forms.cadastro_form import CadastroForm
 from app.forms.login_form import LoginForm
@@ -75,15 +73,16 @@ def questionario_paciente():
 def quest_tipo_cuidador():
     if request.method == "POST":
         tipo_cuidador = request.form.get("tipo_cuidador")
-        usuario_id = session.get('usuario_id')
-        cuidador = db.session.scalars(select(Cuidador).where(Cuidador.id_usuario == usuario_id)).first()
-        if cuidador:
-            cuidador.tipo_cuidador = tipo_cuidador
-            db.session.commit()
+        UsuarioController.salvar_tipo_cuidador(tipo_cuidador)
         if tipo_cuidador == "profissional":
-            return redirect(url_for("validar_profissional", tipo_cuidador=tipo_cuidador))
+            print('selecionou prof')
+            return redirect(
+                url_for("validar_profissional", tipo_cuidador=tipo_cuidador)
+            )
         elif tipo_cuidador == "familiar":
-            return redirect(url_for("quest_verificar_paciente", tipo_cuidador=tipo_cuidador))
+            return redirect(
+                url_for("quest_verificar_paciente", tipo_cuidador=tipo_cuidador)
+            )
     return render_template("tipo_cuidador.html")
 
 @app.route("/verificar_paciente", methods=["GET", "POST"])
@@ -104,14 +103,7 @@ def validar_profissional():
     if formValidarProf.validate_on_submit():
         conselho = formValidarProf.conselhoprofissional.data
         registro = formValidarProf.registroprofissional.data
-        
-        usuario_id = session.get('usuario_id')
-        cuidador = db.session.scalars(select(Cuidador).where(Cuidador.id_usuario == usuario_id)).first()
-        if cuidador:
-            cuidador.conselho_profissional = conselho
-            cuidador.registro_profissional = registro
-            db.session.commit()
-        
+        UsuarioController.salvar_dados_profissional(conselho, registro)
         return redirect(url_for("login")) 
     
     return render_template("validar_profissional.html", form=formValidarProf)
