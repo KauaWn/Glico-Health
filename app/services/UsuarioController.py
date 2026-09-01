@@ -57,7 +57,7 @@ class UsuarioController:
 
                 elif papel == "cuidador":
                     db.session.add(
-                        Cuidador(id_usuario=usuario_id)
+                        Cuidador(id_usuario=usuario_id, tipo_cuidador=None)  # Inicialmente sem tipo definido
                     )
 
                 elif papel == "responsavel":
@@ -129,3 +129,32 @@ class UsuarioController:
             db.session.rollback()
             print(f"Erro ao salvar questionário do paciente: {e}")
             return False
+
+    @staticmethod
+    def salvar_tipo_cuidador(tipo_cuidador):
+        try:
+            usuario_id = session.get('usuario_id')
+            if not usuario_id:
+                print("Erro: Nenhum usuário encontrado na sessão.")
+                return False
+
+            # Busca o cuidador existente para atualizar
+            cuidador = db.session.scalars(select(Cuidador).where(Cuidador.id_usuario == usuario_id)).first()
+            
+            if not cuidador:
+                print("Erro: Cuidador não encontrado para o usuário.")
+                return False
+
+            # Atualiza o tipo de cuidador
+            cuidador.tipo_cuidador = tipo_cuidador
+
+            db.session.commit()
+
+            print(f"Tipo de cuidador do usuário {usuario_id} salvo com sucesso!")
+            return True
+
+        except Exception as e:
+            db.session.rollback()
+            print(f"Erro ao salvar tipo de cuidador: {e}")
+            return False
+

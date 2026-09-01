@@ -1,12 +1,14 @@
-from app import app
-from flask import render_template, redirect, flash, url_for, request
+from app import app, db
+from flask import render_template, redirect, flash, url_for, request, session
+from sqlalchemy import select
+from app.modelos import Cuidador
 from app.forms.associarpaciente import AssociarPaciente
 from app.forms.cadastro_form import CadastroForm
 from app.forms.login_form import LoginForm
 from app.forms.dados_paciente import DadosPacienteForm
 from app.forms.validarprofissional import ValidarProfissional
-from app.controllers.UsuarioController import UsuarioController
-from app.controllers.AuthenticationController import AuthenticationController
+from app.services.UsuarioController import UsuarioController
+from app.services.AuthenticationController import AuthenticationController
 from app.forms.papel_form import PapelForm
 
 
@@ -48,6 +50,8 @@ def questionario():
                 return redirect(url_for("questionario_paciente"))
             if 'cuidador' in form_papel.papeis.data:
                 return redirect(url_for("quest_tipo_cuidador"))
+            if 'responsavel' in form_papel.papeis.data:
+                return redirect(url_for("quest_responsavel"))
             return redirect(url_for("inicio"))
         else:
             flash("Erro ao salvar os papéis no banco.", "error")
@@ -71,15 +75,15 @@ def questionario_paciente():
 def quest_tipo_cuidador():
     if request.method == "POST":
         tipo_cuidador = request.form.get("tipo_cuidador")
+        usuario_id = session.get('usuario_id')
+        cuidador = db.session.scalars(select(Cuidador).where(Cuidador.id_usuario == usuario_id)).first()
+        if cuidador:
+            cuidador.tipo_cuidador = tipo_cuidador
+            db.session.commit()
         if tipo_cuidador == "profissional":
-            print('selecionou prof')
-            return redirect(
-                url_for("validar_profissional", tipo_cuidador=tipo_cuidador)
-            )
+            return redirect(url_for("validar_profissional", tipo_cuidador=tipo_cuidador))
         elif tipo_cuidador == "familiar":
-            return redirect(
-                url_for("quest_verificar_paciente", tipo_cuidador=tipo_cuidador)
-            )
+            return redirect(url_for("quest_verificar_paciente", tipo_cuidador=tipo_cuidador))
     return render_template("tipo_cuidador.html")
 
 @app.route("/verificar_paciente", methods=["GET", "POST"])
@@ -100,6 +104,14 @@ def validar_profissional():
     if formValidarProf.validate_on_submit():
         conselho = formValidarProf.conselhoprofissional.data
         registro = formValidarProf.registroprofissional.data
+        
+        usuario_id = session.get('usuario_id')
+        cuidador = db.session.scalars(select(Cuidador).where(Cuidador.id_usuario == usuario_id)).first()
+        if cuidador:
+            cuidador.conselho_profissional = conselho
+            cuidador.registro_profissional = registro
+            db.session.commit()
+        
         return redirect(url_for("login")) 
     
     return render_template("validar_profissional.html", form=formValidarProf)
