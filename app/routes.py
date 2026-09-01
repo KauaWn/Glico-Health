@@ -103,3 +103,18 @@ def validar_profissional():
         return redirect(url_for("login")) 
     
     return render_template("validar_profissional.html", form=formValidarProf)
+
+@app.route("/questionario/quest_responsavel", methods=["GET", "POST"])
+def quest_responsavel():
+    if request.method == "POST":
+        tipo_responsavel = request.form.get("tipo_responsavel")
+        if tipo_responsavel == "menor_idade":
+            print('selecionou menor de idade')
+            return redirect(
+                url_for("quest_verificar_paciente", tipo_responsavel=tipo_responsavel)
+            )
+        elif tipo_responsavel == "curatelado":
+            return redirect(
+                url_for("quest_verificar_paciente", tipo_responsavel=tipo_responsavel)
+            )
+    return render_template("quest_responsavel.html")

@@ -1,11 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Questionário Responsável</title>
+    <title>Questionário do Responsável</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body>
-    
+<body class="p-0 m-0 bg-light">
+
+    <form method="POST" action="" id="formQuestionario" class="w-100 min-vh-100 d-flex flex-column">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+
+        <main id="questionario" class="flex-grow-1 d-flex flex-column justify-content-between py-4">
+            
+            <div class="container my-auto">
+                <div class="row justify-content-center">
+                    <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5" style="max-width: 400px;">
+                        
+                        <section class="conteudoQuest px-2">
+                            <div class="tituloQuest mb-4">
+                                <h1 class="h3 fw-bold mb-3">Antes de tudo...</h1>
+                                <div class="barraProgresso">
+                                    <span></span>
+                                </div>
+                            </div>
+
+                            <div class="areaPergunta mt-4">
+                                <p class="pergunta mb-4 fs-5">Você é responsável por...</p>
+                                
+                                <div class="tiposPaciente">
+                                    <button type="button" class="tipoPaciente-button" data-role="menor_idade">
+                                        <span>Menor de Idade</span>
+                                        <span class="check"><i class="fa-solid fa-check"></i></span>
+                                    </button>
+
+                                    <button type="button" class="tipoPaciente-button" data-role="curatelado">
+                                        <span>Pessoa sob curatela</span>
+                                        <span class="check"><i class="fa-solid fa-check"></i></span>
+                                    </button>
+                                </div>
+
+                                <div class="d-none">
+                                    <input type="radio" name="tipo_paciente" value="menor_idade" id="check-menor_idade">
+                                    <input type="radio" name="tipo_paciente" value="curatelado" id="check-curatelado">
+                                </div>
+                            </div>
+
+                            <div class="areaContinuar mt-5 text-center">
+                                <button type="submit" id="btnContinuar" class="btn py-2 px-5 rounded-pill shadow-sm" style="min-width: 180px;">
+                                    Continuar
+                                </button>
+                            </div>
+                        </section>
+
+                    </div>
+                </div>
+            </div>
+
+            <footer class="footer mt-auto py-3 text-center">
+                <div class="logo">
+                    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo GlicoHealth" class="mb-1" style="width: 35px;">
+                    <strong class="d-block">GlicoHealth</strong>
+                    <small class="text-muted">2026</small>
+                </div>
+            </footer>
+
+        </main>
+    </form>
+
+    <script src="{{ url_for('static', filename='js/questionario.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/questResponsavel.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

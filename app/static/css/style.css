@@ -580,13 +580,13 @@ input:checked + .slider:before {
     text-align: center;
 }
 
-.papeis, .tiposCuidador {
+.papeis, .tiposCuidador, .tiposPaciente {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
-.role-button, .tipoCuidador-button {
+.role-button, .tipoCuidador-button, .tipoPaciente-button {
     width: 80%;
     margin: 0 auto;
     height: 38px;
@@ -606,13 +606,13 @@ input:checked + .slider:before {
     transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
 }
 
-.role-button.selecao, .tipoCuidador-button.selecao {
+.role-button.selecao, .tipoCuidador-button.selecao, .tipoPaciente-button.selecao {
     background: linear-gradient(to right, rgba(255, 188, 220, 0.4), rgba(101, 90, 124, 0.4)), #655A7C;
     border-color: transparent;
     color: #fff !important;
 }
 
-.role-button.selecao span, .tipoCuidador-button.selecao span {
+.role-button.selecao span, .tipoCuidador-button.selecao span, .tipoPaciente-button.selecao span {
     color: #fff !important;
 }
 
