@@ -2,7 +2,7 @@ from typing import Optional
 import datetime
 import enum
 
-from sqlalchemy import CHAR, Date, DateTime, Enum, ForeignKeyConstraint, Index, Integer, String, text
+from sqlalchemy import CHAR, Date, DateTime, Enum, ForeignKeyConstraint, Index, Integer, String, text, Time, DECIMAL
 from sqlalchemy.dialects.mysql import TINYINT
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 
@@ -127,3 +127,29 @@ class VinculoresponsavelPaciente(Base):
 
     paciente: Mapped['Paciente'] = relationship('Paciente', back_populates='vinculoresponsavel_paciente')
     responsavel: Mapped['Responsavel'] = relationship('Responsavel', back_populates='vinculoresponsavel_paciente')
+
+class EstadoPessoal(str, enum.Enum):
+    JEJUM = 'Jejum'
+    PRE_REF = 'Pré-refeição'
+    POS_REF = 'Pós-refeição'
+    SINTOMATICO = 'Sintomático'
+    EXERCICIO = 'Atividade física'
+    ANTES_DORMIR = 'Antes de dormir'
+    MADRUGADA = 'Madrugada'
+    OUTRO = 'Outro'
+
+class registro_glicemico(Base):
+    __tablename__ = 'registro_glicemico'
+    __table_args__ = (
+        ForeignKeyConstraint(['id_usuario'], ['usuario.id'], name='fk_usuario_id'),
+        Index('fk_usuario_id_idx', 'id_usuario')
+    )
+
+    id: Mapped[int] = mapped_column(Integer,primary_key=True,autoincrement=True)
+    id_usuario: Mapped[int] = mapped_column(Integer,nullable=False)
+    medida: Mapped[DECIMAL] = mapped_column(DECIMAL)
+    data_registro: Mapped[Date] = mapped_column(Date)
+    hora_registro: Mapped[Time] = mapped_column(Time)
+    estado: Mapped[Optional[EstadoPessoal]] = mapped_column(Enum(EstadoPessoal, values_callable=lambda cls: [member.value for member in cls]))
+
+
