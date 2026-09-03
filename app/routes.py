@@ -15,6 +15,11 @@ def inicio():
     return render_template("index.html")
 
 
+@app.route("/home")
+def home():
+    return render_template("home.html")
+
+
 @app.route("/cadastro", methods=["GET", "POST"])
 def cadastro():
     formCadastro = CadastroForm()
@@ -63,7 +68,7 @@ def questionario_paciente():
     if form_paciente.validate_on_submit():
         if UsuarioController.salvar_questionario_paciente(form_paciente):
             flash("Questionário respondido com sucesso!", "success")
-            return redirect(url_for("login"))
+            return redirect(url_for("home"))
         else:
             flash("Erro ao salvar o questionário.", "error")
 
