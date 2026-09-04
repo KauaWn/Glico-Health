@@ -1,0 +1,138 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Cal+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cal+Sans&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    color: #655A7C;
+    color: white !important;
+}
+
+body {
+  background-color: #f5f5f9;
+}
+
+
+.sidebar{
+background: 
+    linear-gradient(90deg, rgba(255, 188, 220, 0.4) 0%, rgba(101, 90, 124, 0.4) 100%), 
+    #655A7C;
+  color: #ffffff;
+  border-radius: 16px;
+  min-height: 90vh;
+}
+
+.sidebar .nav-link {
+  color: rgba(255, 255, 255, 0.7);
+  transition: color 0.2s ease-in-out;
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+  color: #ffffff;
+}
+
+/* Cards Personalizados */
+.card-custom {
+    /* background: 
+    linear-gradient(180deg, rgba(255, 188, 220, 0.4) 0%, rgba(101, 90, 124, 0.4) 100%), 
+    #655A7C; */
+  background: #ffffff;
+  border-radius: 16px;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Banner de Boas-vindas */
+.banner-welcome {
+  background-color: #7b688b;
+  color: #ffffff;
+}
+
+#perfil-img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+
+#logo{
+    width: 80px;
+    height: 60px;
+}
+
+.brand h1{
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+}
+
+.bemvindo{
+    background: 
+    linear-gradient(90deg, rgba(255, 188, 220, 0.4) 0%, rgba(101, 90, 124, 0.4) 100%), 
+    #655A7C;
+}
+
+/* Botão Hambúrguer Redondo (Mobile) */
+.btn-menu-mobile {
+  background: 
+    linear-gradient(90deg, rgba(255, 188, 220, 0.4) 0%, rgba(101, 90, 124, 0.4) 100%), 
+    #655A7C;
+  color: #ffffff; /* Cor do ícone em branco */
+  width: 48px;
+  height: 48px;
+  border-radius: 50%; /* Faz o botão ficar 100% redondo */
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(101, 90, 124, 0.25);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.btn-menu-mobile:hover,
+.btn-menu-mobile:active {
+  background-color: #4a3e56; /* Roxo ligeiramente mais escuro ao clicar */
+  color: #ffffff;
+  transform: scale(1.05); /* Leve efeito de leveza ao pressionar */
+}
+
+/* Estilização do Menu Offcanvas (Mobile) com o Gradiente em Camadas */
+.offcanvas {
+  background: 
+    linear-gradient(90deg, rgba(255, 188, 220, 0.4) 0%, rgba(101, 90, 124, 0.4) 100%), 
+    #655A7C !important;
+  color: #ffffff;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+}
+
+.offcanvas-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.offcanvas-header .offcanvas-title {
+  color: #ffffff;
+}
+
+/* Cor do texto dos links do menu no mobile */
+.offcanvas-body .nav-link {
+  color: rgba(255, 255, 255, 0.85) !important;
+  font-size: 1.1rem;
+  transition: color 0.2s ease-in-out;
+}
+
+.offcanvas-body .nav-link:hover,
+.offcanvas-body .nav-link.active {
+  color: #ffffff !important;
+  font-weight: 600;
+}
+
+/* Tamanho e ajuste da logo no Menu Mobile */
+.brand-logo-mobile {
+  width: 45px; /* Ajuste o tamanho da logo conforme necessário */
+  height: auto;
+  object-fit: contain;
+}
