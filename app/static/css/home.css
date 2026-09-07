@@ -33,6 +33,8 @@ background:
 .sidebar .nav-link:hover,
 .sidebar .nav-link.active {
   color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.15) !important; 
+  border-radius: 12px;
 }
 
 /* Cards Personalizados */

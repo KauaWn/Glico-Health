@@ -127,3 +127,8 @@ def quest_responsavel():
                 url_for("quest_verificar_paciente", tipo_responsavel=tipo_responsavel)
             )
     return render_template("quest_responsavel.html")
+
+
+@app.route('/perfil')
+def perfil():
+    return render_template('editperfil.html')
