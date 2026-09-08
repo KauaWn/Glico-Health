@@ -36,6 +36,7 @@ class Usuario(Base):
     remember_me: Mapped[int] = mapped_column(TINYINT, nullable=False)
     email: Mapped[Optional[str]] = mapped_column(String(64))
     passw_hash: Mapped[Optional[str]] = mapped_column(String(256))
+    foto_perfil: Mapped[Optional[str]] = mapped_column(String(255))
 
     cuidador: Mapped[list['Cuidador']] = relationship('Cuidador', back_populates='usuario')
     paciente: Mapped[list['Paciente']] = relationship('Paciente', back_populates='usuario')

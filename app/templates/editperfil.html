@@ -50,50 +50,52 @@
             <div class="text-center mb-4">
               <div class="avatar-wrapper mx-auto mb-2">
                 <img src="{{ url_for('static', filename='img/macaquinho.jpg') }}" alt="Foto de perfil">
+                
                 <label for="fotoInput" class="avatar-edit-btn">
                   <i class="bi bi-plus"></i>
                 </label>
-                <input type="file" id="fotoInput" class="d-none" accept="image/*">
+                
+                <input type="file" id="fotoInput" name="foto_perfil" class="d-none" accept="image/*">
               </div>
-              <h5 class="fw-bold mb-0 profile-name">Anna Clara</h5>
-              <small class="profile-username">@ann4torres</small>
+              <h5 class="fw-bold mb-0 profile-name">{{ usuario.name }}</h5>
+              <small class="profile-username">@{{ usuario.username }}</small>
             </div>
 
             <div class="row g-3 justify-content-center">
               <div class="col-12 col-md-8 col-lg-6">
                 <label class="form-label custom-label">Nome completo</label>
-                <input type="text" class="form-control custom-input" value="Anna Clara de Melo Torres">
+                <input type="text" class="form-control custom-input" value="{{ usuario.name }}">
               </div>
 
               <div class="w-100"></div>
 
               <div class="col-12 col-md-8 col-lg-6">
                 <label class="form-label custom-label">Email</label>
-                <input type="email" class="form-control custom-input" value="anna.torres@escolar.ifrn.edu.br">
+                <input type="email" class="form-control custom-input" value="{{ usuario.email }}">
               </div>
 
               <div class="w-100"></div>
 
               <div class="col-6 col-md-4 col-lg-3">
                 <label class="form-label custom-label">Tipo de diabete</label>
-                <input type="text" class="form-control custom-input" value="Tipo 1">
+                <input type="text" class="form-control custom-input" value="{{ tipo_diabete }}">
               </div>
 
               <div class="col-6 col-md-4 col-lg-3">
                 <label class="form-label custom-label">Idade</label>
-                <input type="text" class="form-control custom-input" value="17 anos">
+                <input type="text" class="form-control custom-input" value="{{ idade }} anos">
               </div>
 
               <div class="w-100"></div>
 
               <div class="col-6 col-md-4 col-lg-3">
                 <label class="form-label custom-label">Sexo</label>
-                <input type="text" class="form-control custom-input" value="Feminino">
+                <input type="text" class="form-control custom-input" value="{{ genero }}">
               </div>
 
               <div class="col-6 col-md-4 col-lg-3">
                 <label class="form-label custom-label">Peso</label>
-                <input type="text" class="form-control custom-input" value="1 kg">
+                <input type="text" class="form-control custom-input" value=" X Kg">
               </div>
             </div>
 

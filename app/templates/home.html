@@ -51,7 +51,7 @@
             <img src="{{ url_for('static', filename='img/macaquinho.jpg') }}" id="perfil-img" class="rounded-circle"
               alt="Foto de perfil">
             <div>
-              <h5 class="mb-0">Seja bem-vindo(a), Usuário</h5>
+              <h5 class="mb-0">Seja bem-vindo(a), {{ usuario.name }}</h5> <!--é o jinja!-->
               <small class="opacity-75">Acompanhe seus dados</small>
             </div>
           </div>
@@ -109,7 +109,7 @@
     <div class="offcanvas-body d-flex flex-column justify-content-between">
       <nav class="nav flex-column gap-3">
         <a class="nav-link active" href="#"><i class="fa-solid fa-house me-2"></i> Início</a>
-        <a class="nav-link" href="#"><i class="bi bi-person me-2"></i> Perfil</a>
+        <a class="nav-link" href="{{ url_for('perfil')}}"><i class="bi bi-person me-2"></i> Perfil</a>
         <a class="nav-link" href="#"><i class="bi bi-droplet me-2"></i> Registro</a>
       </nav>
       <div>

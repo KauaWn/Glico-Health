@@ -1,11 +1,11 @@
 from datetime import date
 
 from app import db
-# from app.models.usuario import Usuario
+from datetime import date 
 from flask import session
 from app.modelos import Usuario, Paciente, Cuidador, Responsavel
 from sqlalchemy import select
-
+import sqlalchemy as sa
 
 class UsuarioController:
     @staticmethod
@@ -187,3 +187,61 @@ class UsuarioController:
             print(f"Erro ao salvar dados profissionais: {e}")
             return False
 
+    @staticmethod
+    def buscar_usuario_login(): #função que faz a busca pelo usuário
+        usuario_id = session.get('usuario_id')
+
+        if not usuario_id:
+            print ("Erro: Nenhum usuário encontrado.")
+            return None 
+
+        usuario = db.session.get(Usuario, usuario_id)
+
+        if not usuario:
+            print("Erro: Nenhum usuário cadastrado no banco de dados.")
+            return None
+
+        return usuario 
+
+    @staticmethod
+    def buscar_paciente_login():
+        usuario_id = session.get('usuario_id')
+
+        if not usuario_id:
+            print("Erro: Nenhum usuário encontrado.")
+            return None
+
+        query = sa.select(Paciente).where(Paciente.id_usuario == usuario_id)
+        paciente = db.session.scalars(query).first()
+
+        if not paciente:
+            print("Erro: Paciente não cadastrado no banco de dados.")
+            return None
+
+        if paciente.genero == 'F':
+            genero = 'Feminino'
+        elif paciente.genero == 'M':
+            genero = 'Masculino'
+        else:
+            genero = 'Não informado'
+
+        if paciente.tipo_diabete.value == 'tipo1':
+            tipo_diabete = 'Tipo 1'
+        elif paciente.tipo_diabete.value == 'tipo2':
+            tipo_diabete = 'Tipo 2'
+        elif paciente.tipo_diabete.value == 'gestacional':
+            tipo_diabete = 'Gestacional'
+        else: 
+            tipo_diabete = 'Não informado'
+
+        if paciente.nascimento: 
+            hoje = date.today()
+
+            idade = hoje.year - paciente.nascimento.year
+
+            if (hoje.month, hoje.day) < (paciente.nascimento.month, paciente.nascimento.day):
+                idade -= 1
+        else:
+            idade = None 
+
+        return paciente, genero, tipo_diabete, idade 

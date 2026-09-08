@@ -17,7 +17,8 @@ def inicio():
 
 @app.route("/home")
 def home():
-    return render_template("home.html")
+    usuario = UsuarioController.buscar_usuario_login() #carregar o dado do nome do usuário -- pode ser outros dados
+    return render_template("home.html", usuario=usuario)
 
 
 @app.route("/cadastro", methods=["GET", "POST"])
@@ -38,7 +39,7 @@ def login():
     if formLogin.validate_on_submit():
         if AuthenticationController.login(formLogin):
             flash("Login efetuado com sucesso!", "success")
-            return redirect(url_for("inicio"))
+            return redirect(url_for("home")) #vai para a PÁGINA INICIAL depois do login
         else:
             flash("Usuário ou senha incorretos.", "error")
 
@@ -131,4 +132,13 @@ def quest_responsavel():
 
 @app.route('/perfil')
 def perfil():
-    return render_template('editperfil.html')
+    usuario = UsuarioController.buscar_usuario_login()
+    paciente, genero, tipo_diabete, idade = UsuarioController.buscar_paciente_login()
+    return render_template(
+        'editperfil.html', 
+        usuario=usuario, 
+        paciente=paciente, 
+        genero=genero,
+        tipo_diabete=tipo_diabete,
+        idade=idade
+    )

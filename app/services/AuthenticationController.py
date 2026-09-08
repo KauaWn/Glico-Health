@@ -1,5 +1,6 @@
 from app import db
 from app.modelos import Usuario
+from flask import session
 import sqlalchemy as sa
 
 
@@ -20,6 +21,8 @@ class AuthenticationController:
 
         if usuario.passw_hash != form.password.data:
             return "Senha incorreta"
+
+        session['usuario_id'] = usuario.id #faz a identificação DO usuário
 
         usuario.remember_me = form.remember_me.data
         db.session.commit()
