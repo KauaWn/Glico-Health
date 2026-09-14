@@ -4,11 +4,11 @@ import enum
 
 from sqlalchemy import CHAR, Date, DateTime, Enum, ForeignKeyConstraint, Index, Integer, String, text, Time, DECIMAL
 from sqlalchemy.dialects.mysql import TINYINT
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
+from app import db
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-class Base(DeclarativeBase):
-    pass
-
+class Base(db.Model):
+    __abstract__ = True
 
 class CuidadorTipoCuidador(str, enum.Enum):
     FAMILIAR = 'familiar'
