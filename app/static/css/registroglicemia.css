@@ -1,0 +1,260 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+:root {
+  --registro-purple: #80678c;
+  --registro-purple-dark: #655a7c;
+  --registro-background: #f5f5f9;
+  --registro-input: #fafaff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background: var(--registro-background);
+  color: #ffffff;
+  font-family: 'Poppins', sans-serif;
+}
+
+.registro-header {
+  padding: 1.1rem 1.15rem;
+}
+
+.menu-button {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  place-items: center;
+  background: var(--registro-purple-dark);
+  box-shadow: 0 4px 10px rgba(101, 90, 124, 0.25);
+  color: #ffffff;
+  font-size: 1.55rem;
+}
+
+.registro-main {
+  display: flex;
+  justify-content: center;
+  padding: 0.8rem 1rem 2rem;
+}
+
+.registro-card {
+  width: min(100%, 360px);
+  padding: 1.25rem 1.35rem 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: 14px;
+  background: linear-gradient(145deg, #a481a4 0%, var(--registro-purple) 100%);
+  box-shadow: 0 4px 8px rgba(101, 90, 124, 0.3);
+}
+
+.registro-heading {
+  margin-bottom: 1.25rem;
+  text-align: center;
+}
+
+.registro-heading h1 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.registro-heading p {
+  margin: 0.05rem 0 0;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.registro-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.registro-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+}
+
+.registro-field label {
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.registro-field input,
+.registro-field select {
+  width: 100%;
+  min-height: 42px;
+  padding: 0.55rem 0.8rem;
+  border: 0;
+  border-radius: 999px;
+  outline: none;
+  background: var(--registro-input);
+  box-shadow: 0 3px 5px rgba(68, 48, 80, 0.18);
+  color: #756483;
+  font: inherit;
+  font-size: 0.72rem;
+}
+
+.registro-field input:focus,
+.registro-field select:focus {
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.35);
+}
+
+.registro-select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.registro-select-wrapper select {
+  appearance: none;
+  padding-right: 2.5rem;
+}
+
+.registro-select-wrapper select:focus {
+  box-shadow: none;
+}
+
+.registro-select-wrapper:focus-within {
+  border-radius: 999px;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.35);
+}
+
+.registro-select-wrapper .registro-select-icon {
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  color: #756483;
+  font-size: 0.95rem;
+  pointer-events: none;
+}
+
+.registro-field input::placeholder {
+  color: #9b8ca7;
+}
+
+.glicemia-input-wrapper {
+  display: flex;
+  align-items: center;
+  min-height: 42px;
+  padding: 0.55rem 0.8rem;
+  border-radius: 999px;
+  background: var(--registro-input);
+  box-shadow: 0 3px 5px rgba(68, 48, 80, 0.18);
+}
+
+.glicemia-input-wrapper input {
+  min-height: auto;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.glicemia-input-wrapper input:focus {
+  box-shadow: none;
+}
+
+.glicemia-unit {
+  display: none;
+  margin-left: 0.35rem;
+  color: #756483;
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+
+.glicemia-input-wrapper.has-value .glicemia-unit {
+  display: inline;
+}
+
+.registro-field input[type="date"]::-webkit-calendar-picker-indicator,
+.registro-field input[type="time"]::-webkit-calendar-picker-indicator {
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+.registro-field small {
+  margin-top: -0.12rem;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.69rem;
+}
+
+.registro-submit {
+  align-self: center;
+  min-width: 84px;
+  margin-top: 0.55rem;
+  padding: 0.35rem 1rem;
+  border: 1px solid #ffffff;
+  border-radius: 999px;
+  background: transparent;
+  color: #ffffff;
+  font: inherit;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.registro-submit:hover,
+.registro-submit:focus-visible {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.offcanvas {
+  width: min(82vw, 320px) !important;
+  background:
+    linear-gradient(180deg, rgba(255, 188, 220, 0.4) 0%, rgba(101, 90, 124, 0.4) 100%),
+    var(--registro-purple-dark) !important;
+  color: #ffffff;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+}
+
+.offcanvas-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.offcanvas-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.offcanvas .nav-link {
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 1rem;
+}
+
+.sidebar .registro-submenu-link,
+.offcanvas .registro-submenu-link {
+  font-size: 0.75rem !important;
+}
+
+/* deixando mais centralizado */
+@media (max-width: 991.98px) {
+  .registro-main {
+    align-items: center;
+    min-height: calc(100vh - 104px);
+    padding-top: 0.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .registro-card {
+    width: min(92vw, 390px);
+    padding: 1.5rem 1.5rem 1.75rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .registro-header {
+    padding-left: 2rem;
+  }
+
+  .registro-main {
+    padding-top: 1.5rem;
+  }
+}

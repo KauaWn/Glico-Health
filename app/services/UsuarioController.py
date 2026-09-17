@@ -209,14 +209,14 @@ class UsuarioController:
 
         if not usuario_id:
             print("Erro: Nenhum usuário encontrado.")
-            return None
+            return None, 'Não informado', 'Não informado', None
 
         query = sa.select(Paciente).where(Paciente.id_usuario == usuario_id)
         paciente = db.session.scalars(query).first()
 
         if not paciente:
             print("Erro: Paciente não cadastrado no banco de dados.")
-            return None
+            return None, 'Não informado', 'Não informado', None
 
         if paciente.genero == 'F':
             genero = 'Feminino'
@@ -225,11 +225,13 @@ class UsuarioController:
         else:
             genero = 'Não informado'
 
-        if paciente.tipo_diabete.value == 'tipo1':
+        tipo_diabete_valor = paciente.tipo_diabete.value if paciente.tipo_diabete else None
+
+        if tipo_diabete_valor == 'tipo1':
             tipo_diabete = 'Tipo 1'
-        elif paciente.tipo_diabete.value == 'tipo2':
+        elif tipo_diabete_valor == 'tipo2':
             tipo_diabete = 'Tipo 2'
-        elif paciente.tipo_diabete.value == 'gestacional':
+        elif tipo_diabete_valor == 'gestacional':
             tipo_diabete = 'Gestacional'
         else: 
             tipo_diabete = 'Não informado'

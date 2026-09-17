@@ -221,9 +221,8 @@ body {
    ========================================================= */
 
 /* Garante o fundo com gradiente na sidebar e remove qualquer fundo branco interno */
-.sidebar, 
-.sidebar-desktop,
-aside {
+.sidebar,
+.sidebar-desktop {
   background: 
     linear-gradient(180deg, rgba(255, 188, 220, 0.4) 0%, rgba(101, 90, 124, 0.4) 100%), 
     #655A7C !important;
@@ -254,39 +253,15 @@ aside {
   border-radius: 12px;
 }
 
-/* Fixa a largura máxima da sidebar no Desktop para ser igualzinha à Home */
+.sidebar .submenu-item,
+.offcanvas-body .submenu-item {
+  font-size: 0.75rem !important;
+}
+
 @media (min-width: 992px) {
-  .coluna1 {
-    width: 240px !important;       /* <--- ALTERE AQUI (Largura da sidebar) */
-    max-width: 240px !important;   /* <--- ALTERE AQUI (Mesmo valor de cima) */
-    flex: 0 0 240px !important;    /* <--- ALTERE AQUI (Mesmo valor de cima) */
-  }
-
-  /* Ajusta o contêiner principal para ocupar o restante da tela sem esticar a sidebar */
-  main.col-lg-10 {
-    max-width: calc(100% - 240px) !important;
-    flex: 0 0 calc(100% - 240px) !important;
-  }
-
   /* Centraliza o card de perfil no espaço disponível */
   .card-profile {
     max-width: 720px;
     margin: 0 auto;
-  }
-}
-
-
-/* Fixa a largura exata da Sidebar no Desktop para não mudar de tamanho entre telas */
-@media (min-width: 992px) {
-  .coluna1 {
-    width: 240px !important;
-    max-width: 240px !important;
-    flex: 0 0 240px !important;
-  }
-
-  /* Ajusta o container do conteúdo para ocupar o restante da tela perfeitamente */
-  main {
-    flex: 1 !important;
-    max-width: calc(100% - 240px) !important;
   }
 }

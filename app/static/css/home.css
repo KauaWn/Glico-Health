@@ -18,7 +18,7 @@ body {
 
 .sidebar{
 background: 
-    linear-gradient(90deg, rgba(255, 188, 220, 0.4) 0%, rgba(101, 90, 124, 0.4) 100%), 
+  linear-gradient(180deg, rgba(255, 188, 220, 0.4) 0%, rgba(101, 90, 124, 0.4) 100%), 
     #655A7C;
   color: #ffffff;
   border-radius: 16px;
@@ -35,6 +35,11 @@ background:
   color: #ffffff;
   background-color: rgba(255, 255, 255, 0.15) !important; 
   border-radius: 12px;
+}
+
+.sidebar .submenu-item,
+.offcanvas-body .submenu-item {
+  font-size: 0.75rem !important;
 }
 
 /* Cards Personalizados */
@@ -109,7 +114,7 @@ background:
 /* Estilização do Menu Offcanvas (Mobile) com o Gradiente em Camadas */
 .offcanvas {
   background: 
-    linear-gradient(90deg, rgba(255, 188, 220, 0.4) 0%, rgba(101, 90, 124, 0.4) 100%), 
+    linear-gradient(180deg, rgba(255, 188, 220, 0.4) 0%, rgba(101, 90, 124, 0.4) 100%), 
     #655A7C !important;
   color: #ffffff;
   border-top-right-radius: 16px;

@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, redirect, flash, url_for, request
+from flask import render_template, redirect, flash, url_for, request, session
 from app.forms.associarpaciente import AssociarPaciente
 from app.forms.cadastro_form import CadastroForm
 from app.forms.login_form import LoginForm
@@ -19,6 +19,10 @@ def inicio():
 def home():
     usuario = UsuarioController.buscar_usuario_login() #carregar o dado do nome do usuário -- pode ser outros dados
     return render_template("home.html", usuario=usuario)
+
+@app.route("/registroglicemia")
+def registroglicemia():
+    return render_template("registroglicemia.html")
 
 
 @app.route("/cadastro", methods=["GET", "POST"])
@@ -44,6 +48,12 @@ def login():
             flash("Usuário ou senha incorretos.", "error")
 
     return render_template("login.html", title="Login", form=formLogin)
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    flash("Você saiu da sua conta.", "success")
+    return redirect(url_for("login"))
 
 @app.route("/questionario", methods=["GET", "POST"])
 def questionario():
@@ -133,6 +143,10 @@ def quest_responsavel():
 @app.route('/perfil')
 def perfil():
     usuario = UsuarioController.buscar_usuario_login()
+    if not usuario:
+        flash("Sua sessão expirou. Faça login novamente.", "error")
+        return redirect(url_for("login"))
+
     paciente, genero, tipo_diabete, idade = UsuarioController.buscar_paciente_login()
     return render_template(
         'editperfil.html', 

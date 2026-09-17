@@ -1,10 +1,10 @@
-import secrets
+import os
 #from urllib.parse import quote_plus
 class Config:
-    SECRET_KEY = secrets.token_hex(16) 
+    SECRET_KEY = os.getenv("SECRET_KEY", "glicohealth-development-key")
     DB_HOST = "localhost"
     DB_USER = "root"
-    DB_PASSWORD = "labinfo"
+    DB_PASSWORD = "kaua2007"
     DB_NAME = "glicohealthbd"
     #senha_com_arroba = "" 
     #senha_seg = quote_plus(senha_com_arroba)
