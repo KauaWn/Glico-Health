@@ -55,3 +55,46 @@
     meuGrafico.data.datasets[0].data = dadosFiltros[periodo].valores;
     meuGrafico.update();
   }
+
+  const ctxPeDiabetico = document.getElementById('graficoPeDiabetico').getContext('2d');
+  const itrValores = [0.8, 1.2, 1.9, 2.1, 2.2, 2.5, 1.4];
+  const itrCores = itrValores.map(valor => {
+    if (valor > 2.2) return 'rgba(255, 188, 220, 0.9)';
+    if (valor >= 1.8) return 'rgba(245, 204, 76, 0.9)';
+    return 'rgba(101, 90, 124, 0.85)';
+  });
+  const itrBordas = itrValores.map(valor => {
+    if (valor > 2.2) return '#d895b5';
+    if (valor >= 1.8) return '#d1aa27';
+    return '#655A7C';
+  });
+
+  new Chart(ctxPeDiabetico, {
+    type: 'bar',
+    data: {
+      labels: ['01/09', '03/09', '05/09', '08/09', '10/09', '12/09', '15/09'],
+      datasets: [{
+        label: 'ITR (°C)',
+        data: itrValores,
+        backgroundColor: itrCores,
+        borderColor: itrBordas,
+        borderWidth: 1,
+        borderRadius: 8,
+        barThickness: 22
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { display: false }, ticks: { color: '#8d829e', font: { size: 11 } } },
+        y: {
+          beginAtZero: true,
+          grid: { color: 'rgba(226, 232, 240, 0.6)' },
+          ticks: { color: '#8d829e', font: { size: 11 } },
+          title: { display: true, text: 'ITR (°C)', color: '#8d829e', font: { size: 10 } }
+        }
+      }
+    }
+  });
