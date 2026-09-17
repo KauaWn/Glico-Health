@@ -16,7 +16,6 @@
   <div class="container-fluid p-3 p-md-4">
     <div class="row g-3">
 
-      <!-- COLUNA 1: SIDEBAR (Proporção col-lg-2 idêntica à Home) -->
       <aside class="coluna1 col-12 col-lg-2 d-none d-lg-block">
         <div class="sidebar p-3 text-center d-flex flex-column justify-content-between h-100">
           <div>
@@ -27,7 +26,19 @@
             <nav class="nav flex-column gap-3 text-start ps-3">
               <a class="nav-link text-white-50" href="{{ url_for('home') }}"><i class="fa-solid fa-house me-2"></i> Início</a>
               <a class="nav-link text-white active" href="{{ url_for('perfil') }}"><i class="fa-solid fa-user me-2"></i> Perfil</a>
-              <a class="nav-link text-white-50" href="#"><i class="bi bi-droplet me-2"></i> Registro</a>
+              
+              <div>
+                <a class="nav-link text-white-50 d-flex justify-content-between align-items-center" 
+                   data-bs-toggle="collapse" href="#submenuRegistro" role="button" aria-expanded="false" aria-controls="submenuRegistro">
+                  <span><i class="bi bi-droplet me-2"></i> Registro</span>
+                  <i class="bi bi-chevron-down small"></i>
+                </a>
+                <div class="collapse ps-3 mt-2" id="submenuRegistro">
+                  <a class="nav-link text-white-50 py-1 small" href="#"><i class="bi bi-circle me-2" style="font-size: 0.6rem;"></i> Pé Diabético</a>
+                  <a class="nav-link text-white-50 py-1 small" href="#"><i class="bi bi-circle me-2" style="font-size: 0.6rem;"></i> Glicemia</a>
+                </div>
+              </div>
+
             </nav>
           </div>
           <div>
@@ -36,14 +47,13 @@
         </div>
       </aside>
 
-      <!-- BOTÃO MENU (MOBILE) -->
+      <!-- BOTÃO MENU -->
       <div class="col-12 d-lg-none mb-2">
         <button class="btn btn-menu-mobile d-flex align-items-center justify-content-center" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar">
           <i class="bi bi-list fs-4"></i>
         </button>
       </div>
 
-      <!-- CONTEÚDO PRINCIPAL (10 Colunas) -->
       <main class="col-12 col-lg-10">
         <div class="card-profile p-0 p-lg-4">
           <form>
@@ -109,7 +119,6 @@
     </div>
   </div>
 
-  <!-- MENU OFFCANVAS (MOBILE) -->
   <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileSidebar">
     <div class="offcanvas-header">
       <div class="brand d-flex flex-column align-items-center">
@@ -123,8 +132,20 @@
     <div class="offcanvas-body d-flex flex-column justify-content-between">
       <nav class="nav flex-column gap-3">
         <a class="nav-link" href="{{ url_for('home') }}"><i class="fa-solid fa-house me-2"></i> Início</a>
-        <a class="nav-link active" href="{{ url_for('perfil') }}"><i class="fa-solid fa-user me-2"></i> Perfil</a>
-        <a class="nav-link" href="#"><i class="bi bi-droplet me-2"></i> Registro</a>
+        <a class="nav-link active" href="{{ url_for('perfil') }}"><i class="bi bi-person me-2"></i> Perfil</a>
+        
+        <div>
+          <a class="nav-link d-flex justify-content-between align-items-center" 
+             data-bs-toggle="collapse" href="#submenuRegistroMobile" role="button" aria-expanded="false" aria-controls="submenuRegistroMobile">
+            <span><i class="bi bi-droplet me-2"></i> Registro</span>
+            <i class="bi bi-chevron-down small"></i>
+          </a>
+          <div class="collapse ps-3 mt-2" id="submenuRegistroMobile">
+            <a class="nav-link py-1 small" href="#"><i class="bi bi-circle me-2" style="font-size: 0.6rem;"></i> Pé Diabético</a>
+            <a class="nav-link py-1 small" href="#"><i class="bi bi-circle me-2" style="font-size: 0.6rem;"></i> Glicemia</a>
+          </div>
+        </div>
+
       </nav>
       <div>
         <a class="nav-link" href="#"><i class="bi bi-box-arrow-right me-2"></i> Sair</a>

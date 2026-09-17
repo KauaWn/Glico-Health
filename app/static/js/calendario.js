@@ -2,8 +2,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const calendarEl = document.getElementById('calendario');
 
     const calendar = new FullCalendar.Calendar(calendarEl, {
+        themeSystem: 'monarch', 
         initialView: 'dayGridMonth',
-        locale: 'pt-br', // Define o idioma para Português
+        locale: 'pt-br', 
         headerToolbar: {
             left: 'prev',
             center: 'title',
@@ -12,10 +13,9 @@ document.addEventListener('DOMContentLoaded', function () {
         height: 'auto',
         contentHeight: 320,
         fixedWeekCount: false,
-        // Exemplo de eventos/registros marcados no calendário
         events: [
             {
-                title: 'Glicemia',
+                title: 'Exame',
                 start: '2026-09-10',
                 color: '#655A7C'
             },

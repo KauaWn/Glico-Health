@@ -1,12 +1,10 @@
 
   const ctx = document.getElementById('graficoNivelGlicemico').getContext('2d');
 
-  // Gradiente de fundo
   const gradient = ctx.createLinearGradient(0, 0, 0, 180);
   gradient.addColorStop(0, 'rgba(255, 188, 220, 0.6)');
   gradient.addColorStop(1, 'rgba(101, 90, 124, 0.05)');
 
-  // Conjunto de dados fictícios para cada filtro
   const dadosFiltros = {
     dia: {
       labels: ['06:00', '09:00', '12:00', '15:00', '18:00', '21:00'],
@@ -22,7 +20,6 @@
     }
   };
 
-  // Instância Inicial do Gráfico
   const meuGrafico = new Chart(ctx, {
     type: 'line',
     data: {
@@ -52,14 +49,9 @@
 
   // Função acionada ao clicar nos botões de filtro
   function filtrarGrafico(periodo, botaoClicado) {
-    // 1. Atualiza a classe 'active' nos botões
     document.querySelectorAll('.btn-outline-purple').forEach(btn => btn.classList.remove('active'));
     botaoClicado.classList.add('active');
-
-    // 2. Atualiza os dados e rótulos do gráfico
     meuGrafico.data.labels = dadosFiltros[periodo].labels;
     meuGrafico.data.datasets[0].data = dadosFiltros[periodo].valores;
-
-    // 3. Renderiza a animação de transição
     meuGrafico.update();
   }
