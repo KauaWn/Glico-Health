@@ -37,7 +37,7 @@ class Usuario(Base):
     email: Mapped[Optional[str]] = mapped_column(String(64))
     passw_hash: Mapped[Optional[str]] = mapped_column(String(256))
     foto_perfil: Mapped[Optional[bytes]] = mapped_column(LargeBinary)
-    peso: Mapped[Optional[DECIMAL]] = mapped_column(DECIMAL)
+    #foto_perfil_tipo: Mapped[Optional[str]] = mapped_column(String(5,1))
 
     cuidador: Mapped[list['Cuidador']] = relationship('Cuidador', back_populates='usuario')
     paciente: Mapped[list['Paciente']] = relationship('Paciente', back_populates='usuario')
@@ -73,6 +73,8 @@ class Paciente(Base):
     nascimento: Mapped[Optional[datetime.date]] = mapped_column(Date)
     genero: Mapped[Optional[str]] = mapped_column(CHAR(1))
     tipo_diabete: Mapped[Optional[PacienteTipoDiabete]] = mapped_column(Enum(PacienteTipoDiabete, values_callable=lambda cls: [member.value for member in cls]))
+    peso: Mapped[Optional[DECIMAL]] = mapped_column(DECIMAL(5,1))
+
 
     usuario: Mapped['Usuario'] = relationship('Usuario', back_populates='paciente')
     vinculocuidador_paciente: Mapped[list['VinculocuidadorPaciente']] = relationship('VinculocuidadorPaciente', back_populates='paciente')
@@ -149,7 +151,7 @@ class registro_glicemico(Base):
 
     id: Mapped[int] = mapped_column(Integer,primary_key=True,autoincrement=True)
     id_usuario: Mapped[int] = mapped_column(Integer,nullable=False)
-    medida: Mapped[DECIMAL] = mapped_column(DECIMAL)
+    medida: Mapped[DECIMAL] = mapped_column(DECIMAL(5,1))
     data_registro: Mapped[Date] = mapped_column(Date)
     hora_registro: Mapped[Time] = mapped_column(Time)
     estado: Mapped[Optional[EstadoPessoal]] = mapped_column(Enum(EstadoPessoal, values_callable=lambda cls: [member.value for member in cls]))

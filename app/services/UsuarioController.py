@@ -189,6 +189,49 @@ class UsuarioController:
             return False
 
     @staticmethod
+    def atualizar_perfil(nome, email, peso, foto=None):
+        try:
+            usuario_id = session.get('usuario_id')
+            if not usuario_id:
+                return False, "Sua sessão expirou. Faça login novamente."
+
+            usuario = db.session.get(Usuario, usuario_id)
+            paciente = db.session.scalars(
+                select(Paciente).where(Paciente.id_usuario == usuario_id)
+            ).first()
+
+            if not usuario:
+                return False, "Usuário não encontrado."
+            if not paciente:
+                return False, "Dados do paciente não encontrados."
+            if not nome or not nome.strip() or not email or not email.strip():
+                return False, "Nome e email são obrigatórios."
+
+            if peso and peso.strip():
+                valor_peso = Decimal(peso.replace(',', '.'))
+                if valor_peso <= 0:
+                    return False, "O peso deve ser maior que zero."
+            else:
+                valor_peso = None
+
+            usuario.name = nome.strip()
+            usuario.email = email.strip()
+            paciente.peso = valor_peso
+
+            if foto and foto.filename:
+                usuario.foto_perfil = foto.read()
+
+            db.session.commit()
+            return True, "Perfil atualizado com sucesso!"
+        except (ValueError, ArithmeticError):
+            db.session.rollback()
+            return False, "Informe um peso válido."
+        except Exception as e:
+            db.session.rollback()
+            print(f"Erro ao atualizar perfil: {e}")
+            return False, "Não foi possível atualizar o perfil."
+
+    @staticmethod
     def buscar_usuario_login(): #função que faz a busca pelo usuário
         usuario_id = session.get('usuario_id')
 

@@ -158,12 +158,23 @@ def quest_responsavel():
     return render_template("quest_responsavel.html")
 
 
-@app.route('/perfil')
+@app.route('/perfil', methods=['GET', 'POST'])
 def perfil():
     usuario = UsuarioController.buscar_usuario_login()
     if not usuario:
         flash("Sua sessão expirou. Faça login novamente.", "error")
         return redirect(url_for("login"))
+
+    if request.method == "POST":
+        sucesso, mensagem = UsuarioController.atualizar_perfil(
+            nome=request.form.get("nome"),
+            email=request.form.get("email"),
+            peso=request.form.get("peso"),
+            foto=request.files.get("foto_perfil"),
+        )
+        flash(mensagem, "success" if sucesso else "error")
+        if sucesso:
+            return redirect(url_for("perfil"))
 
     paciente, genero, tipo_diabete, idade = UsuarioController.buscar_paciente_login()
     return render_template(
