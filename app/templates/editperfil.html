@@ -13,6 +13,15 @@
 
 <body>
 
+  {% with mensagens = get_flashed_messages(with_categories=true) %}
+    {% for categoria, mensagem in mensagens %}
+      <div class="alert alert-{{ 'success' if categoria == 'success' else 'danger' }} alert-dismissible fade show m-3" role="alert" data-auto-dismiss="true">
+        {{ mensagem }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+      </div>
+    {% endfor %}
+  {% endwith %}
+
   <div class="container-fluid p-3 p-md-4">
     <div class="row g-3">
 
@@ -105,10 +114,10 @@
               </div>
 
               <div class="col-6 col-md-4 col-lg-3">
-                <label class="form-label custom-label">Peso</label>
+                <label class="form-label custom-label">Peso (kg)</label>
                 <input type="number" class="form-control custom-input" name="peso" 
                   value="{{ paciente.peso if paciente.peso else '' }}"
-                  placeholder="Digite seu peso"
+                  placeholder="Digite seu peso em kg"
                   step="0.1" min="0.1">
               </div>
             </div>
@@ -158,6 +167,7 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{{ url_for('static', filename='js/flash_messages.js') }}"></script>
 </body>
 
 </html>

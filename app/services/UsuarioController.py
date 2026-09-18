@@ -327,9 +327,10 @@ class UsuarioController:
                 "pos-refeicao": EstadoPessoal.POS_REF,
                 "sintomatico": EstadoPessoal.SINTOMATICO,
             }
+            valor_medida = Decimal(str(medida).replace(',', '.'))
             registro = RegistroGlicemico(
                 id_usuario=usuario_id,
-                medida=Decimal(medida),
+                medida=valor_medida,
                 data_registro=date.fromisoformat(data_registro),
                 hora_registro=time.fromisoformat(hora_registro),
                 estado=estados.get(estado),
