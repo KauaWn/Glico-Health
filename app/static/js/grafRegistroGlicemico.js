@@ -5,20 +5,48 @@
   gradient.addColorStop(0, 'rgba(255, 188, 220, 0.6)');
   gradient.addColorStop(1, 'rgba(101, 90, 124, 0.05)');
 
-  const dadosFiltros = {
-    dia: {
-      labels: ['06:00', '09:00', '12:00', '15:00', '18:00', '21:00'],
-      valores: [90, 125, 95, 140, 100, 85]
-    },
-    semana: {
-      labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
-      valores: [110, 98, 135, 105, 115, 90, 102]
-    },
-    mes: {
-      labels: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4'],
-      valores: [108, 112, 99, 105]
+  const dadosNoHtml = document.getElementById('registros-glicemicos');
+  const registros = dadosNoHtml ? JSON.parse(dadosNoHtml.textContent) : [];
+  const hoje = new Date();
+  hoje.setHours(0, 0, 0, 0);
+
+  function criarDadosFiltro(periodo) {
+    const limite = new Date(hoje);
+    limite.setDate(hoje.getDate() - (periodo === 'dia' ? 0 : periodo === 'semana' ? 6 : 29));
+
+    const registrosFiltrados = registros.filter(registro => {
+      const dataRegistro = new Date(`${registro.data}T00:00:00`);
+      return dataRegistro >= limite && dataRegistro <= hoje;
+    });
+
+    if (periodo === 'dia') {
+      return {
+        labels: registrosFiltrados.map(registro => registro.hora),
+        valores: registrosFiltrados.map(registro => registro.medida)
+      };
     }
+
+    return {
+      labels: registrosFiltrados.map(registro => {
+        const [ano, mes, dia] = registro.data.split('-');
+        return `${dia}/${mes}`;
+      }),
+      valores: registrosFiltrados.map(registro => registro.medida)
+    };
+  }
+
+  const dadosFiltros = {
+    dia: criarDadosFiltro('dia'),
+    semana: criarDadosFiltro('semana'),
+    mes: criarDadosFiltro('mes')
   };
+
+  Object.values(dadosFiltros).forEach(dados => {
+    if (dados.labels.length === 0) {
+      dados.labels = ['Sem registros'];
+      dados.valores = [null];
+    }
+  });
 
   const meuGrafico = new Chart(ctx, {
     type: 'line',

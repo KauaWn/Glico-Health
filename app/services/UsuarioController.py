@@ -205,6 +205,27 @@ class UsuarioController:
         return usuario 
 
     @staticmethod
+    def buscar_registros_glicemia_login():
+        usuario_id = session.get('usuario_id')
+        if not usuario_id:
+            return []
+
+        registros = db.session.scalars(
+            select(RegistroGlicemico)
+            .where(RegistroGlicemico.id_usuario == usuario_id)
+            .order_by(RegistroGlicemico.data_registro, RegistroGlicemico.hora_registro)
+        ).all()
+
+        return [
+            {
+                "data": registro.data_registro.isoformat(),
+                "hora": registro.hora_registro.strftime("%H:%M"),
+                "medida": float(registro.medida),
+            }
+            for registro in registros
+        ]
+
+    @staticmethod
     def buscar_paciente_login():
         usuario_id = session.get('usuario_id')
 

@@ -18,7 +18,12 @@ def inicio():
 @app.route("/home")
 def home():
     usuario = UsuarioController.buscar_usuario_login() #carregar o dado do nome do usuário -- pode ser outros dados
-    return render_template("home.html", usuario=usuario)
+    registros_glicemicos = UsuarioController.buscar_registros_glicemia_login()
+    return render_template(
+        "home.html",
+        usuario=usuario,
+        registros_glicemicos=registros_glicemicos,
+    )
 
 @app.route("/registroglicemia", methods=["GET", "POST"])
 def registroglicemia():
