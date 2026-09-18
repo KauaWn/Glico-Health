@@ -2,7 +2,7 @@ from typing import Optional
 import datetime
 import enum
 
-from sqlalchemy import CHAR, Date, DateTime, Enum, ForeignKeyConstraint, Index, Integer, String, text, Time, DECIMAL
+from sqlalchemy import CHAR, Date, DateTime, Enum, ForeignKeyConstraint, Index, Integer, String, text, Text, Time, DECIMAL
 from sqlalchemy.dialects.mysql import TINYINT
 from app import db
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -152,5 +152,28 @@ class registro_glicemico(Base):
     data_registro: Mapped[Date] = mapped_column(Date)
     hora_registro: Mapped[Time] = mapped_column(Time)
     estado: Mapped[Optional[EstadoPessoal]] = mapped_column(Enum(EstadoPessoal, values_callable=lambda cls: [member.value for member in cls]))
+
+
+class tipoEvento(str, enum.Enum):
+    CONSULTA = 'Consulta médica',
+    EXAME = 'Exame',
+    VACINA = 'Vacina',
+    GLICEMIA = 'Registro de glicemia',
+    MEDICACAO = 'Tomar medicação',
+
+class evento_calendario(Base):
+    __tablename__ = 'evento_calendario'
+    __table_args__ = (
+        ForeignKeyConstraint(['id_usuario'], ['usuario.id'], name='fk_usuario_evento'),
+        Index('fk_usuario_id_idx', 'id_usuario')
+    )
+
+    id: Mapped[int] = mapped_column(Integer,primary_key=True,autoincrement=True)
+    id_usuario: Mapped[int] = mapped_column(Integer,nullable=False)
+    titulo: Mapped[str] = mapped_column(String(100))
+    descricao: Mapped[Optional[str]] = mapped_column(Text)
+    dia_resevado: Mapped[Date] = mapped_column(Date)
+    hora_resevada: Mapped[Time] = mapped_column(Time)
+    tipo_evento: Mapped[Optional[tipoEvento]] = mapped_column(Enum(tipoEvento, values_callable=lambda cls: [member.value for member in cls]))
 
 
