@@ -2,7 +2,7 @@ from typing import Optional
 import datetime
 import enum
 
-from sqlalchemy import CHAR, Date, DateTime, Enum, ForeignKeyConstraint, Index, Integer, String, text, Text, Time, DECIMAL
+from sqlalchemy import CHAR, Date, DateTime, Enum, ForeignKeyConstraint, Index, Integer, String, text, Text, Time, DECIMAL, LargeBinary
 from sqlalchemy.dialects.mysql import TINYINT
 from app import db
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -36,7 +36,8 @@ class Usuario(Base):
     remember_me: Mapped[int] = mapped_column(TINYINT, nullable=False)
     email: Mapped[Optional[str]] = mapped_column(String(64))
     passw_hash: Mapped[Optional[str]] = mapped_column(String(256))
-    foto_perfil: Mapped[Optional[str]] = mapped_column(String(255))
+    foto_perfil: Mapped[Optional[bytes]] = mapped_column(LargeBinary)
+    peso: Mapped[Optional[DECIMAL]] = mapped_column(DECIMAL)
 
     cuidador: Mapped[list['Cuidador']] = relationship('Cuidador', back_populates='usuario')
     paciente: Mapped[list['Paciente']] = relationship('Paciente', back_populates='usuario')
@@ -175,5 +176,3 @@ class evento_calendario(Base):
     dia_resevado: Mapped[Date] = mapped_column(Date)
     hora_resevada: Mapped[Time] = mapped_column(Time)
     tipo_evento: Mapped[Optional[tipoEvento]] = mapped_column(Enum(tipoEvento, values_callable=lambda cls: [member.value for member in cls]))
-
-
