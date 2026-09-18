@@ -1,9 +1,10 @@
-from datetime import date
+from datetime import date, time
+from decimal import Decimal
 
 from app import db
 from datetime import date 
 from flask import session
-from app.modelos import Usuario, Paciente, Cuidador, Responsavel
+from app.modelos import (Usuario, Paciente, Cuidador, Responsavel, EstadoPessoal, registro_glicemico as RegistroGlicemico)
 from sqlalchemy import select
 import sqlalchemy as sa
 
@@ -247,3 +248,36 @@ class UsuarioController:
             idade = None 
 
         return paciente, genero, tipo_diabete, idade 
+
+    @staticmethod
+    def registrar_glicemia(data_registro, hora_registro, medida, estado):
+        try:
+            usuario_id = session.get('usuario_id')
+            if not usuario_id:
+                print("Erro: Nenhum usuário encontrado na sessão.")
+                return False
+
+            estados = {
+                "jejum": EstadoPessoal.JEJUM,
+                "pre-refeicao": EstadoPessoal.PRE_REF,
+                "pos-refeicao": EstadoPessoal.POS_REF,
+                "sintomatico": EstadoPessoal.SINTOMATICO,
+            }
+            registro = RegistroGlicemico(
+                id_usuario=usuario_id,
+                medida=Decimal(medida),
+                data_registro=date.fromisoformat(data_registro),
+                hora_registro=time.fromisoformat(hora_registro),
+                estado=estados.get(estado),
+            )
+            db.session.add(registro)
+            db.session.commit()
+
+            print(f"Glicemia registrada para o usuário {usuario_id}: {medida} mg/dL")
+            return True
+
+        except Exception as e:
+            db.session.rollback()
+            print(f"Erro ao registrar glicemia: {e}")
+            return False
+        

@@ -20,8 +20,21 @@ def home():
     usuario = UsuarioController.buscar_usuario_login() #carregar o dado do nome do usuário -- pode ser outros dados
     return render_template("home.html", usuario=usuario)
 
-@app.route("/registroglicemia")
+@app.route("/registroglicemia", methods=["GET", "POST"])
 def registroglicemia():
+    if request.method == "POST":
+        sucesso = UsuarioController.registrar_glicemia(
+            data_registro=request.form.get("data"),
+            hora_registro=request.form.get("hora"),
+            medida=request.form.get("glicemia"),
+            estado=request.form.get("estado"),
+        )
+        if sucesso:
+            flash("Registro glicêmico salvo com sucesso!", "success")
+        else:
+            flash("Não foi possível salvar o registro glicêmico.", "error")
+        return redirect(url_for("registroglicemia"))
+
     return render_template("registroglicemia.html")
 
 

@@ -57,8 +57,16 @@
 				<h1 id="registro-titulo">Registro glicêmico</h1>
 				<p>Preencha os campos abaixo</p>
 			</div>
+			{% with mensagens = get_flashed_messages(with_categories=true) %}
+				{% for categoria, mensagem in mensagens %}
+					{% if mensagem in ["Registro glicêmico salvo com sucesso!", "Não foi possível salvar o registro glicêmico."] %}
+						<div class="alert alert-{{ 'success' if categoria == 'success' else 'danger' }} fade show" role="alert" data-auto-dismiss="true">{{ mensagem }}</div>
+					{% endif %}
+				{% endfor %}
+			{% endwith %}
 
-			<form class="registro-form">
+			<form class="registro-form" method="POST" action="{{ url_for('registroglicemia') }}">
+				<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 				<div class="registro-field">
 					<label for="data">Data</label>
 					<input type="date" id="data" name="data" required>
@@ -157,6 +165,7 @@
 			glicemiaWrapper.classList.toggle('has-value', glicemiaInput.value !== '');
 		});
 	</script>
+	<script src="{{ url_for('static', filename='js/flash_messages.js') }}"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

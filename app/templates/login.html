@@ -29,6 +29,14 @@
                             <h1>Vamos lá!</h1>
                             <p class="subtitulo">Que bom que você voltou!</p>
 
+                            {% with mensagens = get_flashed_messages(with_categories=true) %}
+                                {% for categoria, mensagem in mensagens %}
+                                    <div class="alert alert-{{ 'success' if categoria == 'success' else 'danger' }} fade show" role="alert" data-auto-dismiss="true">
+                                        {{ mensagem }}
+                                    </div>
+                                {% endfor %}
+                            {% endwith %}
+
                             <form action="{{ url_for('login') }}" method="POST" novalidate>
                                 {{ form.hidden_tag() }}
 
@@ -85,6 +93,7 @@
 
     <!-- JS Próprio + JS Bootstrap -->
     <script src="{{ url_for('static', filename='js/login.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/flash_messages.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
