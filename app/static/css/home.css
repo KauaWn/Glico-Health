@@ -15,6 +15,13 @@ body {
   background-color: #f5f5f9;
 }
 
+main,
+aside,
+.card-custom {
+  min-width: 0;
+  width: 100%;
+}
+
 
 .sidebar{
 background: 
@@ -33,13 +40,37 @@ background:
 .sidebar .nav-link:hover,
 .sidebar .nav-link.active {
   color: #ffffff;
+  font-weight: 600;
   background-color: rgba(255, 255, 255, 0.15) !important; 
   border-radius: 12px;
+}
+
+.sidebar .nav-link.text-white-50 {
+  color: rgba(255, 255, 255, 0.5) !important;
+  font-weight: 400;
+  background-color: transparent !important;
+}
+
+.sidebar .nav-link.text-white-50 span,
+.sidebar .nav-link.text-white-50 i {
+  color: inherit !important;
+  font-weight: inherit;
+}
+
+.sidebar .nav-link.text-white-50:hover {
+  color: #ffffff !important;
+  font-weight: 600;
+  background-color: rgba(255, 255, 255, 0.15) !important;
 }
 
 .sidebar .submenu-item,
 .offcanvas-body .submenu-item {
   font-size: 0.75rem !important;
+}
+
+.sidebar .submenu-item i,
+.offcanvas-body .submenu-item i {
+  font-size: 0.6rem !important;
 }
 
 /* Cards Personalizados */
@@ -157,6 +188,13 @@ background:
   font-weight: 600;
 }
 
+.offcanvas-body .nav-link:not(.active),
+.offcanvas-body .nav-link:not(.active) span,
+.offcanvas-body .nav-link:not(.active) i {
+  color: rgba(255, 255, 255, 0.5) !important;
+  font-weight: 400;
+}
+
 /* Tamanho e ajuste da logo no Menu Mobile */
 .brand-logo-mobile {
   width: 45px; /* Ajuste o tamanho da logo conforme necessário */
@@ -199,6 +237,19 @@ background:
   font-size: 1rem !important;
   font-weight: 700;
   color: #655A7C !important;
+  text-align: center;
+}
+
+.fc .fc-toolbar {
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.fc .fc-toolbar-chunk {
+  display: flex;
+  align-items: center;
+  min-width: 0;
 }
 
 /* Estilização dos dias da semana e números */
@@ -213,10 +264,390 @@ background:
   background-color: rgba(255, 188, 220, 0.25) !important;
 }
 
+.fc .fc-daygrid-day.dia-com-marcacao {
+  background-color: rgba(174, 153, 198, 0.28) !important;
+}
+
 /* Botões de navegação */
 .fc .fc-button-primary {
   background-color: #655A7C !important;
   border-color: #655A7C !important;
   padding: 2px 6px !important;
   font-size: 0.75rem !important;
+}
+
+.detalhes-dia {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(101, 90, 124, 0.16);
+}
+
+.detalhes-dia-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.detalhes-dia-heading i {
+  color: #655A7C !important;
+  font-size: 1.35rem;
+}
+
+.detalhes-dia-eyebrow {
+  display: block;
+  color: #9a8eaa !important;
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+#data-selecionada {
+  margin: 0.2rem 0 0;
+  color: #655A7C !important;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.lista-marcacoes {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0.85rem 0;
+}
+
+.marcacao-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding: 0.65rem;
+  border-radius: 10px;
+  background: #f7f6fa;
+  box-shadow: 0 2px 5px rgba(101, 90, 124, 0.08);
+}
+
+.marcacao-check {
+  display: grid;
+  flex: 0 0 1.35rem;
+  height: 1.35rem;
+  padding: 0;
+  place-items: center;
+  border: 1px solid #655A7C;
+  border-radius: 50%;
+  background: transparent;
+  color: #655A7C !important;
+  cursor: pointer;
+  font-size: 0.7rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.marcacao-check:hover,
+.marcacao-item.concluida .marcacao-check {
+  background: #655A7C;
+  color: #fff !important;
+}
+
+.marcacao-item.concluida strong,
+.marcacao-item.concluida span:last-child {
+  opacity: 0.6;
+  text-decoration: line-through;
+}
+
+.marcacao-check i {
+  color: inherit !important;
+}
+
+.marcacao-item strong,
+.marcacao-item span:last-child {
+  display: block;
+  color: #655A7C !important;
+  font-size: 0.72rem;
+  line-height: 1.35;
+}
+
+.marcacao-item span:last-child {
+  color: #94889f !important;
+  margin-top: 0.1rem;
+}
+
+.acoes-marcacao {
+  display: flex;
+  gap: 0.25rem;
+  margin-left: auto;
+}
+
+.acao-marcacao {
+  display: grid;
+  width: 1.6rem;
+  height: 1.6rem;
+  padding: 0;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #9a8eaa !important;
+  cursor: pointer;
+  font-size: 0.7rem;
+}
+
+.acao-marcacao:hover {
+  background: #eeeaf2;
+  color: #655A7C !important;
+}
+
+.acao-marcacao.excluir-marcacao:hover {
+  color: #b45d72 !important;
+}
+
+.acao-marcacao i {
+  color: inherit !important;
+}
+
+.sem-marcacoes {
+  margin: 0.85rem 0;
+  padding: 0.8rem;
+  border: 1px dashed rgba(101, 90, 124, 0.3);
+  border-radius: 10px;
+  color: #94889f !important;
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+.btn-adicionar-marcacao {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  border-radius: 999px;
+  background: #655A7C;
+  color: #fff !important;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.btn-adicionar-marcacao:hover {
+  background: #4a3e56;
+  color: #fff !important;
+}
+
+.novo-registro-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 0.8rem;
+}
+
+.novo-registro-heading h2 {
+  margin: 0.2rem 0 0;
+  color: #655A7C !important;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.novo-registro-heading i {
+  color: #655A7C !important;
+  font-size: 1.35rem;
+}
+
+.campo-registro {
+  display: block;
+  margin-bottom: 0.65rem;
+}
+
+.campo-registro > span {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: #9a8eaa !important;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.campo-registro input,
+.campo-registro select,
+.campo-registro textarea {
+  width: 100%;
+  padding: 0.48rem 0.65rem;
+  border: 1px solid rgba(101, 90, 124, 0.15);
+  border-radius: 999px;
+  outline: none;
+  background: #f7f6fa;
+  color: #655A7C !important;
+  font-size: 0.72rem;
+}
+
+.campo-registro select option {
+  background: #ffffff;
+  color: #655A7C !important;
+}
+
+.campo-registro textarea {
+  border-radius: 12px;
+  resize: vertical;
+}
+
+.campo-registro input:focus,
+.campo-registro select:focus,
+.campo-registro textarea:focus {
+  border-color: #9a8eaa;
+  box-shadow: 0 0 0 2px rgba(101, 90, 124, 0.1);
+}
+
+.campos-registro-duplos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.65rem;
+}
+
+.acoes-registro {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.45rem;
+  margin-top: 0.8rem;
+}
+
+.btn-cancelar-registro,
+.btn-salvar-registro {
+  padding: 0.45rem 0.85rem;
+  border: 0;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.btn-cancelar-registro {
+  background: #eeeaf2;
+  color: #655A7C !important;
+}
+
+.btn-salvar-registro {
+  background: #655A7C;
+  color: #fff !important;
+}
+
+.popup-confirmacao {
+  position: fixed;
+  z-index: 1055;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(42, 35, 51, 0.45);
+}
+
+.popup-confirmacao-conteudo {
+  width: min(100%, 340px);
+  padding: 1.35rem;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 16px 45px rgba(42, 35, 51, 0.22);
+  text-align: center;
+}
+
+.popup-confirmacao-icone {
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin: 0 auto 0.75rem;
+  place-items: center;
+  border-radius: 50%;
+  background: #f8e8ed;
+  color: #b45d72 !important;
+}
+
+.popup-confirmacao-icone i { color: inherit !important; }
+.popup-confirmacao h2 { margin: 0; color: #655A7C !important; font-size: 1rem; font-weight: 700; }
+.popup-confirmacao p { margin: 0.4rem 0 1.1rem; color: #94889f !important; font-size: 0.75rem; }
+.popup-confirmacao-acoes { display: flex; justify-content: center; gap: 0.5rem; }
+.popup-confirmacao-acoes button { padding: 0.5rem 1rem; border: 0; border-radius: 999px; font-size: 0.75rem; font-weight: 600; cursor: pointer; }
+.popup-cancelar { background: #eeeaf2; color: #655A7C !important; }
+.popup-confirmar { background: #b45d72; color: #fff !important; }
+
+@media (max-width: 991.98px) {
+  .container-fluid {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+  }
+
+  main,
+  aside {
+    width: 100%;
+  }
+
+  .card-custom {
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .bemvindo {
+    align-items: center !important;
+  }
+
+  #fotoPerfil {
+    width: 72px;
+    height: 72px;
+  }
+
+  .bemvindo h5 {
+    font-size: 0.95rem;
+  }
+
+  .bemvindo small {
+    font-size: 0.7rem;
+  }
+
+  .card-custom {
+    padding: 0.85rem !important;
+  }
+
+  .card-custom > .d-flex {
+    align-items: flex-start !important;
+    flex-wrap: wrap;
+    gap: 0.6rem !important;
+  }
+
+  .card-custom > .d-flex .btn-group {
+    width: 100%;
+  }
+
+  .card-custom > .d-flex .btn-group .btn {
+    flex: 1 1 0;
+    min-width: 0;
+    padding-right: 0.4rem;
+    padding-left: 0.4rem;
+  }
+
+  .fc .fc-toolbar {
+    justify-content: space-between;
+  }
+
+  .fc .fc-toolbar-title {
+    font-size: 0.9rem !important;
+  }
+
+  .fc .fc-button-primary {
+    padding: 0.2rem 0.45rem !important;
+  }
+
+  .campos-registro-duplos {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .marcacao-item {
+    gap: 0.45rem;
+    padding: 0.55rem;
+  }
+
+  .acoes-marcacao {
+    gap: 0;
+  }
+
+  .acao-marcacao {
+    width: 1.45rem;
+    height: 1.45rem;
+  }
 }

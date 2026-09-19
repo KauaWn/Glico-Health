@@ -30,7 +30,7 @@
 <body>
   {% with mensagens = get_flashed_messages(with_categories=true) %}
     {% for categoria, mensagem in mensagens %}
-      <div class="alert alert-{{ 'success' if categoria == 'success' else 'danger' }} alert-dismissible fade m-3" role="alert" data-auto-dismiss="true">
+      <div class="alert alert-{{ categoria if categoria in ['success', 'warning'] else 'danger' }} alert-dismissible fade m-3" role="alert" data-auto-dismiss="true">
         {{ mensagem }}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
       </div>
@@ -48,9 +48,9 @@
               <h1>GlicoHealth™</h1>
             </div>
             <nav class="nav flex-column gap-3 text-start ps-3">
-              <a class="nav-link text-white active" href="#"><i class="fa-solid fa-house me-2"></i> Início</a>
+              <a class="nav-link text-white active" href="{{ url_for('home') }}"><i class="fa-solid fa-house me-2"></i> Início</a>
               
-              <a class="nav-link text-white-50" href="{{ url_for('perfil') }}"><i class="fa-solid fa-user me-2"></i> Perfil</a>
+              <a class="nav-link text-white-50" href="{{ url_for('perfil') }}"><i class="fa-regular fa-user me-2"></i> Perfil</a>
               
               <div>
                 <a class="nav-link text-white-50 d-flex justify-content-between align-items-center" 
@@ -59,8 +59,8 @@
                   <i class="bi bi-chevron-down small"></i>
                 </a>
                 <div class="collapse ps-3 mt-2" id="submenuRegistro">
-                  <a class="nav-link text-white-50 py-1 small submenu-item" href="#"><i class="bi bi-circle me-2" style="font-size: 10px;"></i> Pé Diabético</a>
-                  <a class="nav-link text-white-50 py-1 small submenu-item" href="{{ url_for('registroglicemia') }}"><i class="bi bi-circle me-2" style="font-size: 10px;"></i> Glicemia</a>
+                  <a class="nav-link text-white-50 py-1 small submenu-item" href="#"><i class="bi bi-circle me-2" style="font-size: 0.6rem;"></i> Pé Diabético</a>
+                  <a class="nav-link text-white-50 py-1 small submenu-item" href="{{ url_for('registroglicemia') }}"><i class="bi bi-circle me-2" style="font-size: 0.6rem;"></i> Glicemia</a>
                 </div>
               </div>
 
@@ -125,6 +125,68 @@
       <aside class="col-12 col-lg-3">
         <div class="card-custom p-3">
           <div id="calendario"></div>
+          <section id="detalhes-dia" class="detalhes-dia d-none" aria-live="polite">
+            <div id="visualizacao-marcacoes">
+              <div class="detalhes-dia-heading">
+                <div>
+                  <span class="detalhes-dia-eyebrow">Marcações para o dia</span>
+                  <h2 id="data-selecionada">Selecione um dia</h2>
+                </div>
+                <i class="bi bi-calendar2-check" aria-hidden="true"></i>
+              </div>
+              <div id="lista-marcacoes" class="lista-marcacoes"></div>
+              <button id="adicionar-marcacao" class="btn-adicionar-marcacao" type="button">
+                <i class="bi bi-plus-lg" aria-hidden="true"></i>
+                Adicionar mais
+              </button>
+            </div>
+            <form id="novo-registro" class="novo-registro d-none" method="POST" action="{{ url_for('criar_evento_calendario') }}"
+              data-create-url="{{ url_for('criar_evento_calendario') }}"
+              data-edit-url="{{ url_for('editar_evento_calendario', evento_id=0) }}"
+              data-delete-url="{{ url_for('excluir_evento_calendario', evento_id=0) }}">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <input id="evento-id" type="hidden" name="evento_id" value="">
+              <div class="novo-registro-heading">
+                <div>
+                  <span class="detalhes-dia-eyebrow">Novo registro</span>
+                  <h2 id="form-titulo">Adicionar marcação</h2>
+                </div>
+                <i id="form-icone" class="bi bi-calendar-plus" aria-hidden="true"></i>
+              </div>
+              <label class="campo-registro">
+                <span>Tipo</span>
+                <select id="novo-tipo" name="tipo" required>
+                  <option value="Consulta médica">Consulta médica</option>
+                  <option value="Exame">Exame</option>
+                  <option value="Vacina">Vacina</option>
+                  <option value="Remédio">Remédio</option>
+                  <option value="Outro">Outro</option>
+                </select>
+              </label>
+              <div class="campos-registro-duplos">
+                <label class="campo-registro">
+                  <span>Data</span>
+                  <input id="nova-data" type="date" name="data" required>
+                </label>
+                <label class="campo-registro">
+                  <span>Horário</span>
+                  <input id="nova-hora" type="time" name="hora" required>
+                </label>
+              </div>
+              <label class="campo-registro">
+                <span>Nome</span>
+                <input id="novo-nome" type="text" name="nome" placeholder="Ex.: Consulta" maxlength="100" required>
+              </label>
+              <label class="campo-registro">
+                <span>Descrição</span>
+                <textarea id="nova-descricao" name="descricao" rows="2" placeholder="Adicione uma descrição"></textarea>
+              </label>
+              <div class="acoes-registro">
+                <button id="cancelar-registro" class="btn-cancelar-registro" type="button">Cancelar</button>
+                <button id="salvar-registro" class="btn-salvar-registro" type="submit">Salvar</button>
+              </div>
+            </form>
+          </section>
         </div>
       </aside>
 
@@ -143,9 +205,9 @@
     </div>
     <div class="offcanvas-body d-flex flex-column justify-content-between">
       <nav class="nav flex-column gap-3">
-        <a class="nav-link active" href="#"><i class="fa-solid fa-house me-2"></i> Início</a>
+        <a class="nav-link active" href="{{ url_for('home') }}"><i class="fa-solid fa-house me-2"></i> Início</a>
         
-        <a class="nav-link" href="{{ url_for('perfil')}}"><i class="fa-solid fa-user me-2"></i> Perfil</a>
+        <a class="nav-link" href="{{ url_for('perfil')}}"><i class="fa-regular fa-user me-2"></i> Perfil</a>
         
         <!-- Menu Registro Mobile Colapsável -->
         <div>
@@ -171,6 +233,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script id="registros-glicemicos" type="application/json">{{ registros_glicemicos | tojson }}</script>
+  <script id="eventos-calendario" type="application/json">{{ eventos_calendario | tojson }}</script>
   <script src="{{ url_for('static', filename='js/grafRegistroGlicemico.js') }}"></script>
   <script src="{{ url_for('static', filename='js/calendario.js') }}"></script>
 

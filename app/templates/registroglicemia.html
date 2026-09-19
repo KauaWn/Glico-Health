@@ -24,9 +24,9 @@
 						</div>
 						<nav class="nav flex-column gap-3 text-start ps-3">
 							<a class="nav-link text-white-50" href="{{ url_for('home') }}"><i class="fa-solid fa-house me-2"></i> Início</a>
-							<a class="nav-link text-white-50" href="{{ url_for('perfil') }}"><i class="fa-solid fa-user me-2"></i> Perfil</a>
+							<a class="nav-link text-white-50" href="{{ url_for('perfil') }}"><i class="fa-regular fa-user me-2"></i> Perfil</a>
 							<div>
-								<a class="nav-link text-white-50 d-flex justify-content-between align-items-center" data-bs-toggle="collapse"
+								<a class="nav-link text-white d-flex justify-content-between align-items-center" data-bs-toggle="collapse"
 									href="#submenuRegistroDesktop" role="button" aria-expanded="true" aria-controls="submenuRegistroDesktop">
 									<span><i class="bi bi-droplet me-2"></i> Registro</span>
 									<i class="bi bi-chevron-down small"></i>
@@ -60,7 +60,7 @@
 			{% with mensagens = get_flashed_messages(with_categories=true) %}
 				{% for categoria, mensagem in mensagens %}
 					{% if mensagem in ["Registro glicêmico salvo com sucesso!", "Não foi possível salvar o registro glicêmico."] %}
-						<div class="alert alert-{{ 'success' if categoria == 'success' else 'danger' }} fade show" role="alert" data-auto-dismiss="true">{{ mensagem }}</div>
+						<div class="alert alert-{{ categoria if categoria in ['success', 'warning'] else 'danger' }} fade show" role="alert" data-auto-dismiss="true">{{ mensagem }}</div>
 					{% endif %}
 				{% endfor %}
 			{% endwith %}
@@ -69,7 +69,7 @@
 				<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 				<div class="registro-field">
 					<label for="data">Data</label>
-					<input type="date" id="data" name="data" required>
+					<input type="date" id="data" name="data" value="{{ data_inicial }}" required>
 				</div>
 
 				<div class="registro-field">
@@ -108,6 +108,8 @@
 							<option value="suor-frio">Suor frio</option>
 							<option value="tremor">Tremor</option>
 							<option value="tontura">Tontura</option>
+							<option value="falta-ar">Falta de ar</option>
+							<option value="outro">Outro</option>
 							<option value="nenhum">Nenhum</option>
 						</select>
 						<i class="bi bi-chevron-down registro-select-icon" aria-hidden="true"></i>
@@ -135,8 +137,8 @@
 			<nav class="nav flex-column gap-3">
 				<a class="nav-link" href="{{ url_for('home') }}"><i class="fa-solid fa-house me-2"></i> Início</a>
 				<a class="nav-link" href="{{ url_for('perfil') }}"><i class="bi bi-person me-2"></i> Perfil</a>
-				<div>
-					<a class="nav-link d-flex justify-content-between align-items-center" data-bs-toggle="collapse"
+	              <div>
+						<a class="nav-link active d-flex justify-content-between align-items-center" data-bs-toggle="collapse"
 						href="#submenuRegistroMobile" role="button" aria-expanded="true" aria-controls="submenuRegistroMobile">
 						<span><i class="bi bi-droplet me-2"></i> Registro</span>
 						<i class="bi bi-chevron-down small"></i>

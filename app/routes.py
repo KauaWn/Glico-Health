@@ -8,6 +8,7 @@ from app.forms.validarprofissional import ValidarProfissional
 from app.services.UsuarioController import UsuarioController
 from app.services.AuthenticationController import AuthenticationController
 from app.forms.papel_form import PapelForm
+from datetime import date, time
 
 
 @app.route("/")
@@ -19,11 +20,56 @@ def inicio():
 def home():
     usuario = UsuarioController.buscar_usuario_login() #carregar o dado do nome do usuário -- pode ser outros dados
     registros_glicemicos = UsuarioController.buscar_registros_glicemia_login()
+    eventos_calendario = UsuarioController.buscar_eventos_calendario_login()
     return render_template(
         "home.html",
         usuario=usuario,
         registros_glicemicos=registros_glicemicos,
+        eventos_calendario=eventos_calendario,
     )
+
+#criando o evento no calendario
+@app.route("/calendario/evento", methods=["POST"])
+def criar_evento_calendario():
+    sucesso = UsuarioController.criar_evento_calendario(
+        titulo=request.form.get("nome"),
+        descricao=request.form.get("descricao"),
+        data_evento=request.form.get("data"),
+        hora_evento=request.form.get("hora"),
+        tipo=request.form.get("tipo"),
+    )
+    flash(
+        "Evento salvo com sucesso!" if sucesso else "Não foi possível salvar o evento.",
+        "success" if sucesso else "error",
+    )
+    return redirect(url_for("home"))
+
+
+# rota pra editar o evento do usuário
+@app.route("/calendario/evento/<int:evento_id>/editar", methods=["POST"])
+def editar_evento_calendario(evento_id):
+    sucesso = UsuarioController.editar_evento_calendario(
+        evento_id=evento_id,
+        titulo=request.form.get("nome"),
+        descricao=request.form.get("descricao"),
+        data_evento=request.form.get("data"),
+        hora_evento=request.form.get("hora"),
+        tipo=request.form.get("tipo"),
+    )
+    flash(
+        "Evento atualizado com sucesso!" if sucesso else "Não foi possível atualizar o evento.",
+        "success" if sucesso else "error",
+    )
+    return redirect(url_for("home"))
+
+@app.route("/calendario/evento/<int:evento_id>/excluir", methods=["POST"])
+def excluir_evento_calendario(evento_id):
+    sucesso = UsuarioController.excluir_evento_calendario(evento_id)
+    flash(
+        "Evento excluído com sucesso!" if sucesso else "Não foi possível excluir o evento.",
+        "success" if sucesso else "error",
+    )
+    return redirect(url_for("home"))
 
 @app.route("/registroglicemia", methods=["GET", "POST"])
 def registroglicemia():
@@ -40,7 +86,10 @@ def registroglicemia():
             flash("Não foi possível salvar o registro glicêmico.", "error")
         return redirect(url_for("registroglicemia"))
 
-    return render_template("registroglicemia.html")
+    return render_template(
+        "registroglicemia.html",
+        data_inicial=request.args.get("data", ""),
+    )
 
 
 @app.route("/cadastro", methods=["GET", "POST"])
@@ -48,7 +97,6 @@ def cadastro():
     formCadastro = CadastroForm()
     if formCadastro.validate_on_submit():
         if UsuarioController.cadastro(formCadastro):
-            flash("Cadastro efetuado com sucesso!")
             return redirect(url_for("questionario"))
 
         flash("Erro nas credenciais.")
@@ -60,7 +108,6 @@ def login():
     formLogin = LoginForm()
     if formLogin.validate_on_submit():
         if AuthenticationController.login(formLogin):
-            flash("Login efetuado com sucesso!", "success")
             return redirect(url_for("home")) #vai para a PÁGINA INICIAL depois do login
         else:
             flash("Usuário ou senha incorretos.", "error")
@@ -70,7 +117,7 @@ def login():
 @app.route("/logout")
 def logout():
     session.clear()
-    flash("Você saiu da sua conta.", "success")
+    flash("Você saiu da sua conta.", "warning")
     return redirect(url_for("login"))
 
 @app.route("/questionario", methods=["GET", "POST"])
@@ -96,7 +143,6 @@ def questionario_paciente():
     form_paciente = DadosPacienteForm()
     if form_paciente.validate_on_submit():
         if UsuarioController.salvar_questionario_paciente(form_paciente):
-            flash("Questionário respondido com sucesso!", "success")
             return redirect(url_for("home"))
         else:
             flash("Erro ao salvar o questionário.", "error")

@@ -158,11 +158,12 @@ class registro_glicemico(Base):
 
 
 class tipoEvento(str, enum.Enum):
-    CONSULTA = 'Consulta médica',
-    EXAME = 'Exame',
-    VACINA = 'Vacina',
-    GLICEMIA = 'Registro de glicemia',
-    MEDICACAO = 'Tomar medicação',
+    CONSULTA = 'Consulta médica'
+    EXAME = 'Exame'
+    VACINA = 'Vacina'
+    GLICEMIA = 'Registro de glicemia'
+    MEDICACAO = 'Tomar medicação'
+    OUTRO = 'Outro'
 
 class evento_calendario(Base):
     __tablename__ = 'evento_calendario'

@@ -31,7 +31,7 @@
 
                             {% with mensagens = get_flashed_messages(with_categories=true) %}
                                 {% for categoria, mensagem in mensagens %}
-                                    <div class="alert alert-{{ 'success' if categoria == 'success' else 'danger' }} fade show" role="alert" data-auto-dismiss="true">
+                                    <div class="alert alert-{{ categoria if categoria in ['success', 'warning'] else 'danger' }} fade show" role="alert" data-auto-dismiss="true">
                                         {{ mensagem }}
                                     </div>
                                 {% endfor %}

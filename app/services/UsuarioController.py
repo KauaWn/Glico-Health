@@ -4,7 +4,16 @@ from decimal import Decimal
 from app import db
 from datetime import date 
 from flask import session
-from app.modelos import (Usuario, Paciente, Cuidador, Responsavel, EstadoPessoal, registro_glicemico as RegistroGlicemico)
+from app.modelos import (
+    Usuario,
+    Paciente,
+    Cuidador,
+    Responsavel,
+    EstadoPessoal,
+    registro_glicemico as RegistroGlicemico,
+    evento_calendario as EventoCalendario,
+    tipoEvento,
+)
 from sqlalchemy import select
 import sqlalchemy as sa
 
@@ -272,6 +281,119 @@ class UsuarioController:
             }
             for registro in registros
         ]
+
+    @staticmethod
+    def buscar_eventos_calendario_login():
+        usuario_id = session.get('usuario_id')
+        if not usuario_id:
+            return []
+
+        eventos = db.session.scalars(
+            select(EventoCalendario)
+            .where(EventoCalendario.id_usuario == usuario_id)
+            .order_by(EventoCalendario.dia_resevado, EventoCalendario.hora_resevada)
+        ).all()
+
+        return [
+            {
+                "id": evento.id,
+                "title": evento.titulo,
+                "start": (
+                    f"{evento.dia_resevado.isoformat()}T"
+                    f"{evento.hora_resevada.strftime('%H:%M')}"
+                ),
+                "description": evento.descricao or "",
+                "tipo": evento.tipo_evento.value if evento.tipo_evento else "",
+            }
+            for evento in eventos
+        ]
+
+    @staticmethod
+    def criar_evento_calendario(titulo, descricao, data_evento, hora_evento, tipo):
+        try:
+            usuario_id = session.get('usuario_id')
+            if not usuario_id or not titulo or not data_evento or not hora_evento:
+                return False
+
+            evento = EventoCalendario(
+                id_usuario=usuario_id,
+                titulo=titulo.strip(),
+                descricao=descricao.strip() if descricao else None,
+                dia_resevado=date.fromisoformat(data_evento),
+                hora_resevada=time.fromisoformat(hora_evento),
+                tipo_evento={
+                    "Consulta médica": tipoEvento.CONSULTA,
+                    "Exame": tipoEvento.EXAME,
+                    "Vacina": tipoEvento.VACINA,
+                    "Remédio": tipoEvento.MEDICACAO,
+                    "Outro": tipoEvento.OUTRO,
+                }.get(tipo),
+            )
+            db.session.add(evento)
+            db.session.commit()
+            return True
+        except (ValueError, TypeError):
+            db.session.rollback()
+            return False
+        except Exception as e:
+            db.session.rollback()
+            print(f"Erro ao salvar evento do calendário: {e}")
+            return False
+
+    @staticmethod
+    def editar_evento_calendario(evento_id, titulo, descricao, data_evento, hora_evento, tipo):
+        try:
+            usuario_id = session.get('usuario_id')
+            evento = db.session.scalars(
+                select(EventoCalendario).where(
+                    EventoCalendario.id == evento_id,
+                    EventoCalendario.id_usuario == usuario_id,
+                )
+            ).first()
+            if not evento or not titulo or not data_evento or not hora_evento:
+                return False
+
+            evento.titulo = titulo.strip()
+            evento.descricao = descricao.strip() if descricao else None
+            evento.dia_resevado = date.fromisoformat(data_evento)
+            evento.hora_resevada = time.fromisoformat(hora_evento)
+            evento.tipo_evento = {
+                "Consulta médica": tipoEvento.CONSULTA,
+                "Exame": tipoEvento.EXAME,
+                "Vacina": tipoEvento.VACINA,
+                "Remédio": tipoEvento.MEDICACAO,
+                "Outro": tipoEvento.OUTRO,
+            }.get(tipo)
+            db.session.commit()
+            return True
+        except (ValueError, TypeError):
+            db.session.rollback()
+            return False
+        except Exception as e:
+            db.session.rollback()
+            print(f"Erro ao editar evento do calendário: {e}")
+            return False
+
+    @staticmethod
+    def excluir_evento_calendario(evento_id):
+        try:
+            usuario_id = session.get('usuario_id')
+            evento = db.session.scalars(
+                select(EventoCalendario).where(
+                    EventoCalendario.id == evento_id,
+                    EventoCalendario.id_usuario == usuario_id,
+                )
+            ).first()
+            if not evento:
+                return False
+
+            db.session.delete(evento)
+            db.session.commit()
+            return True
+        except Exception as e:
+            db.session.rollback()
+            print(f"Erro ao excluir evento do calendário: {e}")
+            return False
 
     @staticmethod
     def buscar_paciente_login():

@@ -234,6 +234,11 @@ body {
   font-size: 0.75rem !important;
 }
 
+.sidebar .registro-submenu-link i,
+.offcanvas .registro-submenu-link i {
+  font-size: 0.6rem !important;
+}
+
 /* deixando mais centralizado */
 @media (max-width: 991.98px) {
   .registro-main {

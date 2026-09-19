@@ -14,6 +14,12 @@ body {
     overflow-x: hidden;
 }
 
+.alert-warning {
+    border-color: rgba(245, 204, 76, 0.5);
+    background-color: rgba(245, 204, 76, 0.28);
+    color: #655A7C;
+}
+
 #inicioLogo {
     width: 100%;
     display: flex;

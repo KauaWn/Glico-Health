@@ -257,6 +257,11 @@ body {
   font-size: 0.75rem !important;
 }
 
+.sidebar .submenu-item i,
+.offcanvas-body .submenu-item i {
+  font-size: 0.6rem !important;
+}
+
 @media (min-width: 992px) {
   /* Centraliza o card de perfil no espaço disponível */
   .card-profile {

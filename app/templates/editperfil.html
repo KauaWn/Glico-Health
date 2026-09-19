@@ -15,7 +15,7 @@
 
   {% with mensagens = get_flashed_messages(with_categories=true) %}
     {% for categoria, mensagem in mensagens %}
-      <div class="alert alert-{{ 'success' if categoria == 'success' else 'danger' }} alert-dismissible fade show m-3" role="alert" data-auto-dismiss="true">
+      <div class="alert alert-{{ categoria if categoria in ['success', 'warning'] else 'danger' }} alert-dismissible fade show m-3" role="alert" data-auto-dismiss="true">
         {{ mensagem }}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
       </div>
@@ -145,7 +145,7 @@
     <div class="offcanvas-body d-flex flex-column justify-content-between">
       <nav class="nav flex-column gap-3">
         <a class="nav-link" href="{{ url_for('home') }}"><i class="fa-solid fa-house me-2"></i> Início</a>
-        <a class="nav-link active" href="{{ url_for('perfil') }}"><i class="bi bi-person me-2"></i> Perfil</a>
+        <a class="nav-link active" href="{{ url_for('perfil') }}"><i class="bi bi-person-fill me-2"></i> Perfil</a>
         
         <div>
           <a class="nav-link d-flex justify-content-between align-items-center" 
