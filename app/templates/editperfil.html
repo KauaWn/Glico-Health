@@ -69,7 +69,7 @@
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <div class="text-center mb-4">
               <div class="avatar-wrapper mx-auto mb-2">
-                <img src="{{ url_for('static', filename='img/macaquinho.jpg') }}" alt="Foto de perfil">
+                <img src="{{ url_for('foto_perfil') }}" alt="Foto de perfil" id="fotoPerfil">
                 
                 <label for="fotoInput" class="avatar-edit-btn">
                   <i class="bi bi-plus"></i>
@@ -117,7 +117,7 @@
                 <label class="form-label custom-label">Peso (kg)</label>
                 <input type="number" class="form-control custom-input" name="peso" 
                   value="{{ paciente.peso if paciente.peso else '' }}"
-                  placeholder="Digite seu peso em kg"
+                  placeholder="0.0"
                   step="0.1" min="0.1">
               </div>
             </div>
@@ -166,8 +166,22 @@
     </div>
   </div>
 
+  <script>
+      const fotoInput = document.getElementById('fotoInput');
+      const fotoPerfil = document.getElementById('fotoPerfil');
+
+      fotoInput.addEventListener('change', function () {
+          const arquivo = this.files[0];
+
+          if (arquivo) {
+              fotoPerfil.src = URL.createObjectURL(arquivo);
+          }
+      });
+  </script>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="{{ url_for('static', filename='js/flash_messages.js') }}"></script>
+
 </body>
 
 </html>

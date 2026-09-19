@@ -37,6 +37,7 @@ class Usuario(Base):
     email: Mapped[Optional[str]] = mapped_column(String(64))
     passw_hash: Mapped[Optional[str]] = mapped_column(String(256))
     foto_perfil: Mapped[Optional[bytes]] = mapped_column(LargeBinary)
+    foto_perfil_tipo: Mapped[Optional[str]] = mapped_column(String(50))
 
     cuidador: Mapped[list['Cuidador']] = relationship('Cuidador', back_populates='usuario')
     paciente: Mapped[list['Paciente']] = relationship('Paciente', back_populates='usuario')

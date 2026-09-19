@@ -218,8 +218,13 @@ class UsuarioController:
             usuario.email = email.strip()
             paciente.peso = valor_peso
 
+            print("FOTO:", foto)
+            print("FILENAME:", foto.filename if foto else None)
+            print("MIMETYPE:", foto.mimetype if foto else None)
+            
             if foto and foto.filename:
                 usuario.foto_perfil = foto.read()
+                usuario.foto_perfil_tipo = foto.mimetype
 
             db.session.commit()
             return True, "Perfil atualizado com sucesso!"

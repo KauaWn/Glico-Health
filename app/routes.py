@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, redirect, flash, url_for, request, session
+from flask import render_template, redirect, flash, url_for, request, session, Response
 from app.forms.associarpaciente import AssociarPaciente
 from app.forms.cadastro_form import CadastroForm
 from app.forms.login_form import LoginForm
@@ -185,3 +185,12 @@ def perfil():
         tipo_diabete=tipo_diabete,
         idade=idade
     )
+
+@app.route('/foto-perfil')
+def foto_perfil():
+    usuario = UsuarioController.buscar_usuario_login()
+
+    if not usuario or not usuario.foto_perfil:
+        return redirect(url_for('static', filename='img/avatar_perfil2.jpeg'))
+
+    return Response(usuario.foto_perfil, mimetype=usuario.foto_perfil_tipo or 'image/jpeg')
