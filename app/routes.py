@@ -191,6 +191,6 @@ def foto_perfil():
     usuario = UsuarioController.buscar_usuario_login()
 
     if not usuario or not usuario.foto_perfil:
-        return redirect(url_for('static', filename='img/avatar_perfil2.jpeg'))
+        return redirect(url_for('static', filename='img/avatar_borda.png'))
 
     return Response(usuario.foto_perfil, mimetype=usuario.foto_perfil_tipo or 'image/jpeg')

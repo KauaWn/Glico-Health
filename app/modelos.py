@@ -3,7 +3,7 @@ import datetime
 import enum
 
 from sqlalchemy import CHAR, Date, DateTime, Enum, ForeignKeyConstraint, Index, Integer, String, text, Text, Time, DECIMAL, LargeBinary
-from sqlalchemy.dialects.mysql import TINYINT
+from sqlalchemy.dialects.mysql import TINYINT, LONGBLOB
 from app import db
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -36,7 +36,7 @@ class Usuario(Base):
     remember_me: Mapped[int] = mapped_column(TINYINT, nullable=False)
     email: Mapped[Optional[str]] = mapped_column(String(64))
     passw_hash: Mapped[Optional[str]] = mapped_column(String(256))
-    foto_perfil: Mapped[Optional[bytes]] = mapped_column(LargeBinary)
+    foto_perfil: Mapped[Optional[bytes]] = mapped_column(LONGBLOB)
     foto_perfil_tipo: Mapped[Optional[str]] = mapped_column(String(50))
 
     cuidador: Mapped[list['Cuidador']] = relationship('Cuidador', back_populates='usuario')
