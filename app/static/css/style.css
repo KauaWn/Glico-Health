@@ -555,10 +555,19 @@ input:checked + .slider:before {
     position: absolute;
     left: 0;
     top: 0;
-    width: 70px;
+    width: 33.333%;
     height: 3px;
     background-color: #7455ad;
     border-radius: 5px;
+    transition: width 0.3s ease;
+}
+
+.barraProgresso span.progressoIntermediario {
+    width: 66.667%;
+}
+
+.barraProgresso span.progressoCompleto {
+    width: 100%;
 }
 
 .barraProgresso::after {

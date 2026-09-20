@@ -198,7 +198,7 @@ class UsuarioController:
             return False
 
     @staticmethod
-    def atualizar_perfil(nome, email, peso, foto=None):
+    def atualizar_perfil(nome, email, peso, genero=None, tipo_diabete=None, foto=None):
         try:
             usuario_id = session.get('usuario_id')
             if not usuario_id:
@@ -226,6 +226,11 @@ class UsuarioController:
             usuario.name = nome.strip()
             usuario.email = email.strip()
             paciente.peso = valor_peso
+
+            if genero in {"M", "F", "O"}:
+                paciente.genero = genero
+            if tipo_diabete in {"tipo1", "tipo2", "gestacional"}:
+                paciente.tipo_diabete = tipo_diabete
 
             print("FOTO:", foto)
             print("FILENAME:", foto.filename if foto else None)

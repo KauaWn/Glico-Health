@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}Pé diabético - GlicoHealth{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pediabetico.css') }}">
+{% endblock %}
+
+{% block content %}
+
+            <main class="col-12 col-lg-10 pe-lg-4 pe-xl-5">
+                <section class="pe-page" aria-labelledby="pe-titulo">
+                    <header class="pe-heading">
+                        <div>
+                            <span class="pe-eyebrow"><i class="fa-solid fa-heart-pulse me-2"></i>Acompanhamento do</span>
+                            <h1 id="pe-titulo">Pé diabético</h1>
+                            <p>Acompanhe os dados captados e sincronizados com a palmilha.</p>
+                        </div>
+                        <!-- <button class="pe-sync-button" type="button" id="sincronizarDados">
+                            <i class="bi bi-arrow-repeat" aria-hidden="true"></i>
+                            <span>Sincronizar dados</span>
+                        </button> -->
+                    </header>
+
+                    <div class="pe-content">
+                        <section class="pe-foot-card" aria-labelledby="mapa-pe-titulo">
+                            <div class="pe-card-heading">
+                                <div>
+                                    <span class="pe-card-label">Mapeamento do Pé Diabético</span>
+                                    <h2 id="mapa-pe-titulo">Áreas do pé</h2>
+                                </div>
+                                <span class="pe-date"><i class="bi bi-calendar3 me-1"></i>Última sincronização: --</span>
+                            </div>
+                            <div class="pe-foot-stage">
+                                <div class="pe-foot-glow"></div>
+                                <div class="pe-foot-map">
+                                    <img src="{{ url_for('static', filename='img/moldepe.png') }}" alt="Molde do pé para acompanhamento diabético" class="pe-foot-image">
+                                    <span class="pe-foot-marker marker-dedao" aria-label="Dedão"></span>
+                                    <span class="pe-foot-marker marker-antepe" aria-label="Antepé"></span>
+                                    <span class="pe-foot-marker marker-meio" aria-label="Meio do pé"></span>
+                                    <span class="pe-foot-marker marker-calcanhar" aria-label="Calcanhar"></span>
+                                </div>
+                            </div>
+                            <p class="pe-foot-caption">Os marcadores serão atualizados quando os dados do protótipo estiverem disponíveis.</p>
+                        </section>
+
+                        <!-- <aside class="pe-status-card" aria-labelledby="status-titulo">
+                            <div class="pe-card-heading">
+                                <span class="pe-card-label">Status da conexão</span>
+                                <span class="pe-status-dot"><i class="bi bi-wifi-off me-1"></i>Não sincronizado</span>
+                            </div>
+                            <h2 id="status-titulo">Dados do protótipo</h2>
+                            <p class="pe-status-description">A sincronização vai trazer as medições do seu dispositivo para esta tela.</p>
+                            <div class="pe-status-list">
+                                <div><i class="bi bi-thermometer-half"></i><span>Temperatura</span><strong>--</strong></div>
+                                <div><i class="bi bi-speedometer2"></i><span>Pressão</span><strong>--</strong></div>
+                                <div><i class="bi bi-activity"></i><span>Integridade</span><strong>--</strong></div>
+                            </div>
+                            <p class="pe-sync-feedback" id="sincronizacaoFeedback" role="status" aria-live="polite"></p>
+                        </aside>
+                    </div>
+                </section> -->
+            </main>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        const sincronizarDados = document.getElementById('sincronizarDados');
+        const sincronizacaoFeedback = document.getElementById('sincronizacaoFeedback');
+
+        sincronizarDados.addEventListener('click', () => {
+            sincronizacaoFeedback.textContent = 'A integração com o protótipo estará disponível em breve.';
+        });
+    </script>
+{% endblock %}

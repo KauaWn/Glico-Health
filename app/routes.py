@@ -92,6 +92,11 @@ def registroglicemia():
     )
 
 
+@app.route("/pediabetico")
+def pediabetico():
+    return render_template("pediabetico.html")
+
+
 @app.route("/cadastro", methods=["GET", "POST"])
 def cadastro():
     formCadastro = CadastroForm()
@@ -216,6 +221,8 @@ def perfil():
             nome=request.form.get("nome"),
             email=request.form.get("email"),
             peso=request.form.get("peso"),
+            genero=request.form.get("genero"),
+            tipo_diabete=request.form.get("tipo_diabete"),
             foto=request.files.get("foto_perfil"),
         )
         flash(mensagem, "success" if sucesso else "error")
@@ -228,7 +235,9 @@ def perfil():
         usuario=usuario, 
         paciente=paciente, 
         genero=genero,
+        genero_valor=paciente.genero if paciente else '',
         tipo_diabete=tipo_diabete,
+        tipo_diabete_valor=paciente.tipo_diabete.value if paciente and paciente.tipo_diabete else '',
         idade=idade
     )
 
