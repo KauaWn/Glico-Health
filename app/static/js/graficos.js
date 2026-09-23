@@ -75,7 +75,7 @@
     }
   });
 
-  // Função acionada ao clicar nos botões de filtro
+  // botões de filtro
   function filtrarGrafico(periodo, botaoClicado) {
     document.querySelectorAll('.btn-outline-purple').forEach(btn => btn.classList.remove('active'));
     botaoClicado.classList.add('active');
@@ -83,6 +83,7 @@
     meuGrafico.data.datasets[0].data = dadosFiltros[periodo].valores;
     meuGrafico.update();
   }
+
 
   const ctxPeDiabetico = document.getElementById('graficoPeDiabetico').getContext('2d');
   const itrValores = [0.8, 1.2, 1.9, 2.1, 2.2, 2.5, 1.4];

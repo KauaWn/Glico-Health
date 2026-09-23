@@ -74,7 +74,7 @@
               <div id="lista-marcacoes" class="lista-marcacoes"></div>
               <button id="adicionar-marcacao" class="btn-adicionar-marcacao" type="button">
                 <i class="bi bi-plus-lg" aria-hidden="true"></i>
-                Adicionar mais
+                Adicionar
               </button>
             </div>
             <form id="novo-registro" class="novo-registro d-none" method="POST" action="{{ url_for('criar_evento_calendario') }}"
@@ -135,6 +135,6 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script id="registros-glicemicos" type="application/json">{{ registros_glicemicos | tojson }}</script>
   <script id="eventos-calendario" type="application/json">{{ eventos_calendario | tojson }}</script>
-  <script src="{{ url_for('static', filename='js/grafRegistroGlicemico.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/graficos.js') }}"></script>
   <script src="{{ url_for('static', filename='js/calendario.js') }}"></script>
 {% endblock %}
