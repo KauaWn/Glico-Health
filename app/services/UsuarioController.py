@@ -16,6 +16,7 @@ from app.modelos import (
 )
 from sqlalchemy import select
 import sqlalchemy as sa
+from werkzeug.security import generate_password_hash
 
 class UsuarioController:
     @staticmethod
@@ -24,7 +25,7 @@ class UsuarioController:
             name=formCadastro.name.data,
             username=formCadastro.username.data,
             email=formCadastro.email.data,
-            passw_hash=formCadastro.password.data,
+            passw_hash=generate_password_hash(formCadastro.password.data),
             remember_me=False
         )
 

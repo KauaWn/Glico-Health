@@ -2,6 +2,7 @@ from app import db
 from app.modelos import Usuario
 from flask import session
 import sqlalchemy as sa
+from werkzeug.security import check_password_hash
 
 
 class AuthenticationController:
@@ -19,7 +20,10 @@ class AuthenticationController:
         if not usuario:
             return "Usuário não encontrado"
 
-        if usuario.passw_hash != form.password.data:
+        if not usuario.passw_hash or not check_password_hash(
+            usuario.passw_hash,
+            form.password.data
+        ):
             return "Senha incorreta"
 
         session['usuario_id'] = usuario.id #faz a identificação DO usuário
