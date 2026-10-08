@@ -255,11 +255,126 @@ body {
 }
 
 @media (min-width: 992px) {
-  .registro-header {
-    padding-left: 2rem;
+  body {
+    background-color: #f5f5f9 !important;
+    color: #302d33;
   }
 
   .registro-main {
-    padding-top: 1.5rem;
+    display: block;
+    padding: 1.5rem 1.75rem 2rem;
+  }
+
+  .registro-card {
+    width: min(100%, 1280px);
+    padding: 2rem 2.25rem 2.25rem;
+    border: 1px solid rgba(128, 103, 140, 0.14);
+    border-radius: 10px;
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgba(101, 90, 124, 0.08);
+  }
+
+  .registro-heading {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid #eee8f0;
+    text-align: left;
+  }
+
+  .registro-heading h1 {
+    color: var(--registro-purple-dark);
+    font-size: 1.75rem;
+  }
+
+  .registro-heading p {
+    margin-top: 0.35rem;
+    color: #77717b;
+    font-size: 0.9rem;
+    font-weight: 400;
+  }
+
+  .registro-form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: min(100%, 960px);
+    align-items: start;
+    gap: 1.5rem 1.75rem;
+  }
+
+  .registro-field {
+    gap: 0.5rem;
+  }
+
+  .registro-field label {
+    color: var(--registro-purple-dark);
+    font-size: 0.9rem;
+  }
+
+  .registro-field input,
+  .registro-field select,
+  .glicemia-input-wrapper {
+    min-height: 50px;
+    border: 1px solid rgba(128, 103, 140, 0.35);
+    border-radius: 8px;
+    background: var(--registro-input);
+    box-shadow: none;
+    color: #403b43;
+    font-size: 0.9rem;
+  }
+
+  .registro-field input:focus,
+  .registro-field select:focus,
+  .registro-select-wrapper:focus-within {
+    border-color: var(--registro-purple);
+    box-shadow: 0 0 0 3px rgba(128, 103, 140, 0.16);
+  }
+
+  .registro-select-wrapper select:focus {
+    box-shadow: none;
+  }
+
+  .registro-field small {
+    color: var(--registro-purple);
+    font-size: 0.78rem;
+  }
+
+  .glicemia-input-wrapper {
+    padding: 0.55rem 0.8rem;
+  }
+
+  .glicemia-input-wrapper input {
+    min-height: auto;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .glicemia-input-wrapper input:focus {
+    box-shadow: none;
+  }
+
+  .glicemia-unit {
+    color: var(--registro-purple);
+    font-size: 0.85rem;
+  }
+
+  .registro-submit {
+    grid-column: 1 / -1;
+    justify-self: end;
+    min-width: 140px;
+    min-height: 46px;
+    margin-top: 0.25rem;
+    padding: 0.6rem 1.25rem;
+    border: 0;
+    border-radius: 8px;
+    background: var(--registro-purple-dark);
+    color: #ffffff;
+    font-size: 0.9rem;
+  }
+
+  .registro-submit:hover,
+  .registro-submit:focus-visible {
+    background: #514866;
   }
 }
