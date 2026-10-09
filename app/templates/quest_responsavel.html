@@ -43,8 +43,14 @@
                                 </div>
 
                                 <div class="d-none">
-                                    <input type="radio" name="tipo_paciente" value="menor_idade" id="check-menor_idade">
-                                    <input type="radio" name="tipo_paciente" value="curatelado" id="check-curatelado">
+                                    <input type="radio" name="tipo_responsavel" value="menor_idade" id="check-menor_idade" required>
+                                    <input type="radio" name="tipo_responsavel" value="curatelado" id="check-curatelado">
+                                </div>
+
+                                <div id="relacaoResponsavelCampo" class="mt-4 d-none">
+                                    <label for="relacaoResponsavel" class="form-label pergunta">Qual a sua relação com essa pessoa?</label>
+                                    <select id="relacaoResponsavel" name="relacao_responsavel" class="select-responsavel" disabled required>
+                                    </select>
                                 </div>
                             </div>
 

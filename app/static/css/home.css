@@ -84,6 +84,94 @@ background:
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
+.barra-paciente {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.45rem 0.75rem;
+  border: 1px solid rgba(101, 90, 124, 0.12);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
+}
+
+.barra-paciente-identificacao,
+.barra-paciente-acoes {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.45rem;
+  color: #655a7c !important;
+  font-size: 0.78rem;
+}
+
+.barra-paciente-identificacao strong {
+  overflow: hidden;
+  color: #4a3e56 !important;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.barra-paciente-identificacao i {
+  color: #655a7c !important;
+}
+
+.barra-paciente-identificacao span,
+.barra-paciente-identificacao strong,
+.btn-paciente-acao i {
+  color: #655a7c !important;
+}
+
+.barra-paciente-identificacao strong {
+  color: #4a3e56 !important;
+}
+
+.btn-paciente-acao {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.55rem;
+  border: 1px solid rgba(101, 90, 124, 0.2);
+  border-radius: 7px;
+  background: #fff;
+  color: #655a7c !important;
+  font-size: 0.72rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn-paciente-acao:hover:not(:disabled) {
+  background: #f4f1f6;
+  color: #4a3e56 !important;
+}
+
+.btn-paciente-acao:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.btn-paciente-adicionar {
+  border-color: #655a7c;
+  background: #655a7c;
+  color: #fff !important;
+}
+
+.btn-paciente-adicionar i {
+  color: #fff !important;
+}
+
+.btn-paciente-adicionar:hover {
+  background: #514663;
+  color: #fff !important;
+}
+
+.btn-paciente-adicionar:hover i {
+  color: #fff !important;
+}
+
 /* Banner de Boas-vindas */
 .banner-welcome {
   background-color: #7b688b;
@@ -546,6 +634,27 @@ background:
   text-align: center;
 }
 
+.popup-confirmacao[hidden] {
+  display: none;
+}
+
+.seletor-paciente-campo {
+  width: 100%;
+  min-height: 42px;
+  padding: 0.55rem 0.75rem;
+  border: 1px solid rgba(101, 90, 124, 0.2);
+  border-radius: 8px;
+  background: #fff;
+  color: #51465f !important;
+  font-size: 0.8rem;
+}
+
+.popup-confirmacao-conteudo .seletor-paciente-campo,
+.popup-confirmacao-conteudo .seletor-paciente-campo option {
+  background-color: #fff !important;
+  color: #51465f !important;
+}
+
 .popup-confirmacao-icone {
   display: grid;
   width: 2.5rem;
@@ -582,6 +691,15 @@ background:
 }
 
 @media (max-width: 575.98px) {
+  .barra-paciente {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .barra-paciente-acoes {
+    align-self: flex-end;
+  }
+
   .bemvindo {
     align-items: center !important;
   }

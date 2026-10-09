@@ -14,16 +14,21 @@
 				<h1 id="registro-titulo">Registro glicêmico</h1>
 				<p>Preencha os campos abaixo</p>
 			</div>
-			{% with mensagens = get_flashed_messages(with_categories=true) %}
-				{% for categoria, mensagem in mensagens %}
-					{% if mensagem in ["Registro glicêmico salvo com sucesso!", "Não foi possível salvar o registro glicêmico."] %}
-						<div class="alert alert-{{ categoria if categoria in ['success', 'warning'] else 'danger' }} fade show" role="alert" data-auto-dismiss="true">{{ mensagem }}</div>
-					{% endif %}
-				{% endfor %}
-			{% endwith %}
-
 			<form class="registro-form" method="POST" action="{{ url_for('registroglicemia') }}">
 				<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+				{% if can_select_patient %}
+				<div class="registro-field">
+					<label for="paciente_id">Paciente</label>
+					<div class="registro-select-wrapper">
+						<select id="paciente_id" name="paciente_id" required>
+							{% for paciente in pacientes_cuidados %}
+							<option value="{{ paciente.id }}" {% if paciente.id == paciente_selecionado_id %}selected{% endif %}>{{ paciente.nome }}</option>
+							{% endfor %}
+						</select>
+						<i class="bi bi-chevron-down registro-select-icon" aria-hidden="true"></i>
+					</div>
+				</div>
+				{% endif %}
 				<div class="registro-field">
 					<label for="data">Data</label>
 					<input type="date" id="data" name="data" value="{{ data_inicial }}" required>
@@ -92,5 +97,4 @@
 			glicemiaWrapper.classList.toggle('has-value', glicemiaInput.value !== '');
 		});
 	</script>
-	<script src="{{ url_for('static', filename='js/flash_messages.js') }}"></script>
 {% endblock %}

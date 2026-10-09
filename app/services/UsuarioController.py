@@ -1,4 +1,4 @@
-from datetime import date, time
+from datetime import date, datetime, time
 from decimal import Decimal
 
 from app import db
@@ -9,6 +9,9 @@ from app.modelos import (
     Paciente,
     Cuidador,
     Responsavel,
+    VinculocuidadorPaciente,
+    VinculoresponsavelPaciente,
+    VinculoresponsavelPacienteStatus,
     EstadoPessoal,
     registro_glicemico as RegistroGlicemico,
     evento_calendario as EventoCalendario,
@@ -19,6 +22,209 @@ import sqlalchemy as sa
 from werkzeug.security import generate_password_hash
 
 class UsuarioController:
+    @staticmethod
+    def associar_paciente(email, relacao=None):
+        try:
+            usuario_id = session.get('usuario_id')
+            if not usuario_id:
+                return "error"
+
+            cuidador = db.session.scalars(
+                select(Cuidador).where(Cuidador.id_usuario == usuario_id)
+            ).first()
+            responsavel = db.session.scalars(
+                select(Responsavel).where(Responsavel.id_usuario == usuario_id)
+            ).first()
+            paciente = db.session.scalars(
+                select(Paciente)
+                .join(Usuario, Paciente.id_usuario == Usuario.id)
+                .where(sa.func.lower(Usuario.email) == email.strip().lower())
+            ).first()
+
+            if not paciente:
+                return "not_found"
+            if not cuidador and not responsavel:
+                return "error"
+
+            if responsavel:
+                relacoes_validas = {"Pai", "Mãe", "Tia", "Tio", "Avó", "Avô", "Outro"}
+                if relacao not in relacoes_validas:
+                    return "invalid_relation"
+
+            if cuidador:
+                vinculo_cuidador = db.session.get(
+                    VinculocuidadorPaciente,
+                    (cuidador.id, paciente.id),
+                )
+                if not vinculo_cuidador:
+                    db.session.add(
+                        VinculocuidadorPaciente(
+                            id_cuidador=cuidador.id,
+                            id_paciente=paciente.id,
+                            criado_por_cuidador=1,
+                            data_associacao=datetime.now(),
+                            status="Pendente",
+                        )
+                    )
+
+            if responsavel:
+                vinculo_responsavel = db.session.get(
+                    VinculoresponsavelPaciente,
+                    (responsavel.id, paciente.id),
+                )
+                if vinculo_responsavel:
+                    vinculo_responsavel.relacao = relacao
+                    vinculo_responsavel.status = VinculoresponsavelPacienteStatus.ATIVO
+                else:
+                    db.session.add(
+                        VinculoresponsavelPaciente(
+                            id_responsavel=responsavel.id,
+                            id_paciente=paciente.id,
+                            relacao=relacao,
+                            status=VinculoresponsavelPacienteStatus.ATIVO,
+                            criado_por_responsavel=1,
+                            data_associacao=datetime.now(),
+                        )
+                    )
+
+            db.session.commit()
+            session["paciente_visualizado_id"] = paciente.id
+            if responsavel:
+                session["relacao_responsavel"] = relacao
+            return "success"
+        except Exception as e:
+            db.session.rollback()
+            print(f"Erro ao associar paciente: {e}")
+            return "error"
+
+    @staticmethod
+    def listar_pacientes_cuidados():
+        usuario_id = session.get('usuario_id')
+        cuidador = db.session.scalars(
+            select(Cuidador).where(Cuidador.id_usuario == usuario_id)
+        ).first() if usuario_id else None
+        if not cuidador:
+            return []
+
+        pacientes_vinculados = db.session.execute(
+            select(Paciente, Usuario)
+            .join(Usuario, Paciente.id_usuario == Usuario.id)
+            .join(
+                VinculocuidadorPaciente,
+                VinculocuidadorPaciente.id_paciente == Paciente.id,
+            )
+            .where(VinculocuidadorPaciente.id_cuidador == cuidador.id)
+            .order_by(Usuario.name)
+        ).all()
+        return [
+            {
+                "id": paciente.id,
+                "usuario_id": usuario.id,
+                "nome": usuario.name,
+                "email": usuario.email or "",
+            }
+            for paciente, usuario in pacientes_vinculados
+        ]
+
+    @staticmethod
+    def listar_pacientes_responsavel():
+        usuario_id = session.get('usuario_id')
+        responsavel = db.session.scalars(
+            select(Responsavel).where(Responsavel.id_usuario == usuario_id)
+        ).first() if usuario_id else None
+        if not responsavel:
+            return []
+
+        pacientes_vinculados = db.session.execute(
+            select(Paciente, Usuario, VinculoresponsavelPaciente)
+            .join(Usuario, Paciente.id_usuario == Usuario.id)
+            .join(
+                VinculoresponsavelPaciente,
+                VinculoresponsavelPaciente.id_paciente == Paciente.id,
+            )
+            .where(VinculoresponsavelPaciente.id_responsavel == responsavel.id)
+            .order_by(Usuario.name)
+        ).all()
+        return [
+            {
+                "id": paciente.id,
+                "usuario_id": usuario.id,
+                "nome": usuario.name,
+                "email": usuario.email or "",
+                "relacao": vinculo.relacao or "Não informada",
+                "status": getattr(vinculo.status, "value", vinculo.status) or "pendente",
+            }
+            for paciente, usuario, vinculo in pacientes_vinculados
+        ]
+
+    @staticmethod
+    def listar_pacientes_acompanhados():
+        pacientes = {
+            paciente["id"]: paciente
+            for paciente in (
+                UsuarioController.listar_pacientes_cuidados()
+                + UsuarioController.listar_pacientes_responsavel()
+            )
+            if paciente.get("status") != VinculoresponsavelPacienteStatus.DESATIVADO.value
+        }
+        return sorted(pacientes.values(), key=lambda paciente: paciente["nome"].casefold())
+
+    @staticmethod
+    def selecionar_paciente_cuidado(paciente_id):
+        paciente = next(
+            (p for p in UsuarioController.listar_pacientes_acompanhados() if p["id"] == paciente_id),
+            None,
+        )
+        if not paciente:
+            return None
+
+        session["paciente_visualizado_id"] = paciente["id"]
+        return paciente
+
+    @staticmethod
+    def desativar_vinculo_responsavel(paciente_id):
+        try:
+            responsavel = UsuarioController.buscar_responsavel_login()
+            if not responsavel:
+                return False
+
+            vinculo = db.session.get(
+                VinculoresponsavelPaciente,
+                (responsavel.id, paciente_id),
+            )
+            if not vinculo or vinculo.status == VinculoresponsavelPacienteStatus.DESATIVADO:
+                return False
+
+            vinculo.status = VinculoresponsavelPacienteStatus.DESATIVADO
+            db.session.commit()
+            if session.get("paciente_visualizado_id") == paciente_id:
+                session.pop("paciente_visualizado_id", None)
+            return True
+        except Exception as e:
+            db.session.rollback()
+            print(f"Erro ao desativar vínculo do responsável: {e}")
+            return False
+
+    @staticmethod
+    def salvar_responsabilidade(tipo_responsavel):
+        try:
+            usuario_id = session.get("usuario_id")
+            if not usuario_id or tipo_responsavel not in {"menor_idade", "curatelado"}:
+                return False
+
+            responsavel = UsuarioController.buscar_responsavel_login()
+            if not responsavel:
+                return False
+
+            responsavel.responsabilidade = tipo_responsavel
+            db.session.commit()
+            session["tipo_responsavel"] = tipo_responsavel
+            return True
+        except Exception as e:
+            db.session.rollback()
+            print(f"Erro ao salvar responsabilidade: {e}")
+            return False
+
     @staticmethod
     def cadastro(formCadastro):
         usuario = Usuario(
@@ -268,8 +474,82 @@ class UsuarioController:
         return usuario 
 
     @staticmethod
-    def buscar_registros_glicemia_login():
+    def buscar_cuidador_login():
         usuario_id = session.get('usuario_id')
+        if not usuario_id:
+            return None
+        return db.session.scalars(
+            select(Cuidador).where(Cuidador.id_usuario == usuario_id)
+        ).first()
+
+    @staticmethod
+    def buscar_responsavel_login():
+        usuario_id = session.get('usuario_id')
+        if not usuario_id:
+            return None
+        return db.session.scalars(
+            select(Responsavel).where(Responsavel.id_usuario == usuario_id)
+        ).first()
+
+    @staticmethod
+    def atualizar_perfil_cuidador(nome, email, conselho, registro, foto=None):
+        try:
+            usuario_id = session.get('usuario_id')
+            if not usuario_id:
+                return False, "Sua sessão expirou. Faça login novamente."
+
+            usuario = db.session.get(Usuario, usuario_id)
+            cuidador = UsuarioController.buscar_cuidador_login()
+            if not usuario or not cuidador:
+                return False, "Dados do cuidador não encontrados."
+            if not nome or not nome.strip() or not email or not email.strip():
+                return False, "Nome e email são obrigatórios."
+            usuario.name = nome.strip()
+            usuario.email = email.strip()
+            if conselho and registro:
+                cuidador.conselho_profissional = conselho.strip()
+                cuidador.registro_profissional = registro.strip().upper()
+            if foto and foto.filename:
+                usuario.foto_perfil = foto.read()
+                usuario.foto_perfil_tipo = foto.mimetype
+
+            db.session.commit()
+            return True, "Perfil atualizado com sucesso!"
+        except Exception as e:
+            db.session.rollback()
+            print(f"Erro ao atualizar perfil do cuidador: {e}")
+            return False, "Não foi possível atualizar o perfil."
+
+    @staticmethod
+    def atualizar_perfil_responsavel(nome, email, foto=None):
+        try:
+            usuario_id = session.get('usuario_id')
+            if not usuario_id:
+                return False, "Sua sessão expirou. Faça login novamente."
+
+            usuario = db.session.get(Usuario, usuario_id)
+            responsavel = UsuarioController.buscar_responsavel_login()
+            if not usuario or not responsavel:
+                return False, "Dados do responsável não encontrados."
+            if not nome or not nome.strip() or not email or not email.strip():
+                return False, "Nome e email são obrigatórios."
+
+            usuario.name = nome.strip()
+            usuario.email = email.strip()
+            if foto and foto.filename:
+                usuario.foto_perfil = foto.read()
+                usuario.foto_perfil_tipo = foto.mimetype
+
+            db.session.commit()
+            return True, "Perfil atualizado com sucesso!"
+        except Exception as e:
+            db.session.rollback()
+            print(f"Erro ao atualizar perfil do responsável: {e}")
+            return False, "Não foi possível atualizar o perfil."
+
+    @staticmethod
+    def buscar_registros_glicemia_login(usuario_id=None):
+        usuario_id = usuario_id or session.get('usuario_id')
         if not usuario_id:
             return []
 
@@ -447,11 +727,27 @@ class UsuarioController:
         return paciente, genero, tipo_diabete, idade 
 
     @staticmethod
-    def registrar_glicemia(data_registro, hora_registro, medida, estado):
+    def registrar_glicemia(data_registro, hora_registro, medida, estado, paciente_id=None):
         try:
             usuario_id = session.get('usuario_id')
             if not usuario_id:
                 print("Erro: Nenhum usuário encontrado na sessão.")
+                return False
+
+            cuidador = UsuarioController.buscar_cuidador_login()
+            responsavel = UsuarioController.buscar_responsavel_login()
+            if cuidador or responsavel:
+                if not paciente_id:
+                    return False
+                paciente_vinculado = next(
+                    (paciente for paciente in UsuarioController.listar_pacientes_acompanhados()
+                     if paciente["id"] == int(paciente_id)),
+                    None,
+                )
+                if not paciente_vinculado:
+                    return False
+                usuario_id = paciente_vinculado["usuario_id"]
+            elif paciente_id:
                 return False
 
             estados = {

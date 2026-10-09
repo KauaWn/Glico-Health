@@ -41,7 +41,7 @@
 
                                     <div class="mb-3">
                                         <i class="fa-solid fa-address-card"></i>
-                                        {{ form.registroprofissional(placeholder="Número de Registro", class="d-inline-block w-auto") }}
+                                        {{ form.registroprofissional(placeholder="UF + 6 números", maxlength="8", class="d-inline-block w-auto") }}
                                         {% for error in form.registroprofissional.errors %}
                                             <span class="text-danger d-block small">{{ error }}</span>
                                         {% endfor %}

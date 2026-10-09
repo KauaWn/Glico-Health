@@ -215,6 +215,186 @@ body {
   opacity: 0.9;
 }
 
+.responsavel-pacientes {
+  width: min(100%, 540px);
+  margin: 1.9rem auto 0;
+  text-align: left;
+}
+
+.responsavel-pacientes h2 {
+  margin: 0 0 0.75rem;
+  color: #655A7C;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.responsavel-pacientes-lista {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.responsavel-paciente-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.7rem 0.8rem;
+  border-bottom: 1px solid rgba(101, 90, 124, 0.12);
+}
+
+.responsavel-paciente-info {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.responsavel-paciente-info strong {
+  overflow-wrap: anywhere;
+  color: #514663;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.responsavel-paciente-info small {
+  overflow-wrap: anywhere;
+  color: #8d829e;
+  font-size: 0.7rem;
+}
+
+.responsavel-status {
+  flex: 0 0 auto;
+  display: inline-flex;
+  min-height: 30px;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.responsavel-status-ativo {
+  border-color: rgba(62, 126, 85, 0.22);
+  background: #eff7f1;
+  color: #356a47;
+  cursor: pointer;
+}
+
+.responsavel-status-ativo span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4f9365;
+}
+
+.responsavel-status-ativo:hover {
+  background: #e4f1e7;
+}
+
+.responsavel-status-inativo {
+  border-color: rgba(101, 90, 124, 0.12);
+  background: #f3f1f5;
+  color: #81788d;
+}
+
+.responsavel-pacientes-vazio {
+  margin: 0;
+  color: #8d829e;
+  font-size: 0.78rem;
+  text-align: center;
+}
+
+.modal-desativar-relacao {
+  position: fixed;
+  z-index: 1060;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(42, 35, 51, 0.45);
+}
+
+.modal-desativar-relacao[hidden] {
+  display: none;
+}
+
+.modal-desativar-conteudo {
+  width: min(100%, 340px);
+  padding: 1.35rem;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 16px 45px rgba(42, 35, 51, 0.22);
+  text-align: center;
+}
+
+.modal-desativar-icone {
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin: 0 auto 0.75rem;
+  place-items: center;
+  border-radius: 50%;
+  background: #f8e8ed;
+  color: #b45d72;
+}
+
+.modal-desativar-conteudo h2 {
+  margin: 0;
+  color: #655A7C;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.modal-desativar-conteudo p {
+  margin: 0.4rem 0 1.1rem;
+  color: #81788d;
+  font-size: 0.78rem;
+}
+
+.modal-desativar-acoes {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.modal-desativar-acoes button {
+  padding: 0.5rem 1rem;
+  border: 0;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.modal-desativar-cancelar {
+  background: #eeeaf2;
+  color: #655A7C;
+}
+
+.modal-desativar-confirmar {
+  background: #b45d72;
+  color: #fff;
+}
+
+.modal-desativar-confirmar:hover {
+  background: #9f4d62;
+}
+
+@media (max-width: 575.98px) {
+  .responsavel-paciente-item {
+    align-items: flex-start;
+  }
+
+  .responsavel-status {
+    margin-top: 0.15rem;
+  }
+}
+
 /* =========================================================
    FORÇA O FUNDO ROXO/GRADIENTE NA SIDEBAR DESKTOP E NAV
    ========================================================= */
@@ -263,6 +443,11 @@ body {
 }
 
 @media (min-width: 992px) {
+  .edit-profile-main {
+    display: flex;
+    align-items: center;
+  }
+
   /* Centraliza o card de perfil no espaço disponível */
   .card-profile {
     max-width: 720px;

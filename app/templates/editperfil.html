@@ -2,19 +2,8 @@
 
 {% block title %}Perfil - GlicoHealth™{% endblock %}
 
-{% block alerts %}
-  {% with mensagens = get_flashed_messages(with_categories=true) %}
-    {% for categoria, mensagem in mensagens %}
-      <div class="alert alert-{{ categoria if categoria in ['success', 'warning'] else 'danger' }} alert-dismissible fade show m-3" role="alert" data-auto-dismiss="true">
-        {{ mensagem }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
-      </div>
-    {% endfor %}
-  {% endwith %}
-  {% endblock %}
-
   {% block content %}
-        <main class="col-12 col-lg-10">
+        <main class="col-12 col-lg-10 edit-profile-main">
         <div class="card-profile p-0 p-lg-4">
           <form method="POST" action="{{ url_for('perfil') }}" enctype="multipart/form-data">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
@@ -45,6 +34,23 @@
                 <input type="email" class="form-control custom-input" name="email" value="{{ usuario.email }}" required>
               </div>
 
+              {% if is_caregiver or is_responsible %}
+              {% if is_professional_caregiver %}
+              <div class="w-100"></div>
+
+              <div class="col-12 col-md-8 col-lg-6">
+                <label class="form-label custom-label">Conselho profissional</label>
+                <input type="text" class="form-control custom-input" name="conselho_profissional" value="{{ cuidador.conselho_profissional or '' }}" required>
+              </div>
+
+              <div class="w-100"></div>
+
+              <div class="col-12 col-md-8 col-lg-6">
+                <label class="form-label custom-label">Número de registro</label>
+                <input type="text" class="form-control custom-input" name="registro_profissional" value="{{ cuidador.registro_profissional or '' }}" required>
+              </div>
+              {% endif %}
+              {% else %}
               <div class="w-100"></div>
 
               <div class="col-6 col-md-4 col-lg-3">
@@ -79,12 +85,57 @@
                   placeholder="0.0"
                   step="0.1" min="0.1">
               </div>
+              {% endif %}
             </div>
+
+            {% if is_responsible %}
+            <section class="responsavel-pacientes" aria-labelledby="responsavel-pacientes-titulo">
+              <h2 id="responsavel-pacientes-titulo">Relações com pacientes</h2>
+              {% if pacientes_responsaveis %}
+              <ul class="responsavel-pacientes-lista">
+                {% for paciente_associado in pacientes_responsaveis %}
+                <li class="responsavel-paciente-item">
+                  <div class="responsavel-paciente-info">
+                    <strong>{{ paciente_associado.relacao }}</strong>
+                    <small>{{ paciente_associado.nome }}{% if paciente_associado.email %} · {{ paciente_associado.email }}{% endif %}</small>
+                  </div>
+                  {% if paciente_associado.status == 'desativado' %}
+                  <span class="responsavel-status responsavel-status-inativo">Desativado</span>
+                  {% else %}
+                  <button type="button" class="responsavel-status responsavel-status-ativo" data-desativar-url="{{ url_for('desativar_vinculo_responsavel', paciente_id=paciente_associado.id) }}" data-paciente-nome="{{ paciente_associado.nome }}" data-paciente-relacao="{{ paciente_associado.relacao }}">
+                    <span aria-hidden="true"></span>Ativo
+                  </button>
+                  {% endif %}
+                </li>
+                {% endfor %}
+              </ul>
+              {% else %}
+              <p class="responsavel-pacientes-vazio">Nenhum paciente associado.</p>
+              {% endif %}
+            </section>
+            {% endif %}
 
             <div class="text-center mt-4 pt-2">
               <button type="submit" class="btn btn-alterar">Alterar</button>
             </div>
           </form>
+
+          {% if is_responsible %}
+          <div id="modalDesativarRelacao" class="modal-desativar-relacao" role="presentation" hidden>
+            <div class="modal-desativar-conteudo" role="alertdialog" aria-modal="true" aria-labelledby="modalDesativarTitulo">
+              <div class="modal-desativar-icone"><i class="bi bi-person-x" aria-hidden="true"></i></div>
+              <h2 id="modalDesativarTitulo">Desativar relação?</h2>
+              <p id="modalDesativarTexto">O responsável deixará de ter acesso aos dados deste paciente.</p>
+              <form id="formDesativarRelacao" method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <div class="modal-desativar-acoes">
+                  <button class="modal-desativar-cancelar" type="button" data-fechar-modal>Cancelar</button>
+                  <button class="modal-desativar-confirmar" type="submit">Desativar</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          {% endif %}
         </div>
       </main>
 
@@ -103,6 +154,8 @@
           }
       });
   </script>
+  {% if is_responsible %}
+  <script src="{{ url_for('static', filename='js/perfil_responsavel.js') }}"></script>
+  {% endif %}
 
-  <script src="{{ url_for('static', filename='js/flash_messages.js') }}"></script>
 {% endblock %}

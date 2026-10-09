@@ -17,7 +17,7 @@ body {
 
 .pe-page {
   min-height: calc(100vh - 3rem);
-  padding: clamp(0.75rem, 3vw, 2.5rem) clamp(0rem, 2vw, 1.75rem);
+  padding: 0 0 clamp(0.75rem, 3vw, 2.5rem);
 }
 
 .pe-heading {

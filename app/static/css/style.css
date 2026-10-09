@@ -692,3 +692,16 @@ input:checked + .slider:before {
     font-size: 13px;
     margin-bottom: 18px;
 }
+
+.select-responsavel {
+    width: 100%;
+    height: 48px;
+    padding: 0 18px;
+    border: 0;
+    border-radius: 15px;
+    background-color: #D8D2DF;
+    color: #655A7C;
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    outline: none;
+}

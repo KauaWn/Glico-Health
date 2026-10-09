@@ -85,7 +85,9 @@
   }
 
 
-  const ctxPeDiabetico = document.getElementById('graficoPeDiabetico').getContext('2d');
+  const canvasPeDiabetico = document.getElementById('graficoPeDiabetico');
+  if (canvasPeDiabetico) {
+  const ctxPeDiabetico = canvasPeDiabetico.getContext('2d');
   const itrValores = [0.8, 1.2, 1.9, 2.1, 2.2, 2.5, 1.4];
   const itrCores = itrValores.map(valor => {
     if (valor > 2.2) return 'rgba(255, 188, 220, 0.9)';
@@ -127,3 +129,4 @@
       }
     }
   });
+  }
