@@ -104,7 +104,7 @@ background:
   align-items: center;
   gap: 0.45rem;
   color: #655a7c !important;
-  font-size: 0.78rem;
+  font-size: 0.875rem;
 }
 
 .barra-paciente-identificacao strong {
@@ -138,7 +138,7 @@ background:
   border-radius: 7px;
   background: #fff;
   color: #655a7c !important;
-  font-size: 0.72rem;
+  font-size: 0.875rem;
   text-decoration: none;
   cursor: pointer;
 }
@@ -163,12 +163,12 @@ background:
   color: #fff !important;
 }
 
-.btn-paciente-adicionar:hover {
+.btn-paciente-acao.btn-paciente-adicionar:hover {
   background: #514663;
   color: #fff !important;
 }
 
-.btn-paciente-adicionar:hover i {
+.btn-paciente-acao.btn-paciente-adicionar:hover i {
   color: #fff !important;
 }
 

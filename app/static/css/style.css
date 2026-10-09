@@ -154,6 +154,35 @@ body {
     transform: scale(1.05);
 }
 
+.btn-voltar-associacao {
+    position: absolute;
+    top: 1.5rem;
+    left: 1.5rem;
+    z-index: 1;
+    width: 36px;
+    height: 36px;
+    border: 2px solid #655A7C;
+    border-radius: 50%;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #655A7C;
+    text-decoration: none;
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+.btn-voltar-associacao i {
+    font-size: 15px;
+    color: #655A7C;
+}
+
+.btn-voltar-associacao:hover {
+    transform: scale(1.05);
+    background: transparent;
+    color: #655A7C;
+}
+
 #cadastroQuest {
     width: 100%;
     display: flex;
