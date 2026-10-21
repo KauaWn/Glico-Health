@@ -22,10 +22,17 @@ def home():
     if not usuario:
         return redirect(url_for("login"))
 
-    cuidador = UsuarioController.buscar_cuidador_login()
-    responsavel = UsuarioController.buscar_responsavel_login()
-    tem_seletor_paciente = bool(cuidador or responsavel)
-    pacientes_cuidados = UsuarioController.listar_pacientes_acompanhados() if tem_seletor_paciente else []
+    papeis = UsuarioController.listar_papeis_usuario()
+    papel_ativo = UsuarioController.obter_papel_ativo()
+    if not papel_ativo:
+        flash("Sua conta ainda não possui um papel configurado.", "warning")
+        return redirect(url_for("questionario"))
+
+    tem_seletor_paciente = papel_ativo in {"cuidador", "responsavel"}
+    pacientes_cuidados = (
+        UsuarioController.listar_pacientes_acompanhados(papel_ativo)
+        if tem_seletor_paciente else []
+    )
     paciente_visualizado = None
     registros_glicemicos = []
     if tem_seletor_paciente and pacientes_cuidados:
@@ -46,13 +53,27 @@ def home():
     return render_template(
         "home.html",
         usuario=usuario,
+        papeis=papeis,
+        papel_ativo=papel_ativo,
+        nomes_papeis=UsuarioController.PAPEIS,
         registros_glicemicos=registros_glicemicos,
         eventos_calendario=eventos_calendario,
-        is_caregiver=bool(cuidador),
+        is_caregiver=papel_ativo == "cuidador",
         has_patient_switcher=tem_seletor_paciente,
         pacientes_cuidados=pacientes_cuidados,
         paciente_visualizado=paciente_visualizado,
     )
+
+
+@app.route("/home/papel", methods=["POST"])
+def selecionar_papel_home():
+    if not UsuarioController.buscar_usuario_login():
+        return redirect(url_for("login"))
+
+    papel = request.form.get("papel")
+    if not UsuarioController.selecionar_papel(papel):
+        flash("Não foi possível trocar para esse papel.", "error")
+    return redirect(url_for("home"))
 
 
 @app.route("/home/paciente", methods=["POST"])
@@ -108,10 +129,15 @@ def excluir_evento_calendario(evento_id):
 
 @app.route("/registroglicemia", methods=["GET", "POST"])
 def registroglicemia():
-    cuidador = UsuarioController.buscar_cuidador_login()
-    responsavel = UsuarioController.buscar_responsavel_login()
-    pode_escolher_paciente = bool(cuidador or responsavel)
-    pacientes_cuidados = UsuarioController.listar_pacientes_acompanhados() if pode_escolher_paciente else []
+    papel_ativo = UsuarioController.obter_papel_ativo()
+    if not papel_ativo:
+        return redirect(url_for("login"))
+
+    pode_escolher_paciente = papel_ativo in {"cuidador", "responsavel"}
+    pacientes_cuidados = (
+        UsuarioController.listar_pacientes_acompanhados(papel_ativo)
+        if pode_escolher_paciente else []
+    )
 
     if pode_escolher_paciente and not pacientes_cuidados:
         flash("Associe um paciente antes de registrar uma glicemia.", "warning")
@@ -232,6 +258,11 @@ def quest_tipo_cuidador():
 
 @app.route("/verificar_paciente", methods=["GET", "POST"])
 def quest_verificar_paciente():
+    papel_ativo = UsuarioController.obter_papel_ativo()
+    if papel_ativo not in {"cuidador", "responsavel"}:
+        flash("Selecione o papel de cuidador ou responsável para associar um paciente.", "warning")
+        return redirect(url_for("home"))
+
     formAssociarPaciente = AssociarPaciente()
     requisicao_ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
 
@@ -263,7 +294,7 @@ def quest_verificar_paciente():
                 return jsonify(success=False, message=mensagem), status
             flash(mensagem, "error")
 
-    responsavel = UsuarioController.buscar_responsavel_login()
+    responsavel = UsuarioController.buscar_responsavel_login() if papel_ativo == "responsavel" else None
     relacao = session.get("relacao_responsavel", "")
     relacoes_disponiveis = []
     if responsavel:
@@ -316,8 +347,9 @@ def perfil():
         flash("Sua sessão expirou. Faça login novamente.", "error")
         return redirect(url_for("login"))
 
-    cuidador = UsuarioController.buscar_cuidador_login()
-    responsavel = UsuarioController.buscar_responsavel_login()
+    papel_ativo = UsuarioController.obter_papel_ativo()
+    cuidador = UsuarioController.buscar_cuidador_login() if papel_ativo == "cuidador" else None
+    responsavel = UsuarioController.buscar_responsavel_login() if papel_ativo == "responsavel" else None
     if request.method == "POST":
         if cuidador:
             sucesso, mensagem = UsuarioController.atualizar_perfil_cuidador(

@@ -19,6 +19,22 @@
             </div>
           </div>
 
+          {% if papeis|length > 1 %}
+          <form class="barra-papel" method="POST" action="{{ url_for('selecionar_papel_home') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <label for="papelAtivo" class="barra-papel-label">
+              <i class="bi bi-person-badge" aria-hidden="true"></i>
+              Perfil ativo
+            </label>
+            <select id="papelAtivo" name="papel" class="seletor-papel-campo" aria-label="Trocar perfil">
+              {% for papel in papeis %}
+              <option value="{{ papel }}" {% if papel == papel_ativo %}selected{% endif %}>{{ nomes_papeis[papel] }}</option>
+              {% endfor %}
+            </select>
+            <button class="btn-papel-acao" type="submit">Trocar</button>
+          </form>
+          {% endif %}
+
           {% if has_patient_switcher %}
           <div class="barra-paciente" aria-label="Paciente visualizado">
             <div class="barra-paciente-identificacao">

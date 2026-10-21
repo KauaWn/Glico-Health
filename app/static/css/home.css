@@ -172,6 +172,53 @@ background:
   color: #fff !important;
 }
 
+.barra-papel {
+  display: flex;
+  min-height: 48px;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid rgba(101, 90, 124, 0.12);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
+}
+
+.barra-papel-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #4a3e56 !important;
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.seletor-papel-campo {
+  min-width: 0;
+  flex: 1;
+  padding: 0.35rem 0.55rem;
+  border: 1px solid rgba(101, 90, 124, 0.25);
+  border-radius: 7px;
+  background: #fff;
+  color: #4a3e56 !important;
+  font-size: 0.875rem;
+}
+
+.btn-papel-acao {
+  padding: 0.35rem 0.65rem;
+  border: 1px solid #655a7c;
+  border-radius: 7px;
+  background: #655a7c;
+  color: #fff !important;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.btn-papel-acao:hover {
+  background: #514663;
+}
+
 /* Banner de Boas-vindas */
 .banner-welcome {
   background-color: #7b688b;

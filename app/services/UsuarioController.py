@@ -22,6 +22,52 @@ import sqlalchemy as sa
 from werkzeug.security import generate_password_hash
 
 class UsuarioController:
+    PAPEIS = {
+        "paciente": "Paciente",
+        "cuidador": "Cuidador",
+        "responsavel": "Responsável",
+    }
+
+    @staticmethod
+    def listar_papeis_usuario():
+        usuario_id = session.get("usuario_id")
+        if not usuario_id:
+            return []
+
+        papeis = []
+        verificacoes = (
+            ("paciente", Paciente),
+            ("cuidador", Cuidador),
+            ("responsavel", Responsavel),
+        )
+        for papel, modelo in verificacoes:
+            if db.session.scalars(
+                select(modelo.id).where(modelo.id_usuario == usuario_id)
+            ).first() is not None:
+                papeis.append(papel)
+        return papeis
+
+    @staticmethod
+    def obter_papel_ativo():
+        papeis = UsuarioController.listar_papeis_usuario()
+        papel_ativo = session.get("papel_ativo")
+        if papel_ativo not in papeis:
+            papel_ativo = papeis[0] if papeis else None
+            if papel_ativo:
+                session["papel_ativo"] = papel_ativo
+            else:
+                session.pop("papel_ativo", None)
+        return papel_ativo
+
+    @staticmethod
+    def selecionar_papel(papel):
+        if papel not in UsuarioController.listar_papeis_usuario():
+            return False
+
+        session["papel_ativo"] = papel
+        session.pop("paciente_visualizado_id", None)
+        return True
+
     @staticmethod
     def associar_paciente(email, relacao=None):
         try:
@@ -29,12 +75,9 @@ class UsuarioController:
             if not usuario_id:
                 return "error"
 
-            cuidador = db.session.scalars(
-                select(Cuidador).where(Cuidador.id_usuario == usuario_id)
-            ).first()
-            responsavel = db.session.scalars(
-                select(Responsavel).where(Responsavel.id_usuario == usuario_id)
-            ).first()
+            papel_ativo = UsuarioController.obter_papel_ativo()
+            cuidador = UsuarioController.buscar_cuidador_login() if papel_ativo == "cuidador" else None
+            responsavel = UsuarioController.buscar_responsavel_login() if papel_ativo == "responsavel" else None
             paciente = db.session.scalars(
                 select(Paciente)
                 .join(Usuario, Paciente.id_usuario == Usuario.id)
@@ -158,13 +201,18 @@ class UsuarioController:
         ]
 
     @staticmethod
-    def listar_pacientes_acompanhados():
+    def listar_pacientes_acompanhados(papel=None):
+        papel = papel or UsuarioController.obter_papel_ativo()
+        if papel == "cuidador":
+            pacientes_vinculados = UsuarioController.listar_pacientes_cuidados()
+        elif papel == "responsavel":
+            pacientes_vinculados = UsuarioController.listar_pacientes_responsavel()
+        else:
+            return []
+
         pacientes = {
             paciente["id"]: paciente
-            for paciente in (
-                UsuarioController.listar_pacientes_cuidados()
-                + UsuarioController.listar_pacientes_responsavel()
-            )
+            for paciente in pacientes_vinculados
             if paciente.get("status") != VinculoresponsavelPacienteStatus.DESATIVADO.value
         }
         return sorted(pacientes.values(), key=lambda paciente: paciente["nome"].casefold())
@@ -184,6 +232,8 @@ class UsuarioController:
     @staticmethod
     def desativar_vinculo_responsavel(paciente_id):
         try:
+            if UsuarioController.obter_papel_ativo() != "responsavel":
+                return False
             responsavel = UsuarioController.buscar_responsavel_login()
             if not responsavel:
                 return False
@@ -734,20 +784,19 @@ class UsuarioController:
                 print("Erro: Nenhum usuário encontrado na sessão.")
                 return False
 
-            cuidador = UsuarioController.buscar_cuidador_login()
-            responsavel = UsuarioController.buscar_responsavel_login()
-            if cuidador or responsavel:
+            papel_ativo = UsuarioController.obter_papel_ativo()
+            if papel_ativo in {"cuidador", "responsavel"}:
                 if not paciente_id:
                     return False
                 paciente_vinculado = next(
-                    (paciente for paciente in UsuarioController.listar_pacientes_acompanhados()
+                    (paciente for paciente in UsuarioController.listar_pacientes_acompanhados(papel_ativo)
                      if paciente["id"] == int(paciente_id)),
                     None,
                 )
                 if not paciente_vinculado:
                     return False
                 usuario_id = paciente_vinculado["usuario_id"]
-            elif paciente_id:
+            elif papel_ativo != "paciente" or paciente_id:
                 return False
 
             estados = {
