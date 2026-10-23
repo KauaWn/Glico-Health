@@ -29,7 +29,7 @@
                                     <span class="pe-card-label">Mapeamento do Pé Diabético</span>
                                     <h2 id="mapa-pe-titulo">Áreas do pé</h2>
                                 </div>
-                                <span class="pe-date"><i class="bi bi-calendar3 me-1"></i>Última sincronização: --</span>
+                                <span class="pe-date"><i class="bi bi-calendar3 me-1"></i>Última leitura: <span id="horaTemperatura">{{ hora_temperatura or '--' }}</span></span>
                             </div>
                             <div class="pe-foot-stage">
                                 <div class="pe-foot-glow"></div>
@@ -43,21 +43,17 @@
                             </div>
                             <p class="pe-foot-caption">Os marcadores serão atualizados quando os dados do protótipo estiverem disponíveis.</p>
                         </section>
-<!-- 
                         <aside class="pe-status-card" aria-labelledby="status-titulo">
                             <div class="pe-card-heading">
-                                <span class="pe-card-label">Status da conexão</span>
-                                <span class="pe-status-dot"><i class="bi bi-wifi-off me-1"></i>Não sincronizado</span>
+                                <span class="pe-card-label">Leitura da palmilha</span>
+                                <span class="pe-status-dot" id="statusTemperatura">Aguardando leitura</span>
                             </div>
-                            <h2 id="status-titulo">Dados do protótipo</h2>
-                            <p class="pe-status-description">A sincronização vai trazer as medições do seu dispositivo para esta tela.</p>
+                            <h2 id="status-titulo">Temperatura</h2>
+                            <p class="pe-status-description">Última temperatura recebida do dispositivo.</p>
                             <div class="pe-status-list">
-                                <div><i class="bi bi-thermometer-half"></i><span>Temperatura</span><strong>--</strong></div>
-                                <div><i class="bi bi-speedometer2"></i><span>Pressão</span><strong>--</strong></div>
-                                <div><i class="bi bi-activity"></i><span>Integridade</span><strong>--</strong></div>
+                                <div><i class="bi bi-thermometer-half"></i><span>Temperatura</span><strong id="valorTemperatura">{% if temperatura is not none %}{{ '%.1f'|format(temperatura) }} °C{% else %}--{% endif %}</strong></div>
                             </div>
-                            <p class="pe-sync-feedback" id="sincronizacaoFeedback" role="status" aria-live="polite"></p>
-                        </aside> -->
+                        </aside>
                     </div>
                 </section>
             </main>
@@ -65,11 +61,27 @@
 
 {% block scripts %}
     <script>
-        const sincronizarDados = document.getElementById('sincronizarDados');
-        const sincronizacaoFeedback = document.getElementById('sincronizacaoFeedback');
+        const valorTemperatura = document.getElementById('valorTemperatura');
+        const horaTemperatura = document.getElementById('horaTemperatura');
+        const statusTemperatura = document.getElementById('statusTemperatura');
 
-        sincronizarDados.addEventListener('click', () => {
-            sincronizacaoFeedback.textContent = 'A integração com o protótipo estará disponível em breve.';
-        });
+        async function atualizarTemperatura() {
+            try {
+                const resposta = await fetch('{{ url_for("receber_temperatura") }}');
+                if (!resposta.ok) return;
+
+                const leitura = await resposta.json();
+                if (leitura.temperatura !== null) {
+                    valorTemperatura.textContent = `${Number(leitura.temperatura).toFixed(1)} °C`;
+                    horaTemperatura.textContent = leitura.hora || '--';
+                    statusTemperatura.textContent = 'Leitura recebida';
+                }
+            } catch (erro) {
+                statusTemperatura.textContent = 'Sem conexão';
+            }
+        }
+
+        atualizarTemperatura();
+        window.setInterval(atualizarTemperatura, 3000);
     </script>
 {% endblock %}

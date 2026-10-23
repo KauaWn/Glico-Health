@@ -1,4 +1,4 @@
-from app import app
+from app import app, csrf
 from flask import render_template, redirect, flash, url_for, request, session, Response, jsonify
 from app.forms.associarpaciente import AssociarPaciente
 from app.forms.cadastro_form import CadastroForm
@@ -9,6 +9,8 @@ from app.services.UsuarioController import UsuarioController
 from app.services.AuthenticationController import AuthenticationController
 from app.forms.papel_form import PapelForm
 from datetime import date, time
+from datetime import datetime
+from flask import request, jsonify
 
 
 @app.route("/")
@@ -180,7 +182,11 @@ def registroglicemia():
 
 @app.route("/pediabetico")
 def pediabetico():
-    return render_template("pediabetico.html")
+    return render_template(
+        "pediabetico.html",
+        temperatura=ultima["temperatura"],
+        hora_temperatura=ultima["hora"],
+    )
 
 
 @app.route("/cadastro", methods=["GET", "POST"])
@@ -430,3 +436,27 @@ def foto_perfil():
         return redirect(url_for('static', filename='img/avatar_borda.png'))
 
     return Response(usuario.foto_perfil, mimetype=usuario.foto_perfil_tipo or 'image/jpeg')
+
+
+# parte do esp
+
+# guarda a última leitura recebida
+ultima = {"temperatura": None, "hora": None}
+
+
+@app.route("/temperatura", methods=["GET", "POST"])
+@csrf.exempt
+def receber_temperatura():
+    if request.method == "GET":
+        dados = request.get_json(silent=True) or {}
+        print("Dados recebidos:", dados)
+        return jsonify(ultima)
+
+    dados = request.get_json(silent=True) or {}
+    print("Dados recebidos:", dados)  # Adicione esta linha para depuração
+    temp = dados.get("temperatura")
+    if temp is None:
+        return {"erro": "campo 'temperatura' ausente"}, 400
+    ultima["temperatura"] = float(temp)
+    ultima["hora"] = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    return {"ok": True}
