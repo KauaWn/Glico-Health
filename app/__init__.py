@@ -12,20 +12,34 @@ csrf = CSRFProtect(app)
 
 
 def criar_banco():
-    conexao = pymysql.connect(
-        host=Config.DB_HOST,
-        user=Config.DB_USER,
-        password=Config.DB_PASSWORD
-    )
+    import os
+    # Busca os valores da Vercel; se não encontrar, usa os padrões da sua máquina local
+    host = os.getenv("DB_HOST", "localhost")
+    user = os.getenv("DB_USER", "root")
+    password = os.getenv("DB_PASSWORD", "labinfo")
+    port = int(os.getenv("DB_PORT", "3306"))
+    db_name = os.getenv("DB_NAME", "glicohealthbd")
 
-    cursor = conexao.cursor()
-
-    cursor.execute("CREATE DATABASE IF NOT EXISTS glicohealthbd")
-
-    cursor.close()
-    conexao.close()
+    try:
+        conexao = pymysql.connect(
+            host=host,
+            user=user,
+            password=password,
+            port=port
+        )
+        cursor = conexao.cursor()
+        
+        # Só tenta criar se for local. Na nuvem ele usa o DB existente.
+        if host == "localhost":
+            cursor.execute(f"CREATE DATABASE IF NOT EXISTS {db_name}")
+            
+        cursor.close()
+        conexao.close()
+    except Exception as e:
+        print(f"Aviso na inicialização do banco: {e}")
 
 criar_banco()
+
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
