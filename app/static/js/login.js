@@ -1,7 +1,7 @@
-const passwordInput = document.querySelector('.campoLogin input[name="password"]');
-const togglePasswordButton = document.querySelector('.mostrarSenha');
+document.querySelectorAll('.mostrarSenha').forEach((togglePasswordButton) => {
+    const passwordInput = togglePasswordButton.closest('.campoLogin')?.querySelector('input[type="password"], input[type="text"]');
+    if (!passwordInput) return;
 
-if (passwordInput && togglePasswordButton) {
     const passwordIcon = togglePasswordButton.querySelector('i');
 
     togglePasswordButton.addEventListener('click', () => {
@@ -15,4 +15,4 @@ if (passwordInput && togglePasswordButton) {
             passwordIcon.classList.toggle('fa-eye', !isVisible);
         }
     });
-}
+});

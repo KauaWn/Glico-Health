@@ -194,6 +194,10 @@ background:
   white-space: nowrap;
 }
 
+.barra-papel-label i {
+  color: #655a7c !important;
+}
+
 .seletor-papel-campo {
   min-width: 0;
   flex: 1;
@@ -203,6 +207,11 @@ background:
   background: #fff;
   color: #4a3e56 !important;
   font-size: 0.875rem;
+}
+
+.seletor-papel-campo option {
+  background-color: #fff !important;
+  color: #4a3e56 !important;
 }
 
 .btn-papel-acao {
@@ -709,8 +718,8 @@ background:
   margin: 0 auto 0.75rem;
   place-items: center;
   border-radius: 50%;
-  background: #f8e8ed;
-  color: #b45d72 !important;
+  background: #f0e8f8;
+  color: #655A7C !important;
 }
 
 .popup-confirmacao-icone i { color: inherit !important; }
@@ -719,7 +728,7 @@ background:
 .popup-confirmacao-acoes { display: flex; justify-content: center; gap: 0.5rem; }
 .popup-confirmacao-acoes button { padding: 0.5rem 1rem; border: 0; border-radius: 999px; font-size: 0.75rem; font-weight: 600; cursor: pointer; }
 .popup-cancelar { background: #eeeaf2; color: #655A7C !important; }
-.popup-confirmar { background: #b45d72; color: #fff !important; }
+.popup-confirmar { background: #655A7C; color: #fff !important; }
 
 @media (max-width: 991.98px) {
   .container-fluid {

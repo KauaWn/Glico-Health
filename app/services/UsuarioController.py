@@ -1,5 +1,6 @@
 from datetime import date, datetime, time
 from decimal import Decimal
+from uuid import uuid4
 
 from app import db
 from datetime import date 
@@ -27,6 +28,19 @@ class UsuarioController:
         "cuidador": "Cuidador",
         "responsavel": "Responsável",
     }
+
+    @staticmethod
+    def email_em_uso(email, excluir_usuario_id=None):
+        email_normalizado = (email or "").strip().casefold()
+        if not email_normalizado:
+            return False
+
+        consulta = select(Usuario.id).where(
+            sa.func.lower(sa.func.trim(Usuario.email)) == email_normalizado
+        )
+        if excluir_usuario_id is not None:
+            consulta = consulta.where(Usuario.id != excluir_usuario_id)
+        return db.session.scalars(consulta).first() is not None
 
     @staticmethod
     def listar_papeis_usuario():
@@ -277,10 +291,14 @@ class UsuarioController:
 
     @staticmethod
     def cadastro(formCadastro):
+        email = (formCadastro.email.data or "").strip()
+        if UsuarioController.email_em_uso(email):
+            return False
+
         usuario = Usuario(
             name=formCadastro.name.data,
             username=formCadastro.username.data,
-            email=formCadastro.email.data,
+            email=email,
             passw_hash=generate_password_hash(formCadastro.password.data),
             remember_me=False
         )
@@ -398,6 +416,75 @@ class UsuarioController:
             return False
 
     @staticmethod
+    def cadastrar_paciente_acompanhado(form_paciente, nome):
+        try:
+            papel_ativo = UsuarioController.obter_papel_ativo()
+            cuidador = UsuarioController.buscar_cuidador_login() if papel_ativo == "cuidador" else None
+            responsavel = UsuarioController.buscar_responsavel_login() if papel_ativo == "responsavel" else None
+            if not nome or not cuidador and not responsavel:
+                return False
+
+            relacao = session.get("relacao_responsavel")
+            if responsavel and relacao not in {"Pai", "Mãe", "Tia", "Tio", "Avó", "Avô", "Outro"}:
+                return False
+
+            usuario_paciente = Usuario(
+                name=nome,
+                username=f"paciente-{uuid4().hex}",
+                remember_me=False,
+            )
+            db.session.add(usuario_paciente)
+            db.session.flush()
+
+            paciente = Paciente(id_usuario=usuario_paciente.id)
+            dia = int(form_paciente.dia.data)
+            mes = int(form_paciente.mes.data)
+            ano = int(form_paciente.ano.data)
+            paciente.nascimento = date(ano, mes, dia)
+            paciente.genero = {
+                "masculino": "M",
+                "feminino": "F",
+                "outro": "O",
+            }.get(form_paciente.sexo.data)
+            paciente.tipo_diabete = {
+                "tipo_1": "tipo1",
+                "tipo_2": "tipo2",
+                "gestacional": "gestacional",
+            }.get(form_paciente.tipo_diabetes.data)
+            db.session.add(paciente)
+            db.session.flush()
+
+            if cuidador:
+                db.session.add(
+                    VinculocuidadorPaciente(
+                        id_cuidador=cuidador.id,
+                        id_paciente=paciente.id,
+                        criado_por_cuidador=1,
+                        data_associacao=datetime.now(),
+                        status="Pendente",
+                    )
+                )
+            else:
+                db.session.add(
+                    VinculoresponsavelPaciente(
+                        id_responsavel=responsavel.id,
+                        id_paciente=paciente.id,
+                        relacao=relacao,
+                        status=VinculoresponsavelPacienteStatus.ATIVO,
+                        criado_por_responsavel=1,
+                        data_associacao=datetime.now(),
+                    )
+                )
+
+            db.session.commit()
+            session["paciente_visualizado_id"] = paciente.id
+            return True
+        except Exception as e:
+            db.session.rollback()
+            print(f"Erro ao cadastrar paciente acompanhado: {e}")
+            return False
+
+    @staticmethod
     def salvar_tipo_cuidador(tipo_cuidador):
         try:
             usuario_id = session.get('usuario_id')
@@ -472,6 +559,8 @@ class UsuarioController:
                 return False, "Dados do paciente não encontrados."
             if not nome or not nome.strip() or not email or not email.strip():
                 return False, "Nome e email são obrigatórios."
+            if UsuarioController.email_em_uso(email, usuario_id):
+                return False, "Este e-mail já está cadastrado em outra conta."
 
             if peso and peso.strip():
                 valor_peso = Decimal(peso.replace(',', '.'))
@@ -481,7 +570,7 @@ class UsuarioController:
                 valor_peso = None
 
             usuario.name = nome.strip()
-            usuario.email = email.strip()
+            usuario.email = email.strip().lower()
             paciente.peso = valor_peso
 
             if genero in {"M", "F", "O"}:
@@ -554,8 +643,10 @@ class UsuarioController:
                 return False, "Dados do cuidador não encontrados."
             if not nome or not nome.strip() or not email or not email.strip():
                 return False, "Nome e email são obrigatórios."
+            if UsuarioController.email_em_uso(email, usuario_id):
+                return False, "Este e-mail já está cadastrado em outra conta."
             usuario.name = nome.strip()
-            usuario.email = email.strip()
+            usuario.email = email.strip().lower()
             if conselho and registro:
                 cuidador.conselho_profissional = conselho.strip()
                 cuidador.registro_profissional = registro.strip().upper()
@@ -583,9 +674,11 @@ class UsuarioController:
                 return False, "Dados do responsável não encontrados."
             if not nome or not nome.strip() or not email or not email.strip():
                 return False, "Nome e email são obrigatórios."
+            if UsuarioController.email_em_uso(email, usuario_id):
+                return False, "Este e-mail já está cadastrado em outra conta."
 
             usuario.name = nome.strip()
-            usuario.email = email.strip()
+            usuario.email = email.strip().lower()
             if foto and foto.filename:
                 usuario.foto_perfil = foto.read()
                 usuario.foto_perfil_tipo = foto.mimetype

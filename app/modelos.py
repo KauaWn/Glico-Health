@@ -34,7 +34,7 @@ class Usuario(Base):
     name: Mapped[str] = mapped_column(String(100), nullable=False)
     username: Mapped[str] = mapped_column(String(64), nullable=False)
     remember_me: Mapped[int] = mapped_column(TINYINT, nullable=False)
-    email: Mapped[Optional[str]] = mapped_column(String(64))
+    email: Mapped[Optional[str]] = mapped_column(String(64), unique=True)
     passw_hash: Mapped[Optional[str]] = mapped_column(String(256))
     foto_perfil: Mapped[Optional[bytes]] = mapped_column(LONGBLOB)
     foto_perfil_tipo: Mapped[Optional[str]] = mapped_column(String(50))

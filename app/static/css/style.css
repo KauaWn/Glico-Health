@@ -395,6 +395,7 @@ body {
 }
 
 .campoLogin input[type="text"],
+.campoLogin input[type="email"],
 .campoLogin input[type="password"] {
     width: 100% !important;
     height: 48px !important;

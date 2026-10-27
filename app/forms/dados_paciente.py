@@ -1,8 +1,9 @@
 from flask_wtf import FlaskForm
-from wtforms import SelectField
-from wtforms.validators import DataRequired
+from wtforms import SelectField, StringField
+from wtforms.validators import DataRequired, Length
 
 class DadosPacienteForm(FlaskForm):
+    nome = StringField('Nome do paciente', validators=[Length(max=100)])
     dia = SelectField('Dia', choices=[('', 'Dia')] + [(str(i), f"{i:02d}") for i in range(1, 32)], validators=[DataRequired()])
     mes = SelectField('Mês', choices=[('', 'Mês'),
         ('1', 'Janeiro'), ('2', 'Fevereiro'), ('3', 'Março'), ('4', 'Abril'),

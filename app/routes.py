@@ -1,16 +1,19 @@
-from app import app, csrf
+from app import app, csrf, db
 from flask import render_template, redirect, flash, url_for, request, session, Response, jsonify
 from app.forms.associarpaciente import AssociarPaciente
 from app.forms.cadastro_form import CadastroForm
 from app.forms.login_form import LoginForm
+from app.forms.recuperar_senha import RedefinirSenhaForm
 from app.forms.dados_paciente import DadosPacienteForm
 from app.forms.validarprofissional import ValidarProfissional
 from app.services.UsuarioController import UsuarioController
 from app.services.AuthenticationController import AuthenticationController
+from app.modelos import Usuario
 from app.forms.papel_form import PapelForm
 from datetime import date, time
 from datetime import datetime
 from flask import request, jsonify
+from sqlalchemy import func, select
 
 
 @app.route("/")
@@ -193,10 +196,12 @@ def pediabetico():
 def cadastro():
     formCadastro = CadastroForm()
     if formCadastro.validate_on_submit():
-        if UsuarioController.cadastro(formCadastro):
+        if UsuarioController.email_em_uso(formCadastro.email.data):
+            formCadastro.email.errors.append("Este e-mail já está cadastrado.")
+        elif UsuarioController.cadastro(formCadastro):
             return redirect(url_for("questionario"))
-
-        flash("Erro nas credenciais.")
+        else:
+            flash("Erro ao criar a conta. Tente novamente.", "error")
     return render_template("cadastro.html", form=formCadastro)
 
 
@@ -210,6 +215,25 @@ def login():
             flash("Usuário ou senha incorretos.", "error")
 
     return render_template("login.html", title="Login", form=formLogin)
+
+
+@app.route("/recuperar-senha", methods=["GET", "POST"])
+def esqueceu_senha():
+    form = RedefinirSenhaForm()
+    if form.validate_on_submit():
+        email = form.email.data.strip().lower()
+        usuario = db.session.scalars(
+            select(Usuario).where(func.lower(Usuario.email) == email)
+        ).first()
+        if not usuario:
+            form.email.errors.append("Não encontramos uma conta com esse e-mail.")
+        elif AuthenticationController.redefinir_senha(usuario, form.nova_senha.data):
+            flash("Senha alterada com sucesso. Entre com sua nova senha.", "success")
+            return redirect(url_for("login"))
+        else:
+            flash("Não foi possível alterar a senha. Tente novamente.", "error")
+
+    return render_template("recuperar_senha.html", form=form)
 
 @app.route("/logout")
 def logout():
@@ -237,14 +261,27 @@ def questionario():
 
 @app.route("/questionario/paciente", methods=["GET", "POST"])
 def questionario_paciente():
+    sobre_paciente = request.args.get("para_paciente") == "1"
     form_paciente = DadosPacienteForm()
     if form_paciente.validate_on_submit():
-        if UsuarioController.salvar_questionario_paciente(form_paciente):
+        nome_paciente = (form_paciente.nome.data or "").strip()
+        if sobre_paciente and not nome_paciente:
+            form_paciente.nome.errors.append("Informe o nome do paciente.")
+        elif sobre_paciente and UsuarioController.cadastrar_paciente_acompanhado(
+            form_paciente,
+            nome_paciente,
+        ):
+            return redirect(url_for("home"))
+        elif not sobre_paciente and UsuarioController.salvar_questionario_paciente(form_paciente):
             return redirect(url_for("home"))
         else:
-            flash("Erro ao salvar o questionário.", "error")
+            flash("Não foi possível salvar os dados do paciente.", "error")
 
-    return render_template("quest_paciente.html", form=form_paciente)
+    return render_template(
+        "quest_paciente.html",
+        form=form_paciente,
+        sobre_paciente=sobre_paciente,
+    )
 
 @app.route("/questionario/tipo_cuidador", methods=["GET", "POST"])
 def quest_tipo_cuidador():

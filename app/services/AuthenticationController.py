@@ -1,6 +1,6 @@
 from app import db
 from app.modelos import Usuario
-from flask import session
+from flask import current_app, session
 import hmac
 import sqlalchemy as sa
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -42,3 +42,14 @@ class AuthenticationController:
         db.session.commit()
 
         return True
+
+    @staticmethod
+    def redefinir_senha(usuario, nova_senha):
+        try:
+            usuario.passw_hash = generate_password_hash(nova_senha)
+            db.session.commit()
+            return True
+        except Exception:
+            db.session.rollback()
+            current_app.logger.exception("Falha ao atualizar senha do usuário %s.", usuario.id)
+            return False

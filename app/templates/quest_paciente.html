@@ -13,7 +13,7 @@
 </head>
 <body class="p-0 m-0 bg-light">
 
-    <form method="POST" action="{{ url_for('questionario_paciente') }}" class="w-100 min-vh-100 d-flex flex-column">
+    <form method="POST" action="{{ url_for('questionario_paciente', para_paciente='1' if sobre_paciente else None) }}" class="w-100 min-vh-100 d-flex flex-column">
         {{ form.csrf_token }}
 
         <main id="questionario" class="flex-grow-1 d-flex flex-column justify-content-between py-4">
@@ -37,14 +37,24 @@
                             <div class="areaPergunta">
 
                                 <p class="pergunta mb-3 fs-5 fw-medium">
-                                    Sobre você...
+                                    {{ 'Sobre o paciente...' if sobre_paciente else 'Sobre você...' }}
                                 </p>
 
                                 <div class="containerFormDados">
+
+                                    {% if sobre_paciente %}
+                                    <div class="blocoPergunta mb-3">
+                                        <label class="form-label mb-2 fw-medium" for="nome">Nome do paciente</label>
+                                        {{ form.nome(class="form-control", placeholder="Nome completo") }}
+                                        {% for error in form.nome.errors %}
+                                        <span class="text-danger d-block small">{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
                                     
                                     <!-- Bloco: Aniversário -->
                                     <div class="blocoPergunta mb-3">
-                                        <label class="form-label mb-2 fw-medium">Seu aniversário</label>
+                                        <label class="form-label mb-2 fw-medium">{{ 'Aniversário do paciente' if sobre_paciente else 'Seu aniversário' }}</label>
                                         <div class="grupoDataAniversario d-flex gap-2">
                                             {{ form.dia(class="form-select") }}
                                             {{ form.mes(class="form-select") }}
