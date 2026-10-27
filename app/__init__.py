@@ -7,6 +7,7 @@ import pymysql
 
 app = Flask(__name__)
 app.config.from_object(Config)
+app.config['SQLALCHEMY_DATABASE_URI'] = Config.get_uri()
 
 csrf = CSRFProtect(app)
 
