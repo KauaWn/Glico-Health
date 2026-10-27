@@ -13,32 +13,33 @@ csrf = CSRFProtect(app)
 
 def criar_banco():
     import os
-    # Busca os valores da Vercel; se não encontrar, usa os padrões da sua máquina local
-    host = os.getenv("DB_HOST", "localhost")
-    user = os.getenv("DB_USER", "root")
-    password = os.getenv("DB_PASSWORD", "labinfo")
-    port = int(os.getenv("DB_PORT", "3306"))
-    db_name = os.getenv("DB_NAME", "glicohealthbd")
+    # Copie exatamente os mesmos dados da nuvem para cá como segurança
+    host = os.getenv("DB_HOST", "COLE_AQUI_O_HOST_LONGO_DO_AIVEN")
+    user = os.getenv("DB_USER", "avnadmin")
+    password = os.getenv("DB_PASSWORD", "COLE_AQUI_A_SENHA_DO_AIVEN")
+    port = int(os.getenv("DB_PORT", "COLE_AQUI_A_PORTA_DO_AIVEN_EX_24681"))
+    db_name = os.getenv("DB_NAME", "defaultdb")
 
     try:
-        conexao = pymysql.connect(
-            host=host,
-            user=user,
-            password=password,
-            port=port
-        )
-        cursor = conexao.cursor()
-        
-        # Só tenta criar se for local. Na nuvem ele usa o DB existente.
-        if host == "localhost":
+        # Se for o link do Aiven, não precisamos criar o banco porque ele já existe (defaultdb)
+        if "localhost" in host:
+            conexao = pymysql.connect(
+                host=host,
+                user=user,
+                password=password,
+                port=port
+            )
+            cursor = conexao.cursor()
             cursor.execute(f"CREATE DATABASE IF NOT EXISTS {db_name}")
-            
-        cursor.close()
-        conexao.close()
+            cursor.close()
+            conexao.close()
+        else:
+            print("Rodando na nuvem. Ignorando criação automática de banco.")
     except Exception as e:
         print(f"Aviso na inicialização do banco: {e}")
 
 criar_banco()
+
 
 
 db = SQLAlchemy(app)
