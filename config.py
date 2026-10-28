@@ -6,7 +6,6 @@ class Config:
 
     @staticmethod
     def get_uri():
-        # A Vercel vai preencher isso automaticamente se as variáveis existirem no painel
         db_host = os.getenv("DB_HOST", "localhost")
         db_user = os.getenv("DB_USER", "root")
         db_password = os.getenv("DB_PASSWORD", "labinfo")
