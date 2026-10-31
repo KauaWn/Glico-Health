@@ -8,7 +8,7 @@ from app.forms.dados_paciente import DadosPacienteForm
 from app.forms.validarprofissional import ValidarProfissional
 from app.services.UsuarioController import UsuarioController
 from app.services.AuthenticationController import AuthenticationController
-from app.modelos import Usuario
+from app.modelos import LeituraTemperatura, Usuario
 from app.forms.papel_form import PapelForm
 from datetime import date, time
 from datetime import datetime, timedelta, timezone
@@ -27,13 +27,36 @@ FUSO_BRASILIA = timezone(timedelta(hours=-3))
 
 def _registrar_leitura_temperatura(valor):
     temperatura = float(valor)
-    hora = datetime.now(FUSO_BRASILIA).strftime("%d/%m/%Y %H:%M:%S")
+    data_hora = datetime.now(FUSO_BRASILIA).replace(tzinfo=None)
+    hora = data_hora.strftime("%d/%m/%Y %H:%M:%S")
+    db.session.add(LeituraTemperatura(temperatura=temperatura, data_hora=data_hora))
+    db.session.commit()
     ultima_leitura.update({
         "temperatura": temperatura,
         "status": "Leitura recebida",
         "hora": hora,
     })
     ultima.update({"temperatura": temperatura, "hora": hora})
+
+
+def _calcular_itr_diario(leituras, hoje):
+    temperaturas_por_dia = {
+        hoje - timedelta(days=offset): []
+        for offset in range(6, -1, -1)
+    }
+    for leitura in leituras:
+        dia = leitura.data_hora.date()
+        if dia in temperaturas_por_dia:
+            temperaturas_por_dia[dia].append(float(leitura.temperatura))
+
+    return [
+        {
+            "data": dia.isoformat(),
+            "label": dia.strftime("%d/%m"),
+            "itr": round(max(temperaturas) - min(temperaturas), 2) if temperaturas else None,
+        }
+        for dia, temperaturas in temperaturas_por_dia.items()
+    ]
 
 
 @app.route("/")
@@ -74,6 +97,19 @@ def home():
         session.pop("paciente_visualizado_id", None)
         registros_glicemicos = UsuarioController.buscar_registros_glicemia_login()
 
+    hoje = datetime.now(FUSO_BRASILIA).date()
+    inicio_periodo = datetime.combine(hoje - timedelta(days=6), time.min)
+    fim_periodo = datetime.combine(hoje + timedelta(days=1), time.min)
+    leituras_temperatura = db.session.scalars(
+        select(LeituraTemperatura)
+        .where(
+            LeituraTemperatura.data_hora >= inicio_periodo,
+            LeituraTemperatura.data_hora < fim_periodo,
+        )
+        .order_by(LeituraTemperatura.data_hora)
+    ).all()
+    itr_diario = _calcular_itr_diario(leituras_temperatura, hoje)
+
     eventos_calendario = UsuarioController.buscar_eventos_calendario_login()
     return render_template(
         "home.html",
@@ -82,6 +118,7 @@ def home():
         papel_ativo=papel_ativo,
         nomes_papeis=UsuarioController.PAPEIS,
         registros_glicemicos=registros_glicemicos,
+        itr_diario=itr_diario,
         eventos_calendario=eventos_calendario,
         is_caregiver=papel_ativo == "cuidador",
         has_patient_switcher=tem_seletor_paciente,

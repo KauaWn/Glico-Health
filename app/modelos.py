@@ -179,3 +179,14 @@ class evento_calendario(Base):
     dia_resevado: Mapped[Date] = mapped_column(Date)
     hora_resevada: Mapped[Time] = mapped_column(Time)
     tipo_evento: Mapped[Optional[tipoEvento]] = mapped_column(Enum(tipoEvento, values_callable=lambda cls: [member.value for member in cls]))
+
+
+class LeituraTemperatura(Base):
+    __tablename__ = 'leitura_temperatura'
+    __table_args__ = (
+        Index('ix_leitura_temperatura_data_hora', 'data_hora'),
+    )
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    temperatura: Mapped[DECIMAL] = mapped_column(DECIMAL(5, 2), nullable=False)
+    data_hora: Mapped[datetime.datetime] = mapped_column(DateTime, nullable=False)

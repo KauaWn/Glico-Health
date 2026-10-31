@@ -88,13 +88,17 @@
   const canvasPeDiabetico = document.getElementById('graficoPeDiabetico');
   if (canvasPeDiabetico) {
   const ctxPeDiabetico = canvasPeDiabetico.getContext('2d');
-  const itrValores = [0.8, 1.2, 1.9, 2.1, 2.2, 2.5, 1.4];
+  const dadosItrNoHtml = document.getElementById('itr-diario');
+  const itrDias = dadosItrNoHtml ? JSON.parse(dadosItrNoHtml.textContent) : [];
+  const itrValores = itrDias.map(dia => dia.itr);
   const itrCores = itrValores.map(valor => {
+    if (valor === null) return 'rgba(190, 190, 190, 0.35)';
     if (valor > 2.2) return 'rgba(255, 188, 220, 0.9)';
     if (valor >= 1.8) return 'rgba(245, 204, 76, 0.9)';
     return 'rgba(101, 90, 124, 0.85)';
   });
   const itrBordas = itrValores.map(valor => {
+    if (valor === null) return 'rgba(190, 190, 190, 0.35)';
     if (valor > 2.2) return '#d895b5';
     if (valor >= 1.8) return '#d1aa27';
     return '#655A7C';
@@ -103,7 +107,7 @@
   new Chart(ctxPeDiabetico, {
     type: 'bar',
     data: {
-      labels: ['01/09', '03/09', '05/09', '08/09', '10/09', '12/09', '15/09'],
+      labels: itrDias.map(dia => dia.label),
       datasets: [{
         label: 'ITR (°C)',
         data: itrValores,
