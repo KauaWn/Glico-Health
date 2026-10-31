@@ -29,7 +29,7 @@
                                     <span class="pe-card-label">Mapeamento do Pé Diabético</span>
                                     <h2 id="mapa-pe-titulo">Áreas do pé</h2>
                                 </div>
-                                <span class="pe-date"><i class="bi bi-calendar3 me-1"></i>Última leitura: <span id="horaTemperatura">{{ hora_temperatura or '--' }}</span></span>
+                                <span class="pe-date"><i class="bi bi-calendar3 me-1"></i>Última leitura: <span id="horaTemperatura">{{ leitura.hora or hora_temperatura or '--' }}</span></span>
                             </div>
                             <div class="pe-foot-stage">
                                 <div class="pe-foot-glow"></div>
@@ -46,12 +46,12 @@
                         <aside class="pe-status-card" aria-labelledby="status-titulo">
                             <div class="pe-card-heading">
                                 <span class="pe-card-label">Leitura da palmilha</span>
-                                <span class="pe-status-dot" id="statusTemperatura">Aguardando leitura</span>
+                                <span class="pe-status-dot" id="status-leitura">{{ leitura.status }}</span>
                             </div>
                             <h2 id="status-titulo">Temperatura</h2>
                             <p class="pe-status-description">Última temperatura recebida do dispositivo.</p>
                             <div class="pe-status-list">
-                                <div><i class="bi bi-thermometer-half"></i><span>Temperatura</span><strong id="valorTemperatura">{% if temperatura is not none %}{{ '%.1f'|format(temperatura) }} °C{% else %}--{% endif %}</strong></div>
+                                <div><i class="bi bi-thermometer-half"></i><span>Temperatura</span><strong id="valor-temperatura">{% if leitura.temperatura != '--' %}{{ '%.1f'|format(leitura.temperatura) }} °C{% else %}--{% endif %}</strong></div>
                             </div>
                         </aside>
                     </div>
@@ -61,23 +61,24 @@
 
 {% block scripts %}
     <script>
-        const valorTemperatura = document.getElementById('valorTemperatura');
+        const valorTemperatura = document.getElementById('valor-temperatura');
         const horaTemperatura = document.getElementById('horaTemperatura');
-        const statusTemperatura = document.getElementById('statusTemperatura');
+        const statusLeitura = document.getElementById('status-leitura');
 
         async function atualizarTemperatura() {
             try {
-                const resposta = await fetch('{{ url_for("receber_temperatura") }}');
+                const resposta = await fetch('/pediabetico/atualizar');
                 if (!resposta.ok) return;
 
                 const leitura = await resposta.json();
-                if (leitura.temperatura !== null) {
-                    valorTemperatura.textContent = `${Number(leitura.temperatura).toFixed(1)} °C`;
-                    horaTemperatura.textContent = leitura.hora || '--';
-                    statusTemperatura.textContent = 'Leitura recebida';
-                }
+                const temperatura = Number(leitura.temperatura);
+                valorTemperatura.textContent = Number.isFinite(temperatura)
+                    ? `${temperatura.toFixed(1)} °C`
+                    : '--';
+                horaTemperatura.textContent = leitura.hora || '--';
+                statusLeitura.textContent = leitura.status || 'Aguardando leitura';
             } catch (erro) {
-                statusTemperatura.textContent = 'Sem conexão';
+                statusLeitura.textContent = 'Sem conexão';
             }
         }
 

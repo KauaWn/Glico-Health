@@ -12,8 +12,27 @@ from app.modelos import Usuario
 from app.forms.papel_form import PapelForm
 from datetime import date, time
 from datetime import datetime
+import math
 from flask import request, jsonify
 from sqlalchemy import func, select
+
+ultima_leitura = {
+    "temperatura": "--",
+    "status": "Aguardando leitura",
+    "hora": "--",
+}
+ultima = {"temperatura": None, "hora": None}
+
+
+def _registrar_leitura_temperatura(valor):
+    temperatura = float(valor)
+    hora = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    ultima_leitura.update({
+        "temperatura": temperatura,
+        "status": "Leitura recebida",
+        "hora": hora,
+    })
+    ultima.update({"temperatura": temperatura, "hora": hora})
 
 
 @app.route("/")
@@ -183,13 +202,35 @@ def registroglicemia():
     )
 
 
-@app.route("/pediabetico")
+@app.route("/pediabetico", methods=["GET", "POST"])
+@csrf.exempt
 def pediabetico():
+    if request.method == "POST":
+        dados = request.get_json(silent=True)
+        if not isinstance(dados, dict) or "temperatura" not in dados:
+            return jsonify(sucesso=False, erro="Campo 'temperatura' ausente."), 400
+
+        try:
+            temperatura = float(dados["temperatura"])
+        except (TypeError, ValueError):
+            return jsonify(sucesso=False, erro="Temperatura inválida."), 400
+
+        if not math.isfinite(temperatura):
+            return jsonify(sucesso=False, erro="Temperatura inválida."), 400
+
+        _registrar_leitura_temperatura(temperatura)
+        return jsonify(sucesso=True), 200
+
     return render_template(
         "pediabetico.html",
-        temperatura=ultima["temperatura"],
+        leitura=ultima_leitura,
         hora_temperatura=ultima["hora"],
     )
+
+
+@app.route("/pediabetico/atualizar", methods=["GET"])
+def atualizar_leitura_pediabetico():
+    return jsonify(ultima_leitura)
 
 
 @app.route("/cadastro", methods=["GET", "POST"])
@@ -477,10 +518,6 @@ def foto_perfil():
 
 # parte do esp
 
-# guarda a última leitura recebida
-ultima = {"temperatura": None, "hora": None}
-
-
 @app.route("/temperatura", methods=["GET", "POST"])
 @csrf.exempt
 def receber_temperatura():
@@ -494,6 +531,11 @@ def receber_temperatura():
     temp = dados.get("temperatura")
     if temp is None:
         return {"erro": "campo 'temperatura' ausente"}, 400
-    ultima["temperatura"] = float(temp)
-    ultima["hora"] = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    try:
+        temperatura = float(temp)
+    except (TypeError, ValueError):
+        return {"erro": "temperatura inválida"}, 400
+    if not math.isfinite(temperatura):
+        return {"erro": "temperatura inválida"}, 400
+    _registrar_leitura_temperatura(temperatura)
     return {"ok": True}
