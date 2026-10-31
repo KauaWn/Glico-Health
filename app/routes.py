@@ -11,7 +11,7 @@ from app.services.AuthenticationController import AuthenticationController
 from app.modelos import Usuario
 from app.forms.papel_form import PapelForm
 from datetime import date, time
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 import math
 from flask import request, jsonify
 from sqlalchemy import func, select
@@ -22,11 +22,12 @@ ultima_leitura = {
     "hora": "--",
 }
 ultima = {"temperatura": None, "hora": None}
+FUSO_BRASILIA = timezone(timedelta(hours=-3))
 
 
 def _registrar_leitura_temperatura(valor):
     temperatura = float(valor)
-    hora = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    hora = datetime.now(FUSO_BRASILIA).strftime("%d/%m/%Y %H:%M:%S")
     ultima_leitura.update({
         "temperatura": temperatura,
         "status": "Leitura recebida",
