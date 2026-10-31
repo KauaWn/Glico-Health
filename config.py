@@ -12,6 +12,8 @@ class Config:
         # Tenta pegar a URI completa primeiro (se existir)
         env_uri = os.getenv("SQLALCHEMY_DATABASE_URI") or os.getenv("DATABASE_URL")
         if env_uri:
+            if env_uri.startswith("mysql://"):
+                return env_uri.replace("mysql://", "mysql+pymysql://", 1)
             return env_uri
 
         # Caso prefira usar as variáveis separadas do Aiven ou Local:

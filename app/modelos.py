@@ -52,7 +52,7 @@ class Cuidador(Base):
     )
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    id_usuario: Mapped[int] = mapped_column(Integer, primary_key=True)
+    id_usuario: Mapped[int] = mapped_column(Integer)
     tipo_cuidador: Mapped[Optional[CuidadorTipoCuidador]] = mapped_column(Enum(CuidadorTipoCuidador, values_callable=lambda cls: [member.value for member in cls]))
     conselho_profissional: Mapped[Optional[str]] = mapped_column(String(10))
     registro_profissional: Mapped[Optional[str]] = mapped_column(String(20))
@@ -89,7 +89,7 @@ class Responsavel(Base):
     )
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    id_usuario: Mapped[int] = mapped_column(Integer, primary_key=True)
+    id_usuario: Mapped[int] = mapped_column(Integer)
     responsabilidade: Mapped[Optional[str]] = mapped_column(String(30))
 
     usuario: Mapped['Usuario'] = relationship('Usuario', back_populates='responsavel')
